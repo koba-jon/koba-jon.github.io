@@ -1,7 +1,4 @@
 {
-  "metrics": {
-    "citations": 0
-  },
   "profile": {
     "name": "Hiroki Kobayashi",
     "title": "Computer Vision Researcher & AI Engineer",
@@ -650,5 +647,8 @@
         "date": "2023/06"
       }
     ]
+  },
+  "metrics": {
+    "citations": 0
   }
 }
