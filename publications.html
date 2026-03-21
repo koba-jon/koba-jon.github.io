@@ -39,14 +39,21 @@
   </nav>
 
   <main class="single-column">
-    <div class="content">
+    <div class="content" style="max-width: 860px;">
       <section>
         <div class="section-label">Publications</div>
 
+        <div class="pub-stats-bar">
+          <div class="pub-stat"><span class="pub-stat-num">8</span><span class="pub-stat-label">Journal Papers</span></div>
+          <div class="pub-stat"><span class="pub-stat-num">14</span><span class="pub-stat-label">Int'l Conferences</span></div>
+          <div class="pub-stat"><span class="pub-stat-num">56</span><span class="pub-stat-label">Domestic Conferences</span></div>
+          <div class="pub-stat"><span class="pub-stat-num">20</span><span class="pub-stat-label">First Author</span></div>
+        </div>
+
         <div class="pub-tabs">
-          <button class="pub-tab active" onclick="switchTab('journal', this)">Journal Papers</button>
-          <button class="pub-tab" onclick="switchTab('intl', this)">International Conf.</button>
-          <button class="pub-tab" onclick="switchTab('domestic', this)">Domestic Conf.</button>
+          <button class="pub-tab active" onclick="switchTab('journal', this)">Journal Papers <span class="pub-tab-count">8</span></button>
+          <button class="pub-tab" onclick="switchTab('intl', this)">International Conf. <span class="pub-tab-count">14</span></button>
+          <button class="pub-tab" onclick="switchTab('domestic', this)">Domestic Conf. <span class="pub-tab-count">56</span></button>
         </div>
 
         <div class="pub-list active" id="tab-journal">
@@ -385,6 +392,8 @@
               <div class="pub-venue">iMec2025</div>
             </div>
           </div>
+
+          <div id="domestic-rest" style="display:none;">
           <div class="pub-item">
             <span class="pub-year">2025</span>
             <div>
@@ -862,6 +871,8 @@
               <div class="pub-venue">DIA2020</div>
             </div>
           </div>
+          </div><!-- /#domestic-rest -->
+          <button class="show-more-btn" id="domestic-toggle" onclick="toggleDomestic()">Show all 56 domestic papers ↓</button>
         </div>
       </section>
     </div>
