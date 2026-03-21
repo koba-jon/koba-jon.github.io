@@ -70,7 +70,7 @@ a { color: inherit; }
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.14em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--accent);
   margin-bottom: 10px;
 }
@@ -176,7 +176,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.16em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--accent);
   margin-bottom: 20px;
   display: flex;
@@ -227,7 +227,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.12em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--accent);
   background: var(--accent-pale);
   padding: 3px 8px;
@@ -258,7 +258,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--ink);
   text-decoration: none;
   border-bottom: 1px solid var(--ink);
@@ -284,7 +284,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--ink-soft);
   background: none;
   border: none;
@@ -340,7 +340,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
+  text-transform: none;
   padding: 2px 7px;
   border-radius: 2px;
   margin-left: 8px;
@@ -353,7 +353,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
+  text-transform: none;
   background: none;
   border: 1px solid var(--border);
   color: var(--ink-soft);
@@ -382,7 +382,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.14em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--accent);
   margin-bottom: 16px;
 }
@@ -406,7 +406,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--ink-faint);
 }
 
@@ -503,7 +503,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 9.5px;
   letter-spacing: 0.12em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--ink-faint);
 }
 
@@ -517,7 +517,7 @@ section { margin-bottom: 52px; }
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--ink);
   background: var(--surface);
   border: 1px solid var(--border);
