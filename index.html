@@ -1,463 +1,912 @@
 <!DOCTYPE html>
-<html lang="ja">
+
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hiroki Kobayashi</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hiroki Kobayashi — CV</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ec;
+    --surface: #ffffff;
+    --ink: #1a1714;
+    --ink-soft: #6b6460;
+    --ink-faint: #b8b0a8;
+    --accent: #c8502a;
+    --accent-pale: #f5e8e3;
+    --border: #e2ddd8;
+    --mono: 'DM Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+font-family: var(–sans);
+background: var(–bg);
+color: var(–ink);
+font-size: 15px;
+line-height: 1.7;
+min-height: 100vh;
+}
+
+/* ── HEADER / HERO ── */
+.hero {
+background: var(–ink);
+color: #f5f2ec;
+padding: 0;
+position: relative;
+overflow: hidden;
+}
+.hero::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background: radial-gradient(ellipse 80% 60% at 70% 50%, #3a2e1e 0%, transparent 70%);
+pointer-events: none;
+}
+.hero-inner {
+max-width: 1100px;
+margin: 0 auto;
+padding: 64px 40px 56px;
+display: grid;
+grid-template-columns: auto 1fr;
+gap: 48px;
+align-items: center;
+position: relative;
+}
+.hero-avatar {
+width: 130px;
+height: 130px;
+border-radius: 50%;
+object-fit: cover;
+border: 3px solid var(–accent);
+flex-shrink: 0;
+}
+.hero-text {}
+.hero-label {
+font-family: var(–mono);
+font-size: 11px;
+letter-spacing: 0.14em;
+text-transform: uppercase;
+color: var(–accent);
+margin-bottom: 10px;
+}
+.hero-name {
+font-family: var(–serif);
+font-size: clamp(2rem, 5vw, 3.2rem);
+line-height: 1.1;
+color: #f5f2ec;
+margin-bottom: 12px;
+}
+.hero-tagline {
+font-size: 14px;
+color: #b8aa9e;
+font-weight: 300;
+margin-bottom: 24px;
+max-width: 560px;
+}
+.hero-links {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+}
+.hero-link {
+font-family: var(–mono);
+font-size: 11px;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+color: #f5f2ec;
+text-decoration: none;
+border: 1px solid rgba(245,242,236,0.2);
+padding: 6px 14px;
+border-radius: 2px;
+transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.hero-link:hover {
+background: var(–accent);
+border-color: var(–accent);
+color: #fff;
+}
+
+/* ── NAV ── */
+nav {
+background: var(–surface);
+border-bottom: 1px solid var(–border);
+position: sticky;
+top: 0;
+z-index: 100;
+}
+.nav-inner {
+max-width: 1100px;
+margin: 0 auto;
+padding: 0 40px;
+display: flex;
+gap: 0;
+overflow-x: auto;
+scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-link {
+font-family: var(–mono);
+font-size: 11px;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+color: var(–ink-soft);
+text-decoration: none;
+padding: 16px 18px;
+border-bottom: 2px solid transparent;
+white-space: nowrap;
+transition: color 0.2s, border-color 0.2s;
+}
+.nav-link:hover { color: var(–ink); border-bottom-color: var(–accent); }
+
+/* ── MAIN LAYOUT ── */
+main {
+max-width: 1100px;
+margin: 0 auto;
+padding: 56px 40px 80px;
+display: grid;
+grid-template-columns: 1fr 300px;
+gap: 56px;
+align-items: start;
+}
+
+/* ── SECTIONS ── */
+section { margin-bottom: 52px; }
+.section-label {
+font-family: var(–mono);
+font-size: 10px;
+letter-spacing: 0.16em;
+text-transform: uppercase;
+color: var(–accent);
+margin-bottom: 20px;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.section-label::after {
+content: ‘’;
+flex: 1;
+height: 1px;
+background: var(–border);
+}
+h2 {
+font-family: var(–serif);
+font-size: 1.7rem;
+font-weight: 400;
+color: var(–ink);
+margin-bottom: 16px;
+line-height: 1.2;
+}
+
+/* ── ABOUT ── */
+.about-text {
+color: var(–ink-soft);
+font-weight: 300;
+max-width: 660px;
+font-size: 15px;
+}
+.about-text p + p { margin-top: 14px; }
+
+/* ── FEATURED PROJECT ── */
+.project-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 4px;
+overflow: hidden;
+transition: box-shadow 0.25s, transform 0.25s;
+}
+.project-card:hover {
+box-shadow: 0 12px 40px rgba(26,23,20,0.1);
+transform: translateY(-2px);
+}
+.project-img {
+width: 100%;
+height: 180px;
+object-fit: cover;
+display: block;
+border-bottom: 1px solid var(–border);
+}
+.project-body { padding: 24px; }
+.project-tag {
+font-family: var(–mono);
+font-size: 10px;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+color: var(–accent);
+background: var(–accent-pale);
+padding: 3px 8px;
+border-radius: 2px;
+display: inline-block;
+margin-bottom: 10px;
+}
+.project-title {
+font-family: var(–serif);
+font-size: 1.25rem;
+color: var(–ink);
+margin-bottom: 10px;
+font-weight: 400;
+}
+.project-desc {
+font-size: 13.5px;
+color: var(–ink-soft);
+font-weight: 300;
+line-height: 1.65;
+margin-bottom: 18px;
+}
+.project-link {
+font-family: var(–mono);
+font-size: 11px;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+color: var(–ink);
+text-decoration: none;
+border-bottom: 1px solid var(–ink);
+padding-bottom: 1px;
+transition: color 0.2s, border-color 0.2s;
+}
+.project-link:hover { color: var(–accent); border-color: var(–accent); }
+
+/* ── PUBLICATIONS ── */
+.pub-tabs {
+display: flex;
+gap: 0;
+border-bottom: 1px solid var(–border);
+margin-bottom: 24px;
+}
+.pub-tab {
+font-family: var(–mono);
+font-size: 11px;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+color: var(–ink-soft);
+background: none;
+border: none;
+padding: 10px 20px;
+cursor: pointer;
+border-bottom: 2px solid transparent;
+margin-bottom: -1px;
+transition: color 0.2s, border-color 0.2s;
+}
+.pub-tab.active { color: var(–ink); border-bottom-color: var(–accent); }
+.pub-list { display: none; }
+.pub-list.active { display: block; }
+
+.pub-item {
+padding: 16px 0;
+border-bottom: 1px solid var(–border);
+display: grid;
+grid-template-columns: 36px 1fr;
+gap: 12px;
+align-items: start;
+}
+.pub-year {
+font-family: var(–mono);
+font-size: 11px;
+color: var(–ink-faint);
+padding-top: 2px;
+}
+.pub-meta { }
+.pub-title {
+font-size: 14px;
+font-weight: 500;
+color: var(–ink);
+line-height: 1.45;
+margin-bottom: 4px;
+}
+.pub-venue {
+font-size: 12.5px;
+color: var(–ink-soft);
+font-weight: 300;
+}
+.pub-badge {
+display: inline-block;
+background: var(–accent);
+color: #fff;
+font-family: var(–mono);
+font-size: 9px;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+padding: 2px 7px;
+border-radius: 2px;
+margin-left: 8px;
+vertical-align: middle;
+}
+
+.show-more-btn {
+display: block;
+margin: 20px auto 0;
+font-family: var(–mono);
+font-size: 11px;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+background: none;
+border: 1px solid var(–border);
+color: var(–ink-soft);
+padding: 10px 24px;
+cursor: pointer;
+border-radius: 2px;
+transition: background 0.2s, color 0.2s;
+}
+.show-more-btn:hover { background: var(–ink); color: #fff; border-color: var(–ink); }
+
+/* ── SIDEBAR ── */
+.sidebar {}
+.sidebar > * + * { margin-top: 36px; }
+
+.info-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 4px;
+padding: 24px;
+}
+.info-card-title {
+font-family: var(–mono);
+font-size: 10px;
+letter-spacing: 0.14em;
+text-transform: uppercase;
+color: var(–accent);
+margin-bottom: 16px;
+}
+.info-row {
+display: flex;
+flex-direction: column;
+gap: 4px;
+padding: 12px 0;
+border-bottom: 1px solid var(–border);
+}
+.info-row:last-child { border-bottom: none; padding-bottom: 0; }
+.info-row:first-of-type { padding-top: 0; }
+.info-key {
+font-family: var(–mono);
+font-size: 10px;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+color: var(–ink-faint);
+}
+.info-val {
+font-size: 13.5px;
+color: var(–ink);
+font-weight: 400;
+line-height: 1.5;
+}
+
+.edu-item { padding: 12px 0; border-bottom: 1px solid var(–border); }
+.edu-item:last-child { border-bottom: none; }
+.edu-period {
+font-family: var(–mono);
+font-size: 11px;
+color: var(–ink-faint);
+margin-bottom: 3px;
+}
+.edu-degree { font-size: 13.5px; color: var(–ink); font-weight: 500; }
+.edu-school { font-size: 12.5px; color: var(–ink-soft); font-weight: 300; }
+
+.awards-list { list-style: none; }
+.awards-list li {
+font-size: 13px;
+color: var(–ink-soft);
+font-weight: 300;
+padding: 8px 0;
+border-bottom: 1px solid var(–border);
+line-height: 1.5;
+display: flex;
+gap: 10px;
+align-items: flex-start;
+}
+.awards-list li:last-child { border-bottom: none; }
+.awards-list li::before {
+content: ‘✦’;
+color: var(–accent);
+font-size: 8px;
+margin-top: 5px;
+flex-shrink: 0;
+}
+
+.cert-list { list-style: none; }
+.cert-list li {
+font-size: 13px;
+color: var(–ink-soft);
+font-weight: 300;
+padding: 8px 0;
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.cert-list li:last-child { border-bottom: none; }
+.cert-list li::before {
+content: ‘’;
+width: 6px;
+height: 6px;
+border-radius: 50%;
+background: var(–accent);
+flex-shrink: 0;
+}
+
+.stats-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1px;
+background: var(–border);
+border: 1px solid var(–border);
+border-radius: 4px;
+overflow: hidden;
+}
+.stat-cell {
+background: var(–surface);
+padding: 18px 16px;
+text-align: center;
+}
+.stat-num {
+font-family: var(–serif);
+font-size: 2rem;
+color: var(–ink);
+line-height: 1;
+display: block;
+margin-bottom: 4px;
+}
+.stat-label {
+font-family: var(–mono);
+font-size: 9.5px;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+color: var(–ink-faint);
+}
+
+/* ── RESEARCH AREAS ── */
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+font-family: var(–mono);
+font-size: 11px;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+color: var(–ink);
+background: var(–surface);
+border: 1px solid var(–border);
+padding: 6px 14px;
+border-radius: 2px;
+transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.tag:hover { background: var(–accent-pale); border-color: var(–accent); color: var(–accent); }
+
+/* ── FOOTER ── */
+footer {
+background: var(–ink);
+color: #786e68;
+text-align: center;
+padding: 28px 40px;
+font-family: var(–mono);
+font-size: 11px;
+letter-spacing: 0.08em;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(18px); }
+to { opacity: 1; transform: translateY(0); }
+}
+.hero-inner > * { animation: fadeUp 0.6s ease both; }
+.hero-inner > *:nth-child(1) { animation-delay: 0.05s; }
+.hero-inner > *:nth-child(2) { animation-delay: 0.15s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+main { grid-template-columns: 1fr; }
+.sidebar { order: -1; }
+.stats-grid { grid-template-columns: repeat(4, 1fr); }
+.hero-inner { grid-template-columns: 1fr; text-align: center; }
+.hero-avatar { margin: 0 auto; }
+.hero-links { justify-content: center; }
+}
+@media (max-width: 600px) {
+.hero-inner { padding: 40px 24px 36px; }
+main { padding: 36px 20px 60px; }
+.nav-inner { padding: 0 16px; }
+.stats-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
 </head>
 <body>
-  <header class="container profile-header">
-    <img src="images/profile.jpg" alt="Hiroki Kobayashi" class="profile-photo">
 
-    <div class="profile-text">
-      <h1>Hiroki Kobayashi</h1>
-      <p class="subtitle">Computer Vision Researcher / PhD in Engineering / AI Engineer at Araya Inc.</p>
-      <nav>
-        <a href="https://github.com/koba-jon" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://qiita.com/koba-jon" target="_blank" rel="noopener noreferrer">Qiita</a>
-        <a href="https://huggingface.co/koba-jon" target="_blank" rel="noopener noreferrer">Hugging Face</a>
-        <a href="https://www.linkedin.com/in/hiroki-kobayashi-phd" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://scholar.google.co.jp/citations?user=HzjxmYoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+<!-- HERO -->
+
+<header class="hero">
+  <div class="hero-inner">
+    <img src="https://koba-jon.github.io/images/profile.jpg" alt="Hiroki Kobayashi" class="hero-avatar">
+    <div class="hero-text">
+      <div class="hero-label">Computer Vision Researcher &amp; AI Engineer</div>
+      <h1 class="hero-name">Hiroki Kobayashi</h1>
+      <p class="hero-tagline">PhD in Engineering · Anomaly Detection · Generative Modeling · Araya Inc.</p>
+      <nav class="hero-links">
+        <a href="https://github.com/koba-jon" class="hero-link" target="_blank">GitHub</a>
+        <a href="https://qiita.com/koba-jon" class="hero-link" target="_blank">Qiita</a>
+        <a href="https://huggingface.co/koba-jon" class="hero-link" target="_blank">Hugging Face</a>
+        <a href="https://www.linkedin.com/in/hiroki-kobayashi-phd" class="hero-link" target="_blank">LinkedIn</a>
+        <a href="https://scholar.google.co.jp/citations?user=HzjxmYoAAAAJ&hl=en" class="hero-link" target="_blank">Google Scholar</a>
       </nav>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main class="container">
-    
-    <section class="card">
-      <h2>About</h2>
-      <p>
-        I am a computer vision researcher and AI engineer specializing in industrial anomaly detection,
-        representation learning, and generative modeling. My work focuses on building practical and
-        robust machine learning methods for visual inspection, especially in manufacturing environments
-        where real defective data are limited.
-      </p>
-      <p>
-        My research explores pseudo-defect generation, domain-specific pre-training, and feature modeling
-        for anomaly detection, with the goal of improving both accuracy and generalization in real-world
-        applications. I am particularly interested in bridging the gap between academic research and
-        deployable AI systems.
-      </p>
-      <p>
-        In addition to research, I actively develop deep learning implementations in both Python and C++,
-        including large-scale open-source projects based on PyTorch and LibTorch.
-      </p>
-    </section>
+<!-- STICKY NAV -->
 
-    <section class="card featured-project">
-      <h2>Featured Project</h2>
-      <h3>
-        <a href="https://github.com/koba-jon/pytorch_cpp" target="_blank" rel="noopener noreferrer">
-          pytorch_cpp
-        </a>
-      </h3>
-      <img src="images/pytorch_cpp.png" alt="PyTorch C++" class="featured-thumbnail">
-      <p>
-        A large-scale open-source project for deep learning implementations in C++ using LibTorch.
-        It includes a wide range of models such as image classification, object detection, generative models,
-        and other modern deep learning architectures.
-      </p>
-      <p>
-        This project reflects my strong interest in both practical implementation and research-oriented development,
-        especially in computer vision and machine learning systems.
-      </p>
-    </section>
-    
-    <section class="card">
-      <h2>Affiliation</h2>
-      <ul>
-        <li>
-          Position: AI Engineer
-        </li>
-        <li>
-          Company: Araya Inc. (URL: <a href="https://www.araya.org/" target="_blank" rel="noopener noreferrer">https://www.araya.org/</a>)
-        </li>
-      </ul>
-    </section>
-    
-    <section class="card">
-      <h2>Education</h2>
-      <ul>
-        <li>
-          Apr. 2023 – Mar. 2026: Doctor of Philosophy in Engineering, Chukyo University.
-        </li>
-        <li>
-          Apr. 2021 – Mar. 2023: Master of Science in Engineering, Chukyo University.
-        </li>
-        <li>
-          Apr. 2017 – Mar. 2021: Bachelor of Science in Engineering, Chukyo University.
-        </li>
-      </ul>
-    </section>
+<nav>
+  <div class="nav-inner">
+    <a href="#about" class="nav-link">About</a>
+    <a href="#project" class="nav-link">Project</a>
+    <a href="#publications" class="nav-link">Publications</a>
+    <a href="#awards" class="nav-link">Awards</a>
+    <a href="#education" class="nav-link">Education</a>
+  </div>
+</nav>
 
-    <section class="card">
-      <h2>Selected Publications</h2>
-      <ul>
-        <li>
-          <u>Hiroki Kobayashi</u>, Naoki Murakami, Naoto Hiramatsu, Takahiro Suzuki, Manabu Hashimoto, Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score, The 35th British Machine Vision Conference (BMVC2024), pp.1-12, Scottish Event Campus, Glasgow, UK, 2024/11/26.
-        </li>
-        <li>
-          <u>Hiroki Kobayashi</u>, Manabu Hashimoto, DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask, 2023 International Joint Conference on Neural Networks (IJCNN), pp.1-8, Gold Coast Convention and Exhibition Centre, Queensland, Australia, 2023/06/20.
-        </li>
-      </ul>
-    </section>
-    
-    <section class="card">
-      <h2>Research Areas</h2>
-      <ul>
-        <li>Anomaly Detection</li>
-        <li>Visual Inspection</li>
-        <li>Computer Vision</li>
-        <li>Deep Learning</li>
-      </ul>
-    </section>
+<!-- MAIN -->
 
-    <section class="card">
-      <h2>Research Achievements</h2>
-      <ul class="achievement-list">
-        <li>
-          <details>
-          <summary><strong>Journal Papers: 8 (First Author: 2)</strong></summary>
-          <ul>
-            <li>
-              <u>小林大起</u>，橋本学，工業製品のわずかな表面変化を区別するための擬似欠陥を構成するパラメータの推定に基づく事前学習と異常検知，精密工学会誌，Vol.91，No.10，pp.1017-1024，2025．
-              <span style="color:red;">【精密工学会研究奨励賞】</span>
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，特徴量の正常表現空間からの逆射影誤差指標に基づく対象物の回転に頑健な異常検知の提案，精密工学会誌，Vol.91，No.5，pp.597-604，2025．
-            </li>
-            <li>
-              平松直人，<u>小林大起</u>，秋月秀一，橋本学，理想ペア画像を用いた画像変換に基づく異なるカメラ間ギャップ低減による異常検知の高精度化，精密工学会誌，Vol91，No.2，pp.185-191，2025．
-            </li>
-            <li>
-              Rina Tagami，<u>Hiroki Kobayashi</u>，Shuichi Akizuki，Manabu Hashimoto，Reliable image matching using optimal combination of color and intensity information based on relationship with surrounding objects, IEICE Transactions, Vol.E107-D, No.10, pp.1312-1321, 2024.
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，固有空間における情報合成に基づく高リアリティ不良品画像生成，精密工学会誌，Vol.90，No.8，pp.662-668，2024．
-            </li>
-            <li>
-              田上鈴奈，江場さくら，<u>小林大起</u>，中林尚也，秋月秀一，橋本学，画素ペア色相値の発生確率分析に基づく高速カラー画像マッチング，精密工学会誌，Vol.89，No.2，pp.182-189，2023．
-            </li>
-            <li>
-              中林尚也，江場さくら，<u>小林大起</u>，橋本学，任意の回転変動許容力を有する画素選択型テンプレートマッチング，精密工学会誌，Vol.88，No.6，pp.514-520，2022．
-            </li>
-            <li>
-              <u>小林大起</u>，中林尚也，三好遼，橋本学，異状発生直前・直後のペア画像を用いた画像復元と高精度キズ検出，精密工学会誌，Vol.87，No.12，pp.1020-1027，2021．
-            </li>
-          </ul>
-          </details>
-        </li>
+<main>
+  <div class="content">
 
-        <li>
-          <details>
-          <summary><strong>International Conferences: 14 (First Author: 5)</strong></summary>
-          <ul>
-            <li>
-              Tomohiro Yamada, Naoto Hiramatsu, <u>Hiroki Kobayashi</u>, Shuichi Akizuki, Manabu Hashimoto, Logical Anomaly Detection based on Relative Similarity Analysis of Region Segments, International Workshop on Advanced Image Technology 2026 (IWAIT2026), vol.14072, 140721R, 2026/01/12.
-            </li>
-            <li>
-              Rina Tagami, <u>Hiroki Kobayashi</u>, Shuichi Akizuki, Manabu Hashimoto, Food State Recognition from Recipes Using Multimodal Model for Task Monitoring in Autonomous Cooking Robots, In Scandinavian Conference on Image Analysis 2025 (SCIA2025), vol.15726, pp.356-369, Reykjavik, Iceland, 2025/06/23.
-            </li>
-            <li>
-              Naoki Murakami, Naoto Hiramatsu, <u>Hiroki Kobayashi</u>, Shuichi Akizuki, Manabu Hashimoto, Subspace-Based Embedded Feature Reduction for Fast Anomaly Detection, In Scandinavian Conference on Image Analysis 2025 (SCIA2025), vol.15726, pp.210-223, Reykjavik, Iceland, 2025/06/23.
-            </li>
-            <li>
-              Naoki Murakami, Naoto Hiramatsu, <u>Hiroki Kobayashi</u>, Shuichi Akizuki, Manabu Hashimoto, DC-PaDiM: Fast Anomaly Detection based on Effective Feature Dimension-Compression, In 2024 Twelfth International Symposium on Computing and Networking (CANDAR), IEEE, pp. 190-195, Okinawa, Japan, 2024/11/27.
-            </li>
-            <li>
-              <u>Hiroki Kobayashi</u>, Naoki Murakami, Naoto Hiramatsu, Takahiro Suzuki, Manabu Hashimoto, Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score, The 35th British Machine Vision Conference (BMVC2024), pp.1-12, Scottish Event Campus, Glasgow, UK, 2024/11/26.
-            </li>
-            <li>
-              Naoto Hiramatsu, Naoki Murakami, <u>Hiroki Kobayashi</u>, Shuichi Akizuki, Manabu Hashimoto, DoG-PaDiM: Anomaly Detection Based on Bandpass Filtering for Arbitrary Size Defect Extraction, IEEE 20th International Conference on Automation Science and Engineering (CASE2024), pp.2850-2855, Bari, Italy, 2024/8/31.
-            </li>
-            <li>
-              Rina Tagami, <u>Hiroki Kobayashi</u>, Shuichi Akizuki, Manabu Hashimoto, Automatic data generation of incorrect image-text pairs for effective contrastive learning of CLIP model, WSCG 2024: full papers proceedings: 32. International Conference in Central Europe on Computer Graphics, Visualization and Computer Vision, p. 187-196, Plzen, Czech Republic, 2024/6/4.
-            </li>
-            <li>
-              Naoki Murakami, Naoto Hiramatsu, <u>Hiroki Kobayashi</u>, Shuichi Akizuki, Manabu Hashimoto, A proposal of anomaly detection method based on natural data augmentation in the Eigenspace, Journal of WSCG, 2024, vol. 32, no. 1-2, p. 91-100, Plzen, Czech Republic, 2024/6/4.
-            </li>
-            <li>
-              <u>Hiroki Kobayashi</u>, Manabu Hashimoto, High Precision Anomaly Detection based on Pre-trained Features Enhanced by Only Large Amount of Normal Samples, International Workshop on Advanced Image Technology 2024 (IWAIT2024), Vol. 13164, 1316422, Parkroyal Langkawi Resort, Langkawi, Malaysia, 2024/01/08.
-            </li>
-            <li>
-              Rina Tagami, <u>Hiroki Kobayashi</u>, Shuichi Akizuki, Manabu Hashimoto, Reliable Matching by Combining Optimal Color and Intensity Information based on Relationships between Target and Surrounding Objects, the 18th International Symposium on Visual Computing (ISVC2023), Proceedings of the Lecture Notes in Computer Science (LNCS), Vol.2, pp.163-176, 2023/10/18.
-            </li>
-            <li>
-              <u>Hiroki Kobayashi</u>, Manabu Hashimoto, DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask, 2023 International Joint Conference on Neural Networks (IJCNN), pp.1-8, Gold Coast Convention and Exhibition Centre, Queensland, Australia, 2023/06/20.
-            </li>
-            <li>
-              Rina Tagami, <u>Hiroki Kobayashi</u>, Shuichi Akizuki, Manabu Hashimoto, Fast and reliable template matching based on effective pixel selection using color and intensity information, the 18th International Joint Conference on Computer Vision Theory and Applications (VISAPP2023), Vol.5, pp.607-614, the city of Lisbon in the Lisbon Marriott Hotel, 2023/02/20.
-            </li>
-            <li>
-              <u>Hiroki Kobayashi</u>, Ryo Miyoshi, Manabu Hashimoto, Normal Image Generation-Based Defect Detection by Generative Adversarial Network with Chaotic Random Images, 16th International Symposium on Visual Computing (ISVC2021), Lecture Notes in Computer Science (LNCS), Vol.13017, pp.353-365, Virtual Event, 2021/10/05.
-            </li>
-            <li>
-              <u>Hiroki Kobayashi</u>, Ryo Miyoshi, Manabu Hashimoto, Scratch Detection based on Image Reconstruction using Ideal-Image-Pair Dataset of Just Before/After Defect Occurrence, International Workshop on Advanced Image Technology 2021 (IWAIT2021), PSI-44, online conference, 2021/01/05.
-            </li>
-          </ul>
-          </details>
-        </li>
+```
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About</div>
+  <div class="about-text">
+    <p>I am a computer vision researcher and AI engineer specializing in industrial anomaly detection, representation learning, and generative modeling. My work focuses on building practical and robust machine learning methods for visual inspection, especially in manufacturing environments where real defective data are limited.</p>
+    <p>My research explores pseudo-defect generation, domain-specific pre-training, and feature modeling for anomaly detection, with the goal of improving both accuracy and generalization in real-world applications. I am particularly interested in bridging the gap between academic research and deployable AI systems.</p>
+    <p>In addition to research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source projects based on PyTorch and LibTorch.</p>
+  </div>
 
-        <li>
-          <details>
-          <summary><strong>Domestic Conferences: 56 (First Author: 13)</strong></summary>
-          <ul>
-            <li>
-              小原那南斗，村上尚生，平松直人，<u>小林大起</u>，秋月秀一 ，橋本学，画像内領域の構成要素内および要素間特徴の統合評価に基づくMVTec Juice bottleカテゴリのための論理的異常検知手法の提案，動的画像処理実利用化ワークショップ2026（DIA2026），IS1-29，pp.187-192，高知工科大学永国寺キャンパス，2026/03/03．
-            </li>
-            <li>
-              大田直輝，村上尚生，平松直人 ，<u>小林大起</u>，秋月秀一 ，橋本学，ImageNetのサブクラス分割に基づく欠陥に敏感な特徴抽出器のためのPaDiM事前学習データセットの提案，動的画像処理実利用化ワークショップ2026（DIA2026），IS1-15，pp.98-104，高知工科大学永国寺キャンパス，2026/03/03．
-            </li>
-            <li>
-              <u>小林大起</u>，橋本学，わずかな表面変化を区別するための変形パラメータ推定に基づく異常検知のための事前学習手法の提案，画像工学研究会（IE），pp.83-88，北海道札幌市，2026/02/19．
-            </li>
-            <li>
-              平松直人，村上尚生，<u>小林大起</u>，秋月秀一，橋本学，高速検査のための軽量クラスタ検索に基づく改良型PatchCoreの提案，パターン認識・メディア理解研究会（PRMU），信学技報，Vol. 125，No. 348，pp. 82-87，大阪府豊中市，2026/01/30．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，画素単位の異常検出の高精度化のためのAnomaly-Map Refinerの提案，パターン認識・メディア理解研究会（PRMU），信学技報，Vol. 125，No. 348，pp. 88-93，大阪府豊中市，2026/01/30．
-            </li>
-            <li>
-              山田智大，村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，領域セグメント間の相互類似性評価に基づく論理的異常検知手法の提案，ビジョン技術の実利用ワークショップ（ViEW2025），IS1-18，pp.238-242，パシフィコ横浜，2025/12/04．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，誤判定傾向の学習に基づく外観検査の汎用高精度化のための出力リファインモデルの提案，ビジョン技術の実利用ワークショップ（ViEW2025），IS1-25，pp.282-287，パシフィコ横浜，2025/12/04．
-            </li>
-            <li>
-              平松直人，村上尚生，<u>小林大起</u>，秋月秀一，橋本学，高速検査のための統計的近傍予測に基づく改良型PatchCoreの提案，ビジョン技術の実利用ワークショップ（ViEW2025），OS1-H1 (IS1-1)，pp.13-19，パシフィコ横浜，2025/12/04．
-            </li>
-            <li>
-              田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学 ，調理タスクモニタリングに向けた CLIP モデル学習性能向上のための学習データの高品質化，第30回知能メカトロニクスワークショップ2025（iMec2025），IM7-3，pp.256-261，北海道大学，2025/9/17．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，画像検査システムの誤判定傾向の学習に基づく出力補正モデルの生成，第30回知能メカトロニクスワークショップ2025（iMec2025），IM4-2，pp.136-141，北海道大学，2025/9/16．
-            </li>
-            <li>
-              山田智大，平松直人，<u>小林大起</u>，秋月秀一，橋本学，領域セグメント特徴の相互関係分析に基づく論理的異常検知手法の提案 ，第30回知能メカトロニクスワークショップ2025（iMec2025），IM2-3，pp.51-56，北海道大学，2025/9/16．
-            </li>
-            <li>
-              小原那南斗，村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，局所・大域的判定の組み合わせによるJuice Bottleカテゴリのための論理的異常検知，精密工学会 画像応用技術専門委員会 サマーセミナー2025（SS2025），Vol.34，1-1，pp.1-4，金沢歌劇座，2025/08/21．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，誤判定傾向の学習に基づく外観検査システムの汎用高精度化，第28回画像の認識・理解シンポジウム（MIRU2025），IS3-133，pp.1-5，京都市国立京都国際会館，2025/08/01．
-            </li>
-            <li>
-              山田智大，平松直人，<u>小林大起</u>，秋月秀一，橋本学，領域セグメントの相互類似性に着目した論理的異常検知，第28回画像の認識・理解シンポジウム（MIRU2025），IS3-146，pp.1-5，京都市国立京都国際会館，2025/08/01．
-            </li>
-            <li>
-              大田直輝，杉本健輔，村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，ImageNetと現場正常画像の周波数合成による事前学習画像を用いた異常検知の精度向上，第31回画像センシングシンポジウム（SSII2025），IS3-32，pp.1001-1005，東京都江東区，2025/05/30．
-            </li>
-            <li>
-              山田智大，平松直人，<u>小林大起</u>，秋月秀一，橋本学，区画化された各画像領域に存在する部品の種類と個数の組み合わせに着目した論理的異常検知，第31回画像センシングシンポジウム（SSII2025），IS1-35，pp.350-355，東京都江東区，2025/05/28．
-            </li>
-            <li>
-              原悠真，田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学，料理プロセスにおける食材混合状態認識のためのテクスチャ特徴量の有効性に関する検討，第31回画像センシングシンポジウム（SSII2025），IS1-24，pp.297-301，東京都江東区，2025/05/28．
-            </li>
-            <li>
-              田上鈴奈，平松直人，<u>小林大起</u>，秋月秀一，橋本学，部分的に食材が遮蔽された料理画像のためのCLIPを利用したレシピ文ベースの食材状態認識，パターン認識・メディア理解研究会（PRMU），信学技報，Vol. 124，No. 445，pp. 13-18，滋賀大学 彦根キャンパス，2025/03/18．
-            </li>
-            <li>
-              栗田大樹，村上尚生，平松直人，田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学，CLIPモデルを用いた未学習素地の欠陥様相推定手法の提案，動的画像処理実利用化ワークショップ2025（DIA2025），IS3-13，pp.460-464，きらめきみなと館，2025/03/06．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，正常特徴から生成された部分空間の正常近似能力に基づく異常検知手法の提案，ビジョン技術の実利用ワークショップ（ViEW2024），IS1-23，pp.293-299，神奈川県横浜市，2024/12/05．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，少量異常サンプルを用いた有効特徴次元セット選択によるPaDiMの高精度化手法，第29回知能メカトロニクスワークショップ2024（IMEC2024），IM6-2，pp.181-186，北海道帯広市，2024/09/16．
-            </li>
-            <li>
-              平松直人，村上尚生，<u>小林大起</u>，秋月秀一，橋本学，バンドパス処理に基づく欠陥サイズ選択性を持つ改良型PaDiMアルゴリズム，2024年度精密工学会秋季大会，pp.288-289，岡山県岡山市，2024/09/05．
-            </li>
-            <li>
-              平松直人，村上尚生，<u>小林大起</u>，秋月秀一，橋本学，バンドパスフィルタリングに基づく特定サイズ欠陥の高精度異常検出：DoG-PaDiMの提案，2024年電気学会産業応用部門大会，pp. V15-V20，茨城県水戸市，2024/08/28．
-            </li>
-            <li>
-              高橋慶，村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，正規性指標に基づく特徴次元選択による異常検知アルゴリズム PaDiM の高精度化，精密工学会 画像応用技術専門委員会 サマーセミナー2024（SS2024），Vol.33，IS3-4，pp.50-53，富山県黒部市，2024/8/22．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，固有空間における自然なデータ拡張に基づく外観検査の高精度化，第27回画像の認識・理解シンポジウム（MIRU2024），IS2-2-040，pp.1-4，熊本県熊本市，2024/08/08．
-            </li>
-            <li>
-              田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学，画像クラスタリングに基づくincorrectペアの生成によるCLIPモデルの対照学習性能の向上，第27回画像の認識・理解シンポジウム（MIRU2024），IS1-1-146，pp.1-5，熊本県熊本市，2024/08/07．
-            </li>
-            <li>
-              田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学，画像クラスタリングに基づくCLIP学習のためのincorrectペア生成法の提案，パターン認識・メディア理解研究会（PRMU），信学技報，Vol. 124，No. 23，pp. 24-29，東京都目黒区，2024/05/16．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，固有空間内におけるデータ拡張に基づく自然な不良品画像生成法の提案，コンピュータビジョンとイメージメディア研究会（CVIM），Vol. 2024-CVIM-238，No. 51，pp. 1-6，東京都目黒区，2024/05/15．
-            </li>
-            <li>
-              平松直人，村上尚生，<u>小林大起</u>，秋月秀一，橋本学，任意サイズの欠陥検出のためのバンドパスフィルタ特性を有する拡張PaDiMアルゴリズム，知覚情報/次世代産業システム 合同研究会，PI-24-007，東京都千代田区，2024/03/26．
-            </li>
-            <li>
-              <u>小林大起</u>，橋本学，正常特徴量の正規性制約を用いた事前学習に基づくPaDiMによる高精度異常検知，画像工学研究会（IE），pp.408-413，那覇市沖縄産業支援センター，2024/03/15．
-              <span style="color:red;">【IE賞】</span>
-            </li>
-            <li>
-              澤木勇哉，田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学，周辺パターンとの相互関係分析に基づく画素選択型画像マッチングの粗精サーチ化，動的画像処理実利用化ワークショップ2024（DIA2024），IS2-11，pp.244-249，大分県別府市，2024/03/04．
-            </li>
-            <li>
-              平松直人，村上尚生，<u>小林大起</u>，秋月秀一，橋本学，検出サイズを制御可能な高精度異常検知：多段DoG-PaDiMの提案，動的画像処理実利用化ワークショップ2024（DIA2024），OS1-02(IS1-02)，pp.7-12，大分県別府市，2024/03/04．
-            </li>
-            <li>
-              平松直人，村上尚生，<u>小林大起</u>，秋月秀一，橋本学，バンドパス処理に基づく欠陥サイズ選択性を持つ異常検知：DoG-PaDiMの提案，画像工学研究会（IE），pp.124-129，北海道札幌市，2024/02/20．
-            </li>
-            <li>
-              平松直人，村上尚生，<u>小林大起</u>，秋月秀一，橋本学，Scale-Invariantな欠陥検出のための多重解像度PaDiMの提案，ビジョン技術の実利用ワークショップ（ViEW2023），OS3-H5（IS3-5），pp.359-364，神奈川県横浜市 ，2023/12/08．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，固有空間における実欠陥情報の合成に基づく異常検知の高精度化，ビジョン技術の実利用ワークショップ（ViEW2023），IS3-18，pp.469-474，神奈川県横浜市 ，2023/12/08．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，固有空間上における情報の合成に基づく高リアリティ不良品画像生成，日本非破壊検査協会，2023年度秋季講演大会，pp.251-254，徳島県徳島市 ，2023/10/06．
-            </li>
-            <li>
-              田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学，周辺物との相互関係に基づく最適な色と明るさ情報の組み合わせによる高信頼画像マッチング，第26回 画像の認識・理解シンポジウム（MIRU2023），IS2-23，pp.1-5，浜松市アクトシティ浜松，2023/07/27．
-            </li>
-            <li>
-              <u>小林大起</u>，橋本学，透過マスクを用いた実欠陥特徴の転移に基づく異常検知，第26回 画像の認識・理解シンポジウム（MIRU2023），IS2-99，pp.1-5，浜松市アクトシティ浜松，2023/07/27．
-            </li>
-            <li>
-              <u>小林大起</u>，橋本学，特徴抽出型ネットワークを用いた異常検知のための事前学習用データセットの実験的性能分析，第29回画像センシングシンポジウム（SSII2023），IS3-05，pp.1-5，横浜市パシフィコ横浜，2023/06/16．
-            </li>
-            <li>
-              田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学，周辺との相互関係に基づく最適なカラー利用による高速・高信頼パターン検出，第29回画像センシングシンポジウム（SSII2023），IS3-04，pp.1-8，横浜市パシフィコ横浜，2023/06/16．
-            </li>
-            <li>
-              村上尚生，平松直人，<u>小林大起</u>，秋月秀一，橋本学，主成分分析による画像情報の抽象化に基づく高リアリティ不良品画像生成，第29回画像センシングシンポジウム（SSII2023），IS3-06，pp.1-6，横浜市パシフィコ横浜，2023/06/16．
-            </li>
-            <li>
-              加藤太一，江場さくら，<u>小林大起</u>，秋月秀一，橋本学，ビュー変化にロバストな極少画素群に基づく超高速画像マッチングの提案，動的画像処理実利用化ワークショップ 2023（DIA2023），OS2-2，pp.176-181，宇都宮市ライトキューブ宇都宮，2023/03/02．
-              <span style="color:red;">【研究奨励賞】</span>
-            </li>
-            <li>
-              田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学，カラーおよび濃淡物体の類似物に頑健な画素選択型マッチング手法，ビジョン技術の実利用ワークショップ（ViEW2022），IS1-15，pp.100-107，オンライン開催，2022/12/08．
-            </li>
-            <li>
-              <u>小林大起</u>，橋本学，テクスチャドメイン間における実欠陥特徴の転移に基づく異常検知，ビジョン技術の実利用ワークショップ（ViEW2022），IS3-13，pp.304-310，オンライン開催，2022/12/09．
-              <span style="color:red;">【画像応用技術専門委員会　優秀論文賞】</span>
-            </li>
-            <li>
-              江場さくら，<u>小林大起</u>，田上鈴奈，秋月秀一，橋本学，画素選択型テンプレートマッチングに基づく高速多重解像度マッチング，第27回知能メカトロニクスワークショップ（IMEC2022），pp.32-37，那須郡那須町ホテルサンバレー那須，2022/09/05．
-            </li>
-            <li>
-              田上鈴奈，<u>小林大起</u>，秋月秀一，橋本学，対象物と類似物の識別性能を最大化する画素群を用いたカラーマッチング，第27回知能メカトロニクスワークショップ（IMEC2022），pp.38-45，那須郡那須町ホテルサンバレー那須，2022/09/05．
-            </li>
-            <li>
-              平松直人，田上鈴奈，江場さくら，<u>小林大起</u>，秋月秀一，橋本学，カメラ間の特性ギャップ低減のための少数サンプル学習による画像変換手法，第27回知能メカトロニクスワークショップ（IMEC2022），pp.3-7，那須郡那須町ホテルサンバレー那須，2022/09/05．
-            </li>
-            <li>
-              田上鈴奈，江場さくら，<u>小林大起</u>，秋月秀一，橋本学，画素選択型テンプレートマッチングの階層化手法の提案，サマーセミナー2022（SS2022），IS1-4，pp.11-14，オンライン開催，2022/09/02．
-            </li>
-            <li>
-              <u>小林大起</u>，橋本学，異種テクスチャにおける実欠陥特徴の転移に基づく異常検知，第25回 画像の認識・理解シンポジウム（MIRU2022），IS1-95，pp.1-4，姫路市文化コンベンションセンター アクリエひめじ，2022/07/26．
-            </li>
-            <li>
-              <u>小林大起</u>，三好遼，橋本学，統計的網羅性と写実性に基づくランダム画像を用いた正常画像生成による教師なし欠陥検出，ビジョン技術の実利用ワークショップ（ViEW2021），IS1-09，pp.67-74，オンライン開催，2021/12/02．
-            </li>
-            <li>
-              <u>小林大起</u>，三好遼，橋本学，ランダム画像群からの正常画像生成に基づくAnoGANとSkip-GANomalyの融合による教師なし欠陥検出手法，精密工学会IAIPサマーセミナー2021，1-4，pp.13-16，オンライン開催，2021/09/03．
-            </li>
-            <li>
-              <u>小林大起</u>，三好遼，橋本学，ランダム画像群からの正常画像生成に基づく教師なし欠陥検出手法の提案，第24回画像の認識・理解シンポジウム（MIRU2021），I32-36，pp.1-4，オンライン開催，2021/07/30．
-            </li>
-            <li>
-              <u>小林大起</u>，三好遼，橋本学，異状発生直前・直後のペア画像を用いた画像復元と高精度キズ検出，ビジョン技術の実利用ワークショップ（ViEW2020），IS1-09，pp.69-75，オンライン開催，2020/12/03．
-            </li>
-            <li>
-              <u>小林大起</u>，三好遼，橋本学，キズ発生直前・直後ペア画像群の構築に基づく画像復元と高精度外観検査への応用，2020年度精密工学会秋季大会学術講演会，D0312，pp.392-393，オンライン開催，2020/09/01-2020/09/07．
-              <span style="color:red;">【ベストプレゼンテーション賞】</span>
-            </li>
-            <li>
-              <u>小林大起</u>，三好遼，橋本学，異状発生直前・直後のペア画像群を用いた高リアリティ画像生成に基づくキズ検出，第26回画像センシングシンポジウム（SSII2020），IS3-33，pp.1-6，オンライン開催，2020/06/12．
-            </li>
-            <li>
-              <u>小林大起</u>，中林尚也，三好遼，橋本学，異状発生直前・直後のペア画像群を用いた高リアリティ画像生成に基づくキズ検出，動的画像処理実利用化ワークショップ（DIA2020），OS3-2，pp.268-275，名護市沖縄工業高等専門学校，2020/03/09．
-              <span style="color:red;">【研究奨励賞】</span>
-            </li>
-          </ul>
-          </details>
-        </li>
-      </ul>
-    </section>
+  <div class="tag-cloud" style="margin-top: 24px;">
+    <span class="tag">Anomaly Detection</span>
+    <span class="tag">Visual Inspection</span>
+    <span class="tag">Computer Vision</span>
+    <span class="tag">Deep Learning</span>
+    <span class="tag">Generative Modeling</span>
+    <span class="tag">Representation Learning</span>
+  </div>
+</section>
 
-    <section class="card">
-      <h2>Awards</h2>
-      <ul class="achievement-list">
-        <li>
-          <strong>Research Presentation: 11</strong>
-          <ul>
-            <li>
-              <span style="color:red;">精密工学会研究奨励賞</span>（公益社団法人 精密工学会，2026/03/18）
-              <a href="https://www.jspe.or.jp/activities/awards/jspe-paper-award/#young-researcher">《Link》</a>
-            </li>
-            <li>
-              <span style="color:red;">学長賞</span>（中京大学，2024/05/29）
-            </li>
-            <li>
-              <span style="color:red;">IEEE Nagoya Section Conference Presentation Award</span>（IEEE Nagoya Section，2024/04/13）
-              <a href="https://ieee-jp.org/section/nagoya/wp-content/uploads/2024/04/2024IEEENagoyaConfPreAward_Web.pdf">《Link》</a>
-            </li>
-            <li>
-              <span style="color:red;">IE賞</span>（一般社団法人 電子情報通信学会，2024/03/26）
-            </li>
-            <li>
-              <span style="color:red;">研究奨励賞</span>（動的画像処理実利用化ワークショップ2023，2023/03/02）
-              <a href="http://www.tc-iaip.org/dia/2023/award2023/">《Link》</a>
-            </li>
-            <li>
-              <span style="color:red;">学長賞</span>（中京大学，2023/01/18）
-            </li>
-            <li>
-              <span style="color:red;">画像応用技術専門委員会　優秀論文賞</span>（ViEW2022 ビジョン技術の実利用ワークショップ，2022/12/09）
-              <a href="https://view.tc-iaip.org/view/2022/">《Link》</a>
-            </li>
-            <li>
-              <span style="color:red;">IEEE Nagoya Section Excellent student Award</span>（IEEE Nagoya Section，2021/04/01）
-            </li>
-            <li>
-              <span style="color:red;">学長賞</span>（中京大学，2021/02/18）
-            </li>
-            <li>
-              <span style="color:red;">ベストプレゼンテーション賞</span>（2020年度精密工学会秋季大会学術講演会，2020/09/14）
-              <a href="https://www.jspe.or.jp/wp/wp-content/uploads/jspe_meeting/2020/20-09-BP.pdf">《Link》</a>
-            </li>
-            <li>
-              <span style="color:red;">研究奨励賞</span>（動的画像処理実利用化ワークショップ2020，2020/03/09）
-              <a href="https://www.tc-iaip.org/dia/2020/jp/award.html">《Link》</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <strong>Review: 1</strong>
-          <ul>
-            <li>
-              <span style="color:red;">MIRU論文評価貢献賞</span>（第25回 画像の認識・理解シンポジウム，2022/07/28）
-              <a href="https://sites.google.com/view/miru2022/home/award?authuser=0">《Link》</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <strong>Scholarship: 1</strong>
-          <ul>
-            <li>
-              <span style="color:red;">第一種奨学金 特に優れた業績による返還免除 全額免除</span>（独立行政法人 日本学生支援機構，2023/06）
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </section>
+<!-- FEATURED PROJECT -->
+<section id="project">
+  <div class="section-label">Featured Project</div>
+  <div class="project-card">
+    <img src="https://koba-jon.github.io/images/pytorch_cpp.png" alt="pytorch_cpp" class="project-img">
+    <div class="project-body">
+      <span class="project-tag">Open Source · C++ · LibTorch</span>
+      <h3 class="project-title">pytorch_cpp</h3>
+      <p class="project-desc">A large-scale open-source project for deep learning implementations in C++ using LibTorch. Covers image classification, object detection, generative models, and a wide range of modern deep learning architectures — reflecting a commitment to both practical implementation and research-oriented development.</p>
+      <a href="https://github.com/koba-jon/pytorch_cpp" class="project-link" target="_blank">View on GitHub →</a>
+    </div>
+  </div>
+</section>
 
-    <section class="card">
-      <h2>Certifications</h2>
-      <ul>
-        <li>Fundamental Information Technology Engineer Examination</li>
-        <li>Image Processing Engineer Examination (Basic)</li>
-        <li>JDLA Deep Learning for GENERAL 2020 #1</li>
-      </ul>
-    </section>
-    
-  </main>
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-label">Publications</div>
+
+  <div class="pub-tabs">
+    <button class="pub-tab active" onclick="switchTab('journal')">Journal Papers</button>
+    <button class="pub-tab" onclick="switchTab('intl')">International Conf.</button>
+    <button class="pub-tab" onclick="switchTab('domestic')">Domestic Conf.</button>
+  </div>
+
+  <!-- JOURNAL -->
+  <div class="pub-list active" id="tab-journal">
+    <div class="pub-item">
+      <span class="pub-year">2025</span>
+      <div class="pub-meta">
+        <div class="pub-title">擬似欠陥を構成するパラメータの推定に基づく事前学習と異常検知 <span class="pub-badge">First Author</span></div>
+        <div class="pub-venue">精密工学会誌, Vol.91, No.10 【精密工学会研究奨励賞】</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2025</span>
+      <div class="pub-meta">
+        <div class="pub-title">特徴量の正常表現空間からの逆射影誤差指標に基づく対象物の回転に頑健な異常検知の提案</div>
+        <div class="pub-venue">精密工学会誌, Vol.91, No.5</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2025</span>
+      <div class="pub-meta">
+        <div class="pub-title">理想ペア画像を用いた画像変換に基づく異なるカメラ間ギャップ低減による異常検知の高精度化</div>
+        <div class="pub-venue">精密工学会誌, Vol.91, No.2</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2024</span>
+      <div class="pub-meta">
+        <div class="pub-title">Reliable image matching using optimal combination of color and intensity information based on relationship with surrounding objects</div>
+        <div class="pub-venue">IEICE Transactions, Vol.E107-D, No.10</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2024</span>
+      <div class="pub-meta">
+        <div class="pub-title">固有空間における情報合成に基づく高リアリティ不良品画像生成</div>
+        <div class="pub-venue">精密工学会誌, Vol.90, No.8</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2023</span>
+      <div class="pub-meta">
+        <div class="pub-title">画素ペア色相値の発生確率分析に基づく高速カラー画像マッチング</div>
+        <div class="pub-venue">精密工学会誌, Vol.89, No.2</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2022</span>
+      <div class="pub-meta">
+        <div class="pub-title">任意の回転変動許容力を有する画素選択型テンプレートマッチング</div>
+        <div class="pub-venue">精密工学会誌, Vol.88, No.6</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2021</span>
+      <div class="pub-meta">
+        <div class="pub-title">異状発生直前・直後のペア画像を用いた画像復元と高精度キズ検出 <span class="pub-badge">First Author</span></div>
+        <div class="pub-venue">精密工学会誌, Vol.87, No.12</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERNATIONAL -->
+  <div class="pub-list" id="tab-intl">
+    <div class="pub-item">
+      <span class="pub-year">2026</span>
+      <div class="pub-meta">
+        <div class="pub-title">Logical Anomaly Detection based on Relative Similarity Analysis of Region Segments</div>
+        <div class="pub-venue">IWAIT2026</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2025</span>
+      <div class="pub-meta">
+        <div class="pub-title">Food State Recognition from Recipes Using Multimodal Model for Task Monitoring in Autonomous Cooking Robots</div>
+        <div class="pub-venue">SCIA2025, Reykjavik, Iceland</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2025</span>
+      <div class="pub-meta">
+        <div class="pub-title">Subspace-Based Embedded Feature Reduction for Fast Anomaly Detection</div>
+        <div class="pub-venue">SCIA2025, Reykjavik, Iceland</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2024</span>
+      <div class="pub-meta">
+        <div class="pub-title">Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score <span class="pub-badge">First Author</span></div>
+        <div class="pub-venue">BMVC2024, Glasgow, UK</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2024</span>
+      <div class="pub-meta">
+        <div class="pub-title">DC-PaDiM: Fast Anomaly Detection based on Effective Feature Dimension-Compression</div>
+        <div class="pub-venue">CANDAR2024, Okinawa</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2024</span>
+      <div class="pub-meta">
+        <div class="pub-title">DoG-PaDiM: Anomaly Detection Based on Bandpass Filtering for Arbitrary Size Defect Extraction</div>
+        <div class="pub-venue">IEEE CASE2024, Bari, Italy</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2024</span>
+      <div class="pub-meta">
+        <div class="pub-title">Automatic data generation of incorrect image-text pairs for effective contrastive learning of CLIP model</div>
+        <div class="pub-venue">WSCG 2024, Plzen, Czech Republic</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2024</span>
+      <div class="pub-meta">
+        <div class="pub-title">High Precision Anomaly Detection based on Pre-trained Features Enhanced by Only Large Amount of Normal Samples <span class="pub-badge">First Author</span></div>
+        <div class="pub-venue">IWAIT2024, Langkawi, Malaysia</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2023</span>
+      <div class="pub-meta">
+        <div class="pub-title">DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask <span class="pub-badge">First Author</span></div>
+        <div class="pub-venue">IJCNN2023, Gold Coast, Australia</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2023</span>
+      <div class="pub-meta">
+        <div class="pub-title">Reliable Matching by Combining Optimal Color and Intensity Information</div>
+        <div class="pub-venue">ISVC2023</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2023</span>
+      <div class="pub-meta">
+        <div class="pub-title">Fast and reliable template matching based on effective pixel selection</div>
+        <div class="pub-venue">VISAPP2023, Lisbon</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2021</span>
+      <div class="pub-meta">
+        <div class="pub-title">Normal Image Generation-Based Defect Detection by Generative Adversarial Network with Chaotic Random Images <span class="pub-badge">First Author</span></div>
+        <div class="pub-venue">ISVC2021</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <span class="pub-year">2021</span>
+      <div class="pub-meta">
+        <div class="pub-title">Scratch Detection based on Image Reconstruction using Ideal-Image-Pair Dataset <span class="pub-badge">First Author</span></div>
+        <div class="pub-venue">IWAIT2021</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOMESTIC (show first 10, expandable) -->
+  <div class="pub-list" id="tab-domestic">
+    <div id="domestic-short">
+      <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">論理的異常検知手法の提案（MVTec Juice bottleカテゴリ）</div><div class="pub-venue">DIA2026</div></div></div>
+      <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">ImageNetのサブクラス分割に基づく欠陥に敏感な特徴抽出器のためのPaDiM事前学習データセットの提案</div><div class="pub-venue">DIA2026</div></div></div>
+      <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">変形パラメータ推定に基づく異常検知のための事前学習手法の提案 <span class="pub-badge">First Author</span></div><div class="pub-venue">画像工学研究会（IE）</div></div></div>
+      <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">軽量クラスタ検索に基づく改良型PatchCoreの提案</div><div class="pub-venue">PRMU研究会</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">論理的異常検知手法の提案（領域セグメント間の相互類似性評価）</div><div class="pub-venue">ViEW2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">誤判定傾向の学習に基づく外観検査の汎用高精度化のための出力リファインモデルの提案</div><div class="pub-venue">ViEW2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">統計的近傍予測に基づく改良型PatchCoreの提案</div><div class="pub-venue">ViEW2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">誤判定傾向の学習に基づく出力補正モデルの生成</div><div class="pub-venue">iMec2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">領域セグメント特徴の相互関係分析に基づく論理的異常検知</div><div class="pub-venue">iMec2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">局所・大域的判定の組み合わせによるJuice Bottleカテゴリのための論理的異常検知</div><div class="pub-venue">SS2025</div></div></div>
+    </div>
+    <div id="domestic-rest" style="display:none;">
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">誤判定傾向の学習に基づく外観検査システムの汎用高精度化</div><div class="pub-venue">MIRU2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">領域セグメントの相互類似性に着目した論理的異常検知</div><div class="pub-venue">MIRU2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">ImageNetと現場正常画像の周波数合成による事前学習画像を用いた異常検知の精度向上</div><div class="pub-venue">SSII2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">区画化された各画像領域に存在する部品の種類と個数の組み合わせに着目した論理的異常検知</div><div class="pub-venue">SSII2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">料理プロセスにおける食材混合状態認識のためのテクスチャ特徴量の有効性に関する検討</div><div class="pub-venue">SSII2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">部分的に食材が遮蔽された料理画像のためのCLIPを利用したレシピ文ベースの食材状態認識</div><div class="pub-venue">PRMU研究会</div></div></div>
+      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">CLIPモデルを用いた未学習素地の欠陥様相推定手法の提案</div><div class="pub-venue">DIA2025</div></div></div>
+      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">正常特徴から生成された部分空間の正常近似能力に基づく異常検知手法の提案</div><div class="pub-venue">ViEW2024</div></div></div>
+      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">少量異常サンプルを用いた有効特徴次元セット選択によるPaDiMの高精度化</div><div class="pub-venue">IMEC2024</div></div></div>
+      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">正規性指標に基づく特徴次元選択による異常検知アルゴリズム PaDiM の高精度化</div><div class="pub-venue">SS2024</div></div></div>
+      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">固有空間における自然なデータ拡張に基づく外観検査の高精度化</div><div class="pub-venue">MIRU2024</div></div></div>
+      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">画像クラスタリングに基づくincorrectペアの生成によるCLIPモデルの対照学習性能の向上</div><div class="pub-venue">MIRU2024</div></div></div>
+      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">正常特徴量の正規性制約を用いた事前学習に基づくPaDiMによる高精度異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">画像工学研究会（IE） 【IE賞】</div></div></div>
+      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">検出サイズを制御可能な高精度異常検知：多段DoG-PaDiMの提案</div><div class="pub-venue">DIA2024</div></div></div>
+      <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">固有空間上における情報の合成に基づく高リアリティ不良品画像生成</div><div class="pub-venue">ViEW2023</div></div></div>
+      <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">Scale-Invariantな欠陥検出のための多重解像度PaDiMの提案</div><div class="pub-venue">ViEW2023</div></div></div>
+      <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">透過マスクを用いた実欠陥特徴の転移に基づく異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">MIRU2023</div></div></div>
+      <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">特徴抽出型ネットワークを用いた異常検知のための事前学習用データセットの実験的性能分析 <span class="pub-badge">First Author</span></div><div class="pub-venue">SSII2023</div></div></div>
+      <div class="pub-item"><span class="pub-year">2022</span><div class="pub-meta"><div class="pub-title">テクスチャドメイン間における実欠陥特徴の転移に基づく異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">ViEW2022 【画像応用技術専門委員会 優秀論文賞】</div></div></div>
+      <div class="pub-item"><span class="pub-year">2022</span><div class="pub-meta"><div class="pub-title">異種テクスチャにおける実欠陥特徴の転移に基づく異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">MIRU2022</div></div></div>
+      <div class="pub-item"><span class="pub-year">2021</span><div class="pub-meta"><div class="pub-title">統計的網羅性と写実性に基づくランダム画像を用いた正常画像生成による教師なし欠陥検出 <span class="pub-badge">First Author</span></div><div class="pub-venue">ViEW2021</div></div></div>
+      <div class="pub-item"><span class="pub-year">2021</span><div class="pub-meta"><div class="pub-title">ランダム画像群からの正常画像生成に基づく教師なし欠陥検出手法の提案 <span class="pub-badge">First Author</span></div><div class="pub-venue">MIRU2021</div></div></div>
+      <div class="pub-item"><span class="pub-year">2020</span><div class="pub-meta"><div class="pub-title">異状発生直前・直後のペア画像を用いた高リアリティ画像生成に基づくキズ検出 <span class="pub-badge">First Author</span></div><div class="pub-venue">SSII2020 / DIA2020 【研究奨励賞】</div></div></div>
+      <div class="pub-item"><span class="pub-year">2020</span><div class="pub-meta"><div class="pub-title">異状発生直前・直後のペア画像群を用いた高リアリティ画像生成に基づくキズ検出 <span class="pub-badge">First Author</span></div><div class="pub-venue">精密工学会秋季大会 【ベストプレゼンテーション賞】</div></div></div>
+    </div>
+    <button class="show-more-btn" id="domestic-toggle" onclick="toggleDomestic()">Show all 56 papers ↓</button>
+  </div>
+</section>
+```
+
+  </div><!-- /content -->
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+```
+<!-- STATS -->
+<div class="stats-grid">
+  <div class="stat-cell">
+    <span class="stat-num">8</span>
+    <span class="stat-label">Journal Papers</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-num">14</span>
+    <span class="stat-label">Int'l Conf.</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-num">56</span>
+    <span class="stat-label">Domestic Conf.</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-num">11</span>
+    <span class="stat-label">Awards</span>
+  </div>
+</div>
+
+<!-- AFFILIATION -->
+<div class="info-card" id="about">
+  <div class="info-card-title">Affiliation</div>
+  <div class="info-row">
+    <span class="info-key">Position</span>
+    <span class="info-val">AI Engineer</span>
+  </div>
+  <div class="info-row">
+    <span class="info-key">Company</span>
+    <span class="info-val"><a href="https://www.araya.org/" style="color:var(--accent);text-decoration:none;" target="_blank">Araya Inc.</a></span>
+  </div>
+</div>
+
+<!-- EDUCATION -->
+<div class="info-card" id="education">
+  <div class="info-card-title">Education</div>
+  <div class="edu-item">
+    <div class="edu-period">2023 – 2026</div>
+    <div class="edu-degree">PhD in Engineering</div>
+    <div class="edu-school">Chukyo University</div>
+  </div>
+  <div class="edu-item">
+    <div class="edu-period">2021 – 2023</div>
+    <div class="edu-degree">MSc in Engineering</div>
+    <div class="edu-school">Chukyo University</div>
+  </div>
+  <div class="edu-item">
+    <div class="edu-period">2017 – 2021</div>
+    <div class="edu-degree">BSc in Engineering</div>
+    <div class="edu-school">Chukyo University</div>
+  </div>
+</div>
+
+<!-- AWARDS -->
+<div class="info-card" id="awards">
+  <div class="info-card-title">Selected Awards</div>
+  <ul class="awards-list">
+    <li>精密工学会研究奨励賞（2026）</li>
+    <li>学長賞 — Chukyo University（2024）</li>
+    <li>IEEE Nagoya Section Conference Presentation Award（2024）</li>
+    <li>IE賞 — 電子情報通信学会（2024）</li>
+    <li>研究奨励賞 — DIA2023</li>
+    <li>学長賞 — Chukyo University（2023）</li>
+    <li>画像応用技術専門委員会 優秀論文賞 — ViEW2022</li>
+    <li>IEEE Nagoya Section Excellent Student Award（2021）</li>
+    <li>学長賞 — Chukyo University（2021）</li>
+    <li>ベストプレゼンテーション賞 — 精密工学会（2020）</li>
+    <li>研究奨励賞 — DIA2020</li>
+  </ul>
+</div>
+
+<!-- CERTIFICATIONS -->
+<div class="info-card">
+  <div class="info-card-title">Certifications</div>
+  <ul class="cert-list">
+    <li>Fundamental Information Technology Engineer Examination</li>
+    <li>Image Processing Engineer Examination (Basic)</li>
+    <li>JDLA Deep Learning for GENERAL 2020 #1</li>
+  </ul>
+</div>
+```
+
+  </aside>
+</main>
+
+<footer>
+  © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
+</footer>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.pub-list').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.pub-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  let domesticExpanded = false;
+  function toggleDomestic() {
+    domesticExpanded = !domesticExpanded;
+    document.getElementById('domestic-rest').style.display = domesticExpanded ? 'block' : 'none';
+    document.getElementById('domestic-toggle').textContent = domesticExpanded ? 'Show less ↑' : 'Show all 56 papers ↓';
+  }
+</script>
+
 </body>
 </html>
