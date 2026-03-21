@@ -179,17 +179,6 @@
         }
       })
       .catch(() => {});
-
-    fetch('https://google-scholar-badge.vercel.app/citations?user=HzjxmYoAAAAJ')
-      .then(r => r.json())
-      .then(d => {
-        if (d && d.message) {
-          document.getElementById('stat-citations').textContent = d.message;
-        }
-      })
-      .catch(() => {
-        document.getElementById('stat-citations').textContent = 'N/A';
-      });
   </script>
 
   <footer>
