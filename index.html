@@ -160,10 +160,15 @@
     fetch('data.json')
       .then(r => r.json())
       .then(d => {
-        document.getElementById('stat-journal').textContent  = d.stats.journal_papers;
-        document.getElementById('stat-intl').textContent     = d.stats.international_conferences;
-        document.getElementById('stat-domestic').textContent = d.stats.domestic_conferences;
-        document.getElementById('stat-awards').textContent   = d.stats.awards;
+        const p = d.publications;
+        document.getElementById('stat-journal').textContent  = p.journal.length;
+        document.getElementById('stat-intl').textContent     = p.international.length;
+        document.getElementById('stat-domestic').textContent = p.domestic.length;
+        // awards は data.json に awards 配列があれば自動集計、なければそのまま
+        if (d.awards) {
+          const total = Object.values(d.awards).flat().length;
+          document.getElementById('stat-awards').textContent = total;
+        }
       })
       .catch(() => {});
   </script>
