@@ -670,3 +670,10 @@ footer {
   .pub-stats-bar { flex-wrap: wrap; }
   .pub-stat { flex: 1 1 calc(50% - 1px); }
 }
+
+.edu-detail {
+  margin-top: 0.35rem;
+  color: #555;
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
