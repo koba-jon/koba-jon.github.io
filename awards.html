@@ -70,7 +70,10 @@
 
   <script>
     function buildAwardItem(a) {
-      return '<li>' + a.name + ' — ' + a.org + '（' + a.date + '）</li>';
+      const name = a.link
+        ? '<a href="' + a.link + '" target="_blank" rel="noopener noreferrer">' + a.name + '</a>'
+        : a.name;
+      return '<li>' + name + ' — ' + a.org + '（' + a.date + '）</li>';
     }
 
     fetch('data.json')
