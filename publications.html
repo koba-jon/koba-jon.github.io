@@ -50,6 +50,7 @@
           <div class="pub-stat"><span class="pub-stat-num" id="stat-intl">—</span><span class="pub-stat-label">Int'l Conferences</span></div>
           <div class="pub-stat"><span class="pub-stat-num" id="stat-domestic">—</span><span class="pub-stat-label">Domestic Conferences</span></div>
           <div class="pub-stat"><span class="pub-stat-num" id="stat-first">—</span><span class="pub-stat-label">First Author</span></div>
+          <div class="pub-stat"><span class="pub-stat-num" id="stat-citations">—</span><span class="pub-stat-label">Citations</span></div>
         </div>
 
         <div class="pub-tabs">
@@ -101,6 +102,7 @@
         document.getElementById('stat-intl').textContent     = pubs.international.length;
         document.getElementById('stat-domestic').textContent = pubs.domestic.length;
         document.getElementById('stat-first').textContent    = allFirst;
+        document.getElementById('stat-citations').textContent = d.metrics?.citations ?? '—';
 
         // tab counts
         document.getElementById('tab-count-journal').textContent  = pubs.journal.length;
