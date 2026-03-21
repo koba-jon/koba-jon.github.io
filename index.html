@@ -164,9 +164,8 @@
         document.getElementById('stat-journal').textContent  = p.journal.length;
         document.getElementById('stat-intl').textContent     = p.international.length;
         document.getElementById('stat-domestic').textContent = p.domestic.length;
-        // awards は data.json に awards 配列があれば自動集計、なければそのまま
         if (d.awards) {
-          const total = Object.values(d.awards).flat().length;
+          const total = Object.values(d.awards).reduce((s, a) => s + a.length, 0);
           document.getElementById('stat-awards').textContent = total;
         }
       })

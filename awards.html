@@ -28,61 +28,61 @@
 
   <nav>
     <div class="nav-inner">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="projects.html" class="nav-link">Projects</a>
-        <a href="publications.html" class="nav-link">Publications</a>
-        <a href="awards.html" class="nav-link current">Awards</a>
-        <a href="education.html" class="nav-link">Education</a>
-        <a href="certifications.html" class="nav-link">Certifications</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="publications.html" class="nav-link">Publications</a>
+      <a href="awards.html" class="nav-link current">Awards</a>
+      <a href="education.html" class="nav-link">Education</a>
+      <a href="certifications.html" class="nav-link">Certifications</a>
     </div>
   </nav>
 
   <main class="single-column">
-  <div class="content">
-    <section>
-      <div class="section-label">Research / Paper Awards</div>
-      <div class="info-card">
-        <ul class="awards-list">
-            <li>精密工学会研究奨励賞 — 公益社団法人 精密工学会（2026/03/18）</li>
-            <li>学長賞 — 中京大学（2024/05/29）</li>
-            <li>IEEE Nagoya Section Conference Presentation Award — IEEE Nagoya Section（2024/04/13）</li>
-            <li>IE賞 — 一般社団法人 電子情報通信学会（2024/03/26）</li>
-            <li>研究奨励賞 — 動的画像処理実利用化ワークショップ2023（2023/03/02）</li>
-            <li>学長賞 — 中京大学（2023/01/18）</li>
-            <li>画像応用技術専門委員会　優秀論文賞 — ViEW2022 ビジョン技術の実利用ワークショップ（2022/12/09）</li>
-            <li>IEEE Nagoya Section Excellent student Award — IEEE Nagoya Section（2021/04/01）</li>
-            <li>学長賞 — 中京大学（2021/02/18）</li>
-            <li>ベストプレゼンテーション賞 — 2020年度精密工学会秋季大会学術講演会（2020/09/14）</li>
-            <li>研究奨励賞 — 動的画像処理実利用化ワークショップ2020（2020/03/09）</li>
-        </ul>
-      </div>
-    </section>
-    
-    <section>
-      <div class="section-label">Review Awards</div>
-      <div class="info-card">
-        <ul class="awards-list">
-          <li>MIRU論文評価貢献賞 — 第25回 画像の認識・理解シンポジウム（2022/07/28）</li>
-        </ul>
-      </div>
-    </section>
+    <div class="content">
+      <section>
+        <div class="section-label">Research / Paper Awards</div>
+        <div class="info-card">
+          <ul class="awards-list" id="list-research"></ul>
+        </div>
+      </section>
 
-    <section>
-      <div class="section-label">Scholarships / Financial Honors</div>
-      <div class="info-card">
-        <ul class="awards-list">
-          <li>第一種奨学金 特に優れた業績による返還免除 全額免除 — 独立行政法人 日本学生支援機構（2023/06）</li>
-        </ul>
-      </div>
-    </section>
-  </div>
-</main>
+      <section>
+        <div class="section-label">Review Awards</div>
+        <div class="info-card">
+          <ul class="awards-list" id="list-review"></ul>
+        </div>
+      </section>
 
+      <section>
+        <div class="section-label">Scholarships / Financial Honors</div>
+        <div class="info-card">
+          <ul class="awards-list" id="list-scholarship"></ul>
+        </div>
+      </section>
+    </div>
+  </main>
 
   <footer>
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
   </footer>
-  
+
+  <script>
+    function buildAwardItem(a) {
+      return '<li>' + a.name + ' — ' + a.org + '（' + a.date + '）</li>';
+    }
+
+    fetch('data.json')
+      .then(r => r.json())
+      .then(d => {
+        const aw = d.awards;
+        document.getElementById('list-research').innerHTML   = aw.research.map(buildAwardItem).join('');
+        document.getElementById('list-review').innerHTML     = aw.review.map(buildAwardItem).join('');
+        document.getElementById('list-scholarship').innerHTML = aw.scholarship.map(buildAwardItem).join('');
+      })
+      .catch(() => {
+        document.getElementById('list-research').innerHTML = '<li>データを読み込めませんでした。</li>';
+      });
+  </script>
 </body>
 </html>
