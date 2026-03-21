@@ -103,20 +103,24 @@
     <aside class="sidebar">
       <div class="stats-grid">
         <div class="stat-cell">
-          <span class="stat-num" id="stat-journal">8</span>
+          <span class="stat-num" id="stat-journal">-</span>
           <span class="stat-label">Journal Papers</span>
         </div>
         <div class="stat-cell">
-          <span class="stat-num" id="stat-intl">14</span>
+          <span class="stat-num" id="stat-intl">-</span>
           <span class="stat-label">Int'l Conf.</span>
         </div>
         <div class="stat-cell">
-          <span class="stat-num" id="stat-domestic">56</span>
+          <span class="stat-num" id="stat-domestic">-</span>
           <span class="stat-label">Domestic Conf.</span>
         </div>
         <div class="stat-cell">
-          <span class="stat-num" id="stat-awards">13</span>
+          <span class="stat-num" id="stat-awards">-</span>
           <span class="stat-label">Awards</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num" id="stat-citations">—</span>
+          <span class="stat-label">Citations</span>
         </div>
       </div>
 
@@ -171,6 +175,17 @@
         }
       })
       .catch(() => {});
+
+    fetch('https://google-scholar-badge.vercel.app/citations?user=HzjxmYoAAAAJ')
+      .then(r => r.json())
+      .then(d => {
+        if (d && d.message) {
+          document.getElementById('stat-citations').textContent = d.message;
+        }
+      })
+      .catch(() => {
+        document.getElementById('stat-citations').textContent = 'N/A';
+      });
   </script>
 
   <footer>
