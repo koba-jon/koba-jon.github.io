@@ -1,0 +1,16 @@
+{
+  "stats": {
+    "journal_papers": 8,
+    "international_conferences": 14,
+    "domestic_conferences": 56,
+    "awards": 13
+  },
+  "profile": {
+    "name": "Hiroki Kobayashi",
+    "title": "Computer Vision Researcher & AI Engineer",
+    "tagline": "PhD in Engineering · Araya Inc.",
+    "position": "AI Engineer",
+    "company": "Araya Inc.",
+    "company_url": "https://www.araya.org/"
+  }
+}

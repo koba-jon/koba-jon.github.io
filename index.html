@@ -102,19 +102,19 @@
     <aside class="sidebar">
       <div class="stats-grid">
         <div class="stat-cell">
-          <span class="stat-num">8</span>
+          <span class="stat-num" id="stat-journal">8</span>
           <span class="stat-label">Journal Papers</span>
         </div>
         <div class="stat-cell">
-          <span class="stat-num">14</span>
+          <span class="stat-num" id="stat-intl">14</span>
           <span class="stat-label">Int'l Conf.</span>
         </div>
         <div class="stat-cell">
-          <span class="stat-num">56</span>
+          <span class="stat-num" id="stat-domestic">56</span>
           <span class="stat-label">Domestic Conf.</span>
         </div>
         <div class="stat-cell">
-          <span class="stat-num">13</span>
+          <span class="stat-num" id="stat-awards">13</span>
           <span class="stat-label">Awards</span>
         </div>
       </div>
@@ -155,6 +155,18 @@
     </aside>
   </main>
 
+
+  <script>
+    fetch('data.json')
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById('stat-journal').textContent  = d.stats.journal_papers;
+        document.getElementById('stat-intl').textContent     = d.stats.international_conferences;
+        document.getElementById('stat-domestic').textContent = d.stats.domestic_conferences;
+        document.getElementById('stat-awards').textContent   = d.stats.awards;
+      })
+      .catch(() => {});
+  </script>
 
   <footer>
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
