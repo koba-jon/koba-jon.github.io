@@ -1,912 +1,1085 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hiroki Kobayashi — CV</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #f5f2ec;
-    --surface: #ffffff;
-    --ink: #1a1714;
-    --ink-soft: #6b6460;
-    --ink-faint: #b8b0a8;
-    --accent: #c8502a;
-    --accent-pale: #f5e8e3;
-    --border: #e2ddd8;
-    --mono: 'DM Mono', monospace;
-    --serif: 'DM Serif Display', serif;
-    --sans: 'DM Sans', sans-serif;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hiroki Kobayashi — CV</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f2ec;
+      --surface: #ffffff;
+      --ink: #1a1714;
+      --ink-soft: #6b6460;
+      --ink-faint: #b8b0a8;
+      --accent: #c8502a;
+      --accent-pale: #f5e8e3;
+      --border: #e2ddd8;
+      --mono: 'DM Mono', monospace;
+      --serif: 'DM Serif Display', serif;
+      --sans: 'DM Sans', sans-serif;
+    }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
-body {
-font-family: var(–sans);
-background: var(–bg);
-color: var(–ink);
-font-size: 15px;
-line-height: 1.7;
-min-height: 100vh;
-}
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
 
-/* ── HEADER / HERO ── */
-.hero {
-background: var(–ink);
-color: #f5f2ec;
-padding: 0;
-position: relative;
-overflow: hidden;
-}
-.hero::before {
-content: ‘’;
-position: absolute;
-inset: 0;
-background: radial-gradient(ellipse 80% 60% at 70% 50%, #3a2e1e 0%, transparent 70%);
-pointer-events: none;
-}
-.hero-inner {
-max-width: 1100px;
-margin: 0 auto;
-padding: 64px 40px 56px;
-display: grid;
-grid-template-columns: auto 1fr;
-gap: 48px;
-align-items: center;
-position: relative;
-}
-.hero-avatar {
-width: 130px;
-height: 130px;
-border-radius: 50%;
-object-fit: cover;
-border: 3px solid var(–accent);
-flex-shrink: 0;
-}
-.hero-text {}
-.hero-label {
-font-family: var(–mono);
-font-size: 11px;
-letter-spacing: 0.14em;
-text-transform: uppercase;
-color: var(–accent);
-margin-bottom: 10px;
-}
-.hero-name {
-font-family: var(–serif);
-font-size: clamp(2rem, 5vw, 3.2rem);
-line-height: 1.1;
-color: #f5f2ec;
-margin-bottom: 12px;
-}
-.hero-tagline {
-font-size: 14px;
-color: #b8aa9e;
-font-weight: 300;
-margin-bottom: 24px;
-max-width: 560px;
-}
-.hero-links {
-display: flex;
-flex-wrap: wrap;
-gap: 10px;
-}
-.hero-link {
-font-family: var(–mono);
-font-size: 11px;
-letter-spacing: 0.08em;
-text-transform: uppercase;
-color: #f5f2ec;
-text-decoration: none;
-border: 1px solid rgba(245,242,236,0.2);
-padding: 6px 14px;
-border-radius: 2px;
-transition: background 0.2s, border-color 0.2s, color 0.2s;
-}
-.hero-link:hover {
-background: var(–accent);
-border-color: var(–accent);
-color: #fff;
-}
+    /* ── HEADER / HERO ── */
+    .hero {
+      background: var(--ink);
+      color: #f5f2ec;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
 
-/* ── NAV ── */
-nav {
-background: var(–surface);
-border-bottom: 1px solid var(–border);
-position: sticky;
-top: 0;
-z-index: 100;
-}
-.nav-inner {
-max-width: 1100px;
-margin: 0 auto;
-padding: 0 40px;
-display: flex;
-gap: 0;
-overflow-x: auto;
-scrollbar-width: none;
-}
-.nav-inner::-webkit-scrollbar { display: none; }
-.nav-link {
-font-family: var(–mono);
-font-size: 11px;
-letter-spacing: 0.1em;
-text-transform: uppercase;
-color: var(–ink-soft);
-text-decoration: none;
-padding: 16px 18px;
-border-bottom: 2px solid transparent;
-white-space: nowrap;
-transition: color 0.2s, border-color 0.2s;
-}
-.nav-link:hover { color: var(–ink); border-bottom-color: var(–accent); }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 70% 50%, #3a2e1e 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-/* ── MAIN LAYOUT ── */
-main {
-max-width: 1100px;
-margin: 0 auto;
-padding: 56px 40px 80px;
-display: grid;
-grid-template-columns: 1fr 300px;
-gap: 56px;
-align-items: start;
-}
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 40px 56px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+    }
 
-/* ── SECTIONS ── */
-section { margin-bottom: 52px; }
-.section-label {
-font-family: var(–mono);
-font-size: 10px;
-letter-spacing: 0.16em;
-text-transform: uppercase;
-color: var(–accent);
-margin-bottom: 20px;
-display: flex;
-align-items: center;
-gap: 12px;
-}
-.section-label::after {
-content: ‘’;
-flex: 1;
-height: 1px;
-background: var(–border);
-}
-h2 {
-font-family: var(–serif);
-font-size: 1.7rem;
-font-weight: 400;
-color: var(–ink);
-margin-bottom: 16px;
-line-height: 1.2;
-}
+    .hero-avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      flex-shrink: 0;
+    }
 
-/* ── ABOUT ── */
-.about-text {
-color: var(–ink-soft);
-font-weight: 300;
-max-width: 660px;
-font-size: 15px;
-}
-.about-text p + p { margin-top: 14px; }
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
 
-/* ── FEATURED PROJECT ── */
-.project-card {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: 4px;
-overflow: hidden;
-transition: box-shadow 0.25s, transform 0.25s;
-}
-.project-card:hover {
-box-shadow: 0 12px 40px rgba(26,23,20,0.1);
-transform: translateY(-2px);
-}
-.project-img {
-width: 100%;
-height: 180px;
-object-fit: cover;
-display: block;
-border-bottom: 1px solid var(–border);
-}
-.project-body { padding: 24px; }
-.project-tag {
-font-family: var(–mono);
-font-size: 10px;
-letter-spacing: 0.12em;
-text-transform: uppercase;
-color: var(–accent);
-background: var(–accent-pale);
-padding: 3px 8px;
-border-radius: 2px;
-display: inline-block;
-margin-bottom: 10px;
-}
-.project-title {
-font-family: var(–serif);
-font-size: 1.25rem;
-color: var(–ink);
-margin-bottom: 10px;
-font-weight: 400;
-}
-.project-desc {
-font-size: 13.5px;
-color: var(–ink-soft);
-font-weight: 300;
-line-height: 1.65;
-margin-bottom: 18px;
-}
-.project-link {
-font-family: var(–mono);
-font-size: 11px;
-letter-spacing: 0.08em;
-text-transform: uppercase;
-color: var(–ink);
-text-decoration: none;
-border-bottom: 1px solid var(–ink);
-padding-bottom: 1px;
-transition: color 0.2s, border-color 0.2s;
-}
-.project-link:hover { color: var(–accent); border-color: var(–accent); }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      color: #f5f2ec;
+      margin-bottom: 12px;
+    }
 
-/* ── PUBLICATIONS ── */
-.pub-tabs {
-display: flex;
-gap: 0;
-border-bottom: 1px solid var(–border);
-margin-bottom: 24px;
-}
-.pub-tab {
-font-family: var(–mono);
-font-size: 11px;
-letter-spacing: 0.08em;
-text-transform: uppercase;
-color: var(–ink-soft);
-background: none;
-border: none;
-padding: 10px 20px;
-cursor: pointer;
-border-bottom: 2px solid transparent;
-margin-bottom: -1px;
-transition: color 0.2s, border-color 0.2s;
-}
-.pub-tab.active { color: var(–ink); border-bottom-color: var(–accent); }
-.pub-list { display: none; }
-.pub-list.active { display: block; }
+    .hero-tagline {
+      font-size: 14px;
+      color: #b8aa9e;
+      font-weight: 300;
+      margin-bottom: 24px;
+      max-width: 560px;
+    }
 
-.pub-item {
-padding: 16px 0;
-border-bottom: 1px solid var(–border);
-display: grid;
-grid-template-columns: 36px 1fr;
-gap: 12px;
-align-items: start;
-}
-.pub-year {
-font-family: var(–mono);
-font-size: 11px;
-color: var(–ink-faint);
-padding-top: 2px;
-}
-.pub-meta { }
-.pub-title {
-font-size: 14px;
-font-weight: 500;
-color: var(–ink);
-line-height: 1.45;
-margin-bottom: 4px;
-}
-.pub-venue {
-font-size: 12.5px;
-color: var(–ink-soft);
-font-weight: 300;
-}
-.pub-badge {
-display: inline-block;
-background: var(–accent);
-color: #fff;
-font-family: var(–mono);
-font-size: 9px;
-letter-spacing: 0.1em;
-text-transform: uppercase;
-padding: 2px 7px;
-border-radius: 2px;
-margin-left: 8px;
-vertical-align: middle;
-}
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-.show-more-btn {
-display: block;
-margin: 20px auto 0;
-font-family: var(–mono);
-font-size: 11px;
-letter-spacing: 0.1em;
-text-transform: uppercase;
-background: none;
-border: 1px solid var(–border);
-color: var(–ink-soft);
-padding: 10px 24px;
-cursor: pointer;
-border-radius: 2px;
-transition: background 0.2s, color 0.2s;
-}
-.show-more-btn:hover { background: var(–ink); color: #fff; border-color: var(–ink); }
+    .hero-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f5f2ec;
+      text-decoration: none;
+      border: 1px solid rgba(245, 242, 236, 0.2);
+      padding: 6px 14px;
+      border-radius: 2px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
 
-/* ── SIDEBAR ── */
-.sidebar {}
-.sidebar > * + * { margin-top: 36px; }
+    .hero-link:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
 
-.info-card {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: 4px;
-padding: 24px;
-}
-.info-card-title {
-font-family: var(–mono);
-font-size: 10px;
-letter-spacing: 0.14em;
-text-transform: uppercase;
-color: var(–accent);
-margin-bottom: 16px;
-}
-.info-row {
-display: flex;
-flex-direction: column;
-gap: 4px;
-padding: 12px 0;
-border-bottom: 1px solid var(–border);
-}
-.info-row:last-child { border-bottom: none; padding-bottom: 0; }
-.info-row:first-of-type { padding-top: 0; }
-.info-key {
-font-family: var(–mono);
-font-size: 10px;
-letter-spacing: 0.1em;
-text-transform: uppercase;
-color: var(–ink-faint);
-}
-.info-val {
-font-size: 13.5px;
-color: var(–ink);
-font-weight: 400;
-line-height: 1.5;
-}
+    /* ── NAV ── */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-.edu-item { padding: 12px 0; border-bottom: 1px solid var(–border); }
-.edu-item:last-child { border-bottom: none; }
-.edu-period {
-font-family: var(–mono);
-font-size: 11px;
-color: var(–ink-faint);
-margin-bottom: 3px;
-}
-.edu-degree { font-size: 13.5px; color: var(–ink); font-weight: 500; }
-.edu-school { font-size: 12.5px; color: var(–ink-soft); font-weight: 300; }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
 
-.awards-list { list-style: none; }
-.awards-list li {
-font-size: 13px;
-color: var(–ink-soft);
-font-weight: 300;
-padding: 8px 0;
-border-bottom: 1px solid var(–border);
-line-height: 1.5;
-display: flex;
-gap: 10px;
-align-items: flex-start;
-}
-.awards-list li:last-child { border-bottom: none; }
-.awards-list li::before {
-content: ‘✦’;
-color: var(–accent);
-font-size: 8px;
-margin-top: 5px;
-flex-shrink: 0;
-}
+    .nav-inner::-webkit-scrollbar {
+      display: none;
+    }
 
-.cert-list { list-style: none; }
-.cert-list li {
-font-size: 13px;
-color: var(–ink-soft);
-font-weight: 300;
-padding: 8px 0;
-border-bottom: 1px solid var(–border);
-display: flex;
-align-items: center;
-gap: 10px;
-}
-.cert-list li:last-child { border-bottom: none; }
-.cert-list li::before {
-content: ‘’;
-width: 6px;
-height: 6px;
-border-radius: 50%;
-background: var(–accent);
-flex-shrink: 0;
-}
+    .nav-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      padding: 16px 18px;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
 
-.stats-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 1px;
-background: var(–border);
-border: 1px solid var(–border);
-border-radius: 4px;
-overflow: hidden;
-}
-.stat-cell {
-background: var(–surface);
-padding: 18px 16px;
-text-align: center;
-}
-.stat-num {
-font-family: var(–serif);
-font-size: 2rem;
-color: var(–ink);
-line-height: 1;
-display: block;
-margin-bottom: 4px;
-}
-.stat-label {
-font-family: var(–mono);
-font-size: 9.5px;
-letter-spacing: 0.12em;
-text-transform: uppercase;
-color: var(–ink-faint);
-}
+    .nav-link:hover {
+      color: var(--ink);
+      border-bottom-color: var(--accent);
+    }
 
-/* ── RESEARCH AREAS ── */
-.tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
-.tag {
-font-family: var(–mono);
-font-size: 11px;
-letter-spacing: 0.06em;
-text-transform: uppercase;
-color: var(–ink);
-background: var(–surface);
-border: 1px solid var(–border);
-padding: 6px 14px;
-border-radius: 2px;
-transition: background 0.2s, color 0.2s, border-color 0.2s;
-}
-.tag:hover { background: var(–accent-pale); border-color: var(–accent); color: var(–accent); }
+    /* ── MAIN LAYOUT ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 56px;
+      align-items: start;
+    }
 
-/* ── FOOTER ── */
-footer {
-background: var(–ink);
-color: #786e68;
-text-align: center;
-padding: 28px 40px;
-font-family: var(–mono);
-font-size: 11px;
-letter-spacing: 0.08em;
-}
+    /* ── SECTIONS ── */
+    section {
+      margin-bottom: 52px;
+    }
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-from { opacity: 0; transform: translateY(18px); }
-to { opacity: 1; transform: translateY(0); }
-}
-.hero-inner > * { animation: fadeUp 0.6s ease both; }
-.hero-inner > *:nth-child(1) { animation-delay: 0.05s; }
-.hero-inner > *:nth-child(2) { animation-delay: 0.15s; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 860px) {
-main { grid-template-columns: 1fr; }
-.sidebar { order: -1; }
-.stats-grid { grid-template-columns: repeat(4, 1fr); }
-.hero-inner { grid-template-columns: 1fr; text-align: center; }
-.hero-avatar { margin: 0 auto; }
-.hero-links { justify-content: center; }
-}
-@media (max-width: 600px) {
-.hero-inner { padding: 40px 24px 36px; }
-main { padding: 36px 20px 60px; }
-.nav-inner { padding: 0 16px; }
-.stats-grid { grid-template-columns: 1fr 1fr; }
-}
-</style>
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
 
+    h2 {
+      font-family: var(--serif);
+      font-size: 1.7rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    /* ── ABOUT ── */
+    .about-text {
+      color: var(--ink-soft);
+      font-weight: 300;
+      max-width: 660px;
+      font-size: 15px;
+    }
+
+    .about-text p + p {
+      margin-top: 14px;
+    }
+
+    /* ── FEATURED PROJECT ── */
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+
+    .project-card:hover {
+      box-shadow: 0 12px 40px rgba(26, 23, 20, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .project-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-body {
+      padding: 24px;
+    }
+
+    .project-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-pale);
+      padding: 3px 8px;
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .project-title {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--ink);
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+
+    .project-desc {
+      font-size: 13.5px;
+      color: var(--ink-soft);
+      font-weight: 300;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+
+    .project-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── PUBLICATIONS ── */
+    .pub-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .pub-tab {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      background: none;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .pub-tab.active {
+      color: var(--ink);
+      border-bottom-color: var(--accent);
+    }
+
+    .pub-list {
+      display: none;
+    }
+
+    .pub-list.active {
+      display: block;
+    }
+
+    .pub-item {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .pub-year {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      padding-top: 2px;
+    }
+
+    .pub-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.45;
+      margin-bottom: 4px;
+    }
+
+    .pub-venue {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      font-weight: 300;
+    }
+
+    .pub-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .show-more-btn {
+      display: block;
+      margin: 20px auto 0;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--ink-soft);
+      padding: 10px 24px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .show-more-btn:hover {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar > * + * {
+      margin-top: 36px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 24px;
+    }
+
+    .info-card-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .info-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .info-row:first-of-type {
+      padding-top: 0;
+    }
+
+    .info-key {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .info-val {
+      font-size: 13.5px;
+      color: var(--ink);
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .edu-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .edu-item:last-child {
+      border-bottom: none;
+    }
+
+    .edu-period {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      margin-bottom: 3px;
+    }
+
+    .edu-degree {
+      font-size: 13.5px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .edu-school {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      font-weight: 300;
+    }
+
+    .awards-list,
+    .cert-list {
+      list-style: none;
+    }
+
+    .awards-list li {
+      font-size: 13px;
+      color: var(--ink-soft);
+      font-weight: 300;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .awards-list li:last-child,
+    .cert-list li:last-child {
+      border-bottom: none;
+    }
+
+    .awards-list li::before {
+      content: '✦';
+      color: var(--accent);
+      font-size: 8px;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .cert-list li {
+      font-size: 13px;
+      color: var(--ink-soft);
+      font-weight: 300;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cert-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .stat-cell {
+      background: var(--surface);
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--ink);
+      line-height: 1;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    /* ── RESEARCH AREAS ── */
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .tag:hover {
+      background: var(--accent-pale);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: #786e68;
+      text-align: center;
+      padding: 28px 40px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-inner > * {
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-inner > *:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .hero-inner > *:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        order: -1;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-avatar {
+        margin: 0 auto;
+      }
+
+      .hero-links {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-inner {
+        padding: 40px 24px 36px;
+      }
+
+      main {
+        padding: 36px 20px 60px;
+      }
+
+      .nav-inner {
+        padding: 0 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .pub-item {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .pub-year {
+        padding-top: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<!-- HERO -->
-
-<header class="hero">
-  <div class="hero-inner">
-    <img src="https://koba-jon.github.io/images/profile.jpg" alt="Hiroki Kobayashi" class="hero-avatar">
-    <div class="hero-text">
-      <div class="hero-label">Computer Vision Researcher &amp; AI Engineer</div>
-      <h1 class="hero-name">Hiroki Kobayashi</h1>
-      <p class="hero-tagline">PhD in Engineering · Anomaly Detection · Generative Modeling · Araya Inc.</p>
-      <nav class="hero-links">
-        <a href="https://github.com/koba-jon" class="hero-link" target="_blank">GitHub</a>
-        <a href="https://qiita.com/koba-jon" class="hero-link" target="_blank">Qiita</a>
-        <a href="https://huggingface.co/koba-jon" class="hero-link" target="_blank">Hugging Face</a>
-        <a href="https://www.linkedin.com/in/hiroki-kobayashi-phd" class="hero-link" target="_blank">LinkedIn</a>
-        <a href="https://scholar.google.co.jp/citations?user=HzjxmYoAAAAJ&hl=en" class="hero-link" target="_blank">Google Scholar</a>
-      </nav>
-    </div>
-  </div>
-</header>
-
-<!-- STICKY NAV -->
-
-<nav>
-  <div class="nav-inner">
-    <a href="#about" class="nav-link">About</a>
-    <a href="#project" class="nav-link">Project</a>
-    <a href="#publications" class="nav-link">Publications</a>
-    <a href="#awards" class="nav-link">Awards</a>
-    <a href="#education" class="nav-link">Education</a>
-  </div>
-</nav>
-
-<!-- MAIN -->
-
-<main>
-  <div class="content">
-
-```
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-label">About</div>
-  <div class="about-text">
-    <p>I am a computer vision researcher and AI engineer specializing in industrial anomaly detection, representation learning, and generative modeling. My work focuses on building practical and robust machine learning methods for visual inspection, especially in manufacturing environments where real defective data are limited.</p>
-    <p>My research explores pseudo-defect generation, domain-specific pre-training, and feature modeling for anomaly detection, with the goal of improving both accuracy and generalization in real-world applications. I am particularly interested in bridging the gap between academic research and deployable AI systems.</p>
-    <p>In addition to research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source projects based on PyTorch and LibTorch.</p>
-  </div>
-
-  <div class="tag-cloud" style="margin-top: 24px;">
-    <span class="tag">Anomaly Detection</span>
-    <span class="tag">Visual Inspection</span>
-    <span class="tag">Computer Vision</span>
-    <span class="tag">Deep Learning</span>
-    <span class="tag">Generative Modeling</span>
-    <span class="tag">Representation Learning</span>
-  </div>
-</section>
-
-<!-- FEATURED PROJECT -->
-<section id="project">
-  <div class="section-label">Featured Project</div>
-  <div class="project-card">
-    <img src="https://koba-jon.github.io/images/pytorch_cpp.png" alt="pytorch_cpp" class="project-img">
-    <div class="project-body">
-      <span class="project-tag">Open Source · C++ · LibTorch</span>
-      <h3 class="project-title">pytorch_cpp</h3>
-      <p class="project-desc">A large-scale open-source project for deep learning implementations in C++ using LibTorch. Covers image classification, object detection, generative models, and a wide range of modern deep learning architectures — reflecting a commitment to both practical implementation and research-oriented development.</p>
-      <a href="https://github.com/koba-jon/pytorch_cpp" class="project-link" target="_blank">View on GitHub →</a>
-    </div>
-  </div>
-</section>
-
-<!-- PUBLICATIONS -->
-<section id="publications">
-  <div class="section-label">Publications</div>
-
-  <div class="pub-tabs">
-    <button class="pub-tab active" onclick="switchTab('journal')">Journal Papers</button>
-    <button class="pub-tab" onclick="switchTab('intl')">International Conf.</button>
-    <button class="pub-tab" onclick="switchTab('domestic')">Domestic Conf.</button>
-  </div>
-
-  <!-- JOURNAL -->
-  <div class="pub-list active" id="tab-journal">
-    <div class="pub-item">
-      <span class="pub-year">2025</span>
-      <div class="pub-meta">
-        <div class="pub-title">擬似欠陥を構成するパラメータの推定に基づく事前学習と異常検知 <span class="pub-badge">First Author</span></div>
-        <div class="pub-venue">精密工学会誌, Vol.91, No.10 【精密工学会研究奨励賞】</div>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <img src="https://koba-jon.github.io/images/profile.jpg" alt="Hiroki Kobayashi" class="hero-avatar">
+      <div class="hero-text">
+        <div class="hero-label">Computer Vision Researcher &amp; AI Engineer</div>
+        <h1 class="hero-name">Hiroki Kobayashi</h1>
+        <p class="hero-tagline">PhD in Engineering · Anomaly Detection · Generative Modeling · Araya Inc.</p>
+        <div class="hero-links">
+          <a href="https://github.com/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://qiita.com/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">Qiita</a>
+          <a href="https://huggingface.co/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">Hugging Face</a>
+          <a href="https://www.linkedin.com/in/hiroki-kobayashi-phd" class="hero-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://scholar.google.co.jp/citations?user=HzjxmYoAAAAJ&hl=en" class="hero-link" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+        </div>
       </div>
     </div>
-    <div class="pub-item">
-      <span class="pub-year">2025</span>
-      <div class="pub-meta">
-        <div class="pub-title">特徴量の正常表現空間からの逆射影誤差指標に基づく対象物の回転に頑健な異常検知の提案</div>
-        <div class="pub-venue">精密工学会誌, Vol.91, No.5</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2025</span>
-      <div class="pub-meta">
-        <div class="pub-title">理想ペア画像を用いた画像変換に基づく異なるカメラ間ギャップ低減による異常検知の高精度化</div>
-        <div class="pub-venue">精密工学会誌, Vol.91, No.2</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2024</span>
-      <div class="pub-meta">
-        <div class="pub-title">Reliable image matching using optimal combination of color and intensity information based on relationship with surrounding objects</div>
-        <div class="pub-venue">IEICE Transactions, Vol.E107-D, No.10</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2024</span>
-      <div class="pub-meta">
-        <div class="pub-title">固有空間における情報合成に基づく高リアリティ不良品画像生成</div>
-        <div class="pub-venue">精密工学会誌, Vol.90, No.8</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2023</span>
-      <div class="pub-meta">
-        <div class="pub-title">画素ペア色相値の発生確率分析に基づく高速カラー画像マッチング</div>
-        <div class="pub-venue">精密工学会誌, Vol.89, No.2</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2022</span>
-      <div class="pub-meta">
-        <div class="pub-title">任意の回転変動許容力を有する画素選択型テンプレートマッチング</div>
-        <div class="pub-venue">精密工学会誌, Vol.88, No.6</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2021</span>
-      <div class="pub-meta">
-        <div class="pub-title">異状発生直前・直後のペア画像を用いた画像復元と高精度キズ検出 <span class="pub-badge">First Author</span></div>
-        <div class="pub-venue">精密工学会誌, Vol.87, No.12</div>
-      </div>
-    </div>
-  </div>
+  </header>
 
-  <!-- INTERNATIONAL -->
-  <div class="pub-list" id="tab-intl">
-    <div class="pub-item">
-      <span class="pub-year">2026</span>
-      <div class="pub-meta">
-        <div class="pub-title">Logical Anomaly Detection based on Relative Similarity Analysis of Region Segments</div>
-        <div class="pub-venue">IWAIT2026</div>
-      </div>
+  <!-- STICKY NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#project" class="nav-link">Project</a>
+      <a href="#publications" class="nav-link">Publications</a>
+      <a href="#awards" class="nav-link">Awards</a>
+      <a href="#education" class="nav-link">Education</a>
     </div>
-    <div class="pub-item">
-      <span class="pub-year">2025</span>
-      <div class="pub-meta">
-        <div class="pub-title">Food State Recognition from Recipes Using Multimodal Model for Task Monitoring in Autonomous Cooking Robots</div>
-        <div class="pub-venue">SCIA2025, Reykjavik, Iceland</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2025</span>
-      <div class="pub-meta">
-        <div class="pub-title">Subspace-Based Embedded Feature Reduction for Fast Anomaly Detection</div>
-        <div class="pub-venue">SCIA2025, Reykjavik, Iceland</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2024</span>
-      <div class="pub-meta">
-        <div class="pub-title">Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score <span class="pub-badge">First Author</span></div>
-        <div class="pub-venue">BMVC2024, Glasgow, UK</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2024</span>
-      <div class="pub-meta">
-        <div class="pub-title">DC-PaDiM: Fast Anomaly Detection based on Effective Feature Dimension-Compression</div>
-        <div class="pub-venue">CANDAR2024, Okinawa</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2024</span>
-      <div class="pub-meta">
-        <div class="pub-title">DoG-PaDiM: Anomaly Detection Based on Bandpass Filtering for Arbitrary Size Defect Extraction</div>
-        <div class="pub-venue">IEEE CASE2024, Bari, Italy</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2024</span>
-      <div class="pub-meta">
-        <div class="pub-title">Automatic data generation of incorrect image-text pairs for effective contrastive learning of CLIP model</div>
-        <div class="pub-venue">WSCG 2024, Plzen, Czech Republic</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2024</span>
-      <div class="pub-meta">
-        <div class="pub-title">High Precision Anomaly Detection based on Pre-trained Features Enhanced by Only Large Amount of Normal Samples <span class="pub-badge">First Author</span></div>
-        <div class="pub-venue">IWAIT2024, Langkawi, Malaysia</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2023</span>
-      <div class="pub-meta">
-        <div class="pub-title">DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask <span class="pub-badge">First Author</span></div>
-        <div class="pub-venue">IJCNN2023, Gold Coast, Australia</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2023</span>
-      <div class="pub-meta">
-        <div class="pub-title">Reliable Matching by Combining Optimal Color and Intensity Information</div>
-        <div class="pub-venue">ISVC2023</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2023</span>
-      <div class="pub-meta">
-        <div class="pub-title">Fast and reliable template matching based on effective pixel selection</div>
-        <div class="pub-venue">VISAPP2023, Lisbon</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2021</span>
-      <div class="pub-meta">
-        <div class="pub-title">Normal Image Generation-Based Defect Detection by Generative Adversarial Network with Chaotic Random Images <span class="pub-badge">First Author</span></div>
-        <div class="pub-venue">ISVC2021</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <span class="pub-year">2021</span>
-      <div class="pub-meta">
-        <div class="pub-title">Scratch Detection based on Image Reconstruction using Ideal-Image-Pair Dataset <span class="pub-badge">First Author</span></div>
-        <div class="pub-venue">IWAIT2021</div>
-      </div>
-    </div>
-  </div>
+  </nav>
 
-  <!-- DOMESTIC (show first 10, expandable) -->
-  <div class="pub-list" id="tab-domestic">
-    <div id="domestic-short">
-      <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">論理的異常検知手法の提案（MVTec Juice bottleカテゴリ）</div><div class="pub-venue">DIA2026</div></div></div>
-      <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">ImageNetのサブクラス分割に基づく欠陥に敏感な特徴抽出器のためのPaDiM事前学習データセットの提案</div><div class="pub-venue">DIA2026</div></div></div>
-      <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">変形パラメータ推定に基づく異常検知のための事前学習手法の提案 <span class="pub-badge">First Author</span></div><div class="pub-venue">画像工学研究会（IE）</div></div></div>
-      <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">軽量クラスタ検索に基づく改良型PatchCoreの提案</div><div class="pub-venue">PRMU研究会</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">論理的異常検知手法の提案（領域セグメント間の相互類似性評価）</div><div class="pub-venue">ViEW2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">誤判定傾向の学習に基づく外観検査の汎用高精度化のための出力リファインモデルの提案</div><div class="pub-venue">ViEW2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">統計的近傍予測に基づく改良型PatchCoreの提案</div><div class="pub-venue">ViEW2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">誤判定傾向の学習に基づく出力補正モデルの生成</div><div class="pub-venue">iMec2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">領域セグメント特徴の相互関係分析に基づく論理的異常検知</div><div class="pub-venue">iMec2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">局所・大域的判定の組み合わせによるJuice Bottleカテゴリのための論理的異常検知</div><div class="pub-venue">SS2025</div></div></div>
+  <!-- MAIN -->
+  <main>
+    <div class="content">
+
+      <!-- ABOUT -->
+      <section id="about">
+        <div class="section-label">About</div>
+        <div class="about-text">
+          <p>I am a computer vision researcher and AI engineer specializing in industrial anomaly detection, representation learning, and generative modeling. My work focuses on building practical and robust machine learning methods for visual inspection, especially in manufacturing environments where real defective data are limited.</p>
+          <p>My research explores pseudo-defect generation, domain-specific pre-training, and feature modeling for anomaly detection, with the goal of improving both accuracy and generalization in real-world applications. I am particularly interested in bridging the gap between academic research and deployable AI systems.</p>
+          <p>In addition to research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source projects based on PyTorch and LibTorch.</p>
+        </div>
+
+        <div class="tag-cloud" style="margin-top: 24px;">
+          <span class="tag">Anomaly Detection</span>
+          <span class="tag">Visual Inspection</span>
+          <span class="tag">Computer Vision</span>
+          <span class="tag">Deep Learning</span>
+          <span class="tag">Generative Modeling</span>
+          <span class="tag">Representation Learning</span>
+        </div>
+      </section>
+
+      <!-- FEATURED PROJECT -->
+      <section id="project">
+        <div class="section-label">Featured Project</div>
+        <div class="project-card">
+          <img src="https://koba-jon.github.io/images/pytorch_cpp.png" alt="pytorch_cpp" class="project-img">
+          <div class="project-body">
+            <span class="project-tag">Open Source · C++ · LibTorch</span>
+            <h3 class="project-title">pytorch_cpp</h3>
+            <p class="project-desc">
+              A large-scale open-source project for deep learning implementations in C++ using LibTorch.
+              Covers image classification, object detection, generative models, and a wide range of modern
+              deep learning architectures — reflecting a commitment to both practical implementation and
+              research-oriented development.
+            </p>
+            <a href="https://github.com/koba-jon/pytorch_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- PUBLICATIONS -->
+      <section id="publications">
+        <div class="section-label">Publications</div>
+
+        <div class="pub-tabs">
+          <button class="pub-tab active" onclick="switchTab('journal', this)">Journal Papers</button>
+          <button class="pub-tab" onclick="switchTab('intl', this)">International Conf.</button>
+          <button class="pub-tab" onclick="switchTab('domestic', this)">Domestic Conf.</button>
+        </div>
+
+        <!-- JOURNAL -->
+        <div class="pub-list active" id="tab-journal">
+          <div class="pub-item">
+            <span class="pub-year">2025</span>
+            <div class="pub-meta">
+              <div class="pub-title">擬似欠陥を構成するパラメータの推定に基づく事前学習と異常検知 <span class="pub-badge">First Author</span></div>
+              <div class="pub-venue">精密工学会誌, Vol.91, No.10 【精密工学会研究奨励賞】</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2025</span>
+            <div class="pub-meta">
+              <div class="pub-title">特徴量の正常表現空間からの逆射影誤差指標に基づく対象物の回転に頑健な異常検知の提案</div>
+              <div class="pub-venue">精密工学会誌, Vol.91, No.5</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2025</span>
+            <div class="pub-meta">
+              <div class="pub-title">理想ペア画像を用いた画像変換に基づく異なるカメラ間ギャップ低減による異常検知の高精度化</div>
+              <div class="pub-venue">精密工学会誌, Vol.91, No.2</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2024</span>
+            <div class="pub-meta">
+              <div class="pub-title">Reliable image matching using optimal combination of color and intensity information based on relationship with surrounding objects</div>
+              <div class="pub-venue">IEICE Transactions, Vol.E107-D, No.10</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2024</span>
+            <div class="pub-meta">
+              <div class="pub-title">固有空間における情報合成に基づく高リアリティ不良品画像生成</div>
+              <div class="pub-venue">精密工学会誌, Vol.90, No.8</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2023</span>
+            <div class="pub-meta">
+              <div class="pub-title">画素ペア色相値の発生確率分析に基づく高速カラー画像マッチング</div>
+              <div class="pub-venue">精密工学会誌, Vol.89, No.2</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2022</span>
+            <div class="pub-meta">
+              <div class="pub-title">任意の回転変動許容力を有する画素選択型テンプレートマッチング</div>
+              <div class="pub-venue">精密工学会誌, Vol.88, No.6</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2021</span>
+            <div class="pub-meta">
+              <div class="pub-title">異状発生直前・直後のペア画像を用いた画像復元と高精度キズ検出 <span class="pub-badge">First Author</span></div>
+              <div class="pub-venue">精密工学会誌, Vol.87, No.12</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INTERNATIONAL -->
+        <div class="pub-list" id="tab-intl">
+          <div class="pub-item">
+            <span class="pub-year">2026</span>
+            <div class="pub-meta">
+              <div class="pub-title">Logical Anomaly Detection based on Relative Similarity Analysis of Region Segments</div>
+              <div class="pub-venue">IWAIT2026</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2025</span>
+            <div class="pub-meta">
+              <div class="pub-title">Food State Recognition from Recipes Using Multimodal Model for Task Monitoring in Autonomous Cooking Robots</div>
+              <div class="pub-venue">SCIA2025, Reykjavik, Iceland</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2025</span>
+            <div class="pub-meta">
+              <div class="pub-title">Subspace-Based Embedded Feature Reduction for Fast Anomaly Detection</div>
+              <div class="pub-venue">SCIA2025, Reykjavik, Iceland</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2024</span>
+            <div class="pub-meta">
+              <div class="pub-title">Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score <span class="pub-badge">First Author</span></div>
+              <div class="pub-venue">BMVC2024, Glasgow, UK</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2024</span>
+            <div class="pub-meta">
+              <div class="pub-title">DC-PaDiM: Fast Anomaly Detection based on Effective Feature Dimension-Compression</div>
+              <div class="pub-venue">CANDAR2024, Okinawa</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2024</span>
+            <div class="pub-meta">
+              <div class="pub-title">DoG-PaDiM: Anomaly Detection Based on Bandpass Filtering for Arbitrary Size Defect Extraction</div>
+              <div class="pub-venue">IEEE CASE2024, Bari, Italy</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2024</span>
+            <div class="pub-meta">
+              <div class="pub-title">Automatic data generation of incorrect image-text pairs for effective contrastive learning of CLIP model</div>
+              <div class="pub-venue">WSCG 2024, Plzen, Czech Republic</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2024</span>
+            <div class="pub-meta">
+              <div class="pub-title">High Precision Anomaly Detection based on Pre-trained Features Enhanced by Only Large Amount of Normal Samples <span class="pub-badge">First Author</span></div>
+              <div class="pub-venue">IWAIT2024, Langkawi, Malaysia</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2023</span>
+            <div class="pub-meta">
+              <div class="pub-title">DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask <span class="pub-badge">First Author</span></div>
+              <div class="pub-venue">IJCNN2023, Gold Coast, Australia</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2023</span>
+            <div class="pub-meta">
+              <div class="pub-title">Reliable Matching by Combining Optimal Color and Intensity Information</div>
+              <div class="pub-venue">ISVC2023</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2023</span>
+            <div class="pub-meta">
+              <div class="pub-title">Fast and reliable template matching based on effective pixel selection</div>
+              <div class="pub-venue">VISAPP2023, Lisbon</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2021</span>
+            <div class="pub-meta">
+              <div class="pub-title">Normal Image Generation-Based Defect Detection by Generative Adversarial Network with Chaotic Random Images <span class="pub-badge">First Author</span></div>
+              <div class="pub-venue">ISVC2021</div>
+            </div>
+          </div>
+          <div class="pub-item">
+            <span class="pub-year">2021</span>
+            <div class="pub-meta">
+              <div class="pub-title">Scratch Detection based on Image Reconstruction using Ideal-Image-Pair Dataset <span class="pub-badge">First Author</span></div>
+              <div class="pub-venue">IWAIT2021</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOMESTIC -->
+        <div class="pub-list" id="tab-domestic">
+          <div id="domestic-short">
+            <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">論理的異常検知手法の提案（MVTec Juice bottleカテゴリ）</div><div class="pub-venue">DIA2026</div></div></div>
+            <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">ImageNetのサブクラス分割に基づく欠陥に敏感な特徴抽出器のためのPaDiM事前学習データセットの提案</div><div class="pub-venue">DIA2026</div></div></div>
+            <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">変形パラメータ推定に基づく異常検知のための事前学習手法の提案 <span class="pub-badge">First Author</span></div><div class="pub-venue">画像工学研究会（IE）</div></div></div>
+            <div class="pub-item"><span class="pub-year">2026</span><div class="pub-meta"><div class="pub-title">軽量クラスタ検索に基づく改良型PatchCoreの提案</div><div class="pub-venue">PRMU研究会</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">論理的異常検知手法の提案（領域セグメント間の相互類似性評価）</div><div class="pub-venue">ViEW2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">誤判定傾向の学習に基づく外観検査の汎用高精度化のための出力リファインモデルの提案</div><div class="pub-venue">ViEW2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">統計的近傍予測に基づく改良型PatchCoreの提案</div><div class="pub-venue">ViEW2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">誤判定傾向の学習に基づく出力補正モデルの生成</div><div class="pub-venue">iMec2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">領域セグメント特徴の相互関係分析に基づく論理的異常検知</div><div class="pub-venue">iMec2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">局所・大域的判定の組み合わせによるJuice Bottleカテゴリのための論理的異常検知</div><div class="pub-venue">SS2025</div></div></div>
+          </div>
+
+          <div id="domestic-rest" style="display: none;">
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">誤判定傾向の学習に基づく外観検査システムの汎用高精度化</div><div class="pub-venue">MIRU2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">領域セグメントの相互類似性に着目した論理的異常検知</div><div class="pub-venue">MIRU2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">ImageNetと現場正常画像の周波数合成による事前学習画像を用いた異常検知の精度向上</div><div class="pub-venue">SSII2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">区画化された各画像領域に存在する部品の種類と個数の組み合わせに着目した論理的異常検知</div><div class="pub-venue">SSII2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">料理プロセスにおける食材混合状態認識のためのテクスチャ特徴量の有効性に関する検討</div><div class="pub-venue">SSII2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">部分的に食材が遮蔽された料理画像のためのCLIPを利用したレシピ文ベースの食材状態認識</div><div class="pub-venue">PRMU研究会</div></div></div>
+            <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">CLIPモデルを用いた未学習素地の欠陥様相推定手法の提案</div><div class="pub-venue">DIA2025</div></div></div>
+            <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">正常特徴から生成された部分空間の正常近似能力に基づく異常検知手法の提案</div><div class="pub-venue">ViEW2024</div></div></div>
+            <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">少量異常サンプルを用いた有効特徴次元セット選択によるPaDiMの高精度化</div><div class="pub-venue">IMEC2024</div></div></div>
+            <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">正規性指標に基づく特徴次元選択による異常検知アルゴリズム PaDiM の高精度化</div><div class="pub-venue">SS2024</div></div></div>
+            <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">固有空間における自然なデータ拡張に基づく外観検査の高精度化</div><div class="pub-venue">MIRU2024</div></div></div>
+            <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">画像クラスタリングに基づくincorrectペアの生成によるCLIPモデルの対照学習性能の向上</div><div class="pub-venue">MIRU2024</div></div></div>
+            <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">正常特徴量の正規性制約を用いた事前学習に基づくPaDiMによる高精度異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">画像工学研究会（IE） 【IE賞】</div></div></div>
+            <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">検出サイズを制御可能な高精度異常検知：多段DoG-PaDiMの提案</div><div class="pub-venue">DIA2024</div></div></div>
+            <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">固有空間上における情報の合成に基づく高リアリティ不良品画像生成</div><div class="pub-venue">ViEW2023</div></div></div>
+            <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">Scale-Invariantな欠陥検出のための多重解像度PaDiMの提案</div><div class="pub-venue">ViEW2023</div></div></div>
+            <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">透過マスクを用いた実欠陥特徴の転移に基づく異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">MIRU2023</div></div></div>
+            <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">特徴抽出型ネットワークを用いた異常検知のための事前学習用データセットの実験的性能分析 <span class="pub-badge">First Author</span></div><div class="pub-venue">SSII2023</div></div></div>
+            <div class="pub-item"><span class="pub-year">2022</span><div class="pub-meta"><div class="pub-title">テクスチャドメイン間における実欠陥特徴の転移に基づく異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">ViEW2022 【画像応用技術専門委員会 優秀論文賞】</div></div></div>
+            <div class="pub-item"><span class="pub-year">2022</span><div class="pub-meta"><div class="pub-title">異種テクスチャにおける実欠陥特徴の転移に基づく異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">MIRU2022</div></div></div>
+            <div class="pub-item"><span class="pub-year">2021</span><div class="pub-meta"><div class="pub-title">統計的網羅性と写実性に基づくランダム画像を用いた正常画像生成による教師なし欠陥検出 <span class="pub-badge">First Author</span></div><div class="pub-venue">ViEW2021</div></div></div>
+            <div class="pub-item"><span class="pub-year">2021</span><div class="pub-meta"><div class="pub-title">ランダム画像群からの正常画像生成に基づく教師なし欠陥検出手法の提案 <span class="pub-badge">First Author</span></div><div class="pub-venue">MIRU2021</div></div></div>
+            <div class="pub-item"><span class="pub-year">2020</span><div class="pub-meta"><div class="pub-title">異状発生直前・直後のペア画像を用いた高リアリティ画像生成に基づくキズ検出 <span class="pub-badge">First Author</span></div><div class="pub-venue">SSII2020 / DIA2020 【研究奨励賞】</div></div></div>
+            <div class="pub-item"><span class="pub-year">2020</span><div class="pub-meta"><div class="pub-title">異状発生直前・直後のペア画像群を用いた高リアリティ画像生成に基づくキズ検出 <span class="pub-badge">First Author</span></div><div class="pub-venue">精密工学会秋季大会 【ベストプレゼンテーション賞】</div></div></div>
+          </div>
+
+          <button class="show-more-btn" id="domestic-toggle" onclick="toggleDomestic()">Show all 56 papers ↓</button>
+        </div>
+      </section>
     </div>
-    <div id="domestic-rest" style="display:none;">
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">誤判定傾向の学習に基づく外観検査システムの汎用高精度化</div><div class="pub-venue">MIRU2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">領域セグメントの相互類似性に着目した論理的異常検知</div><div class="pub-venue">MIRU2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">ImageNetと現場正常画像の周波数合成による事前学習画像を用いた異常検知の精度向上</div><div class="pub-venue">SSII2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">区画化された各画像領域に存在する部品の種類と個数の組み合わせに着目した論理的異常検知</div><div class="pub-venue">SSII2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">料理プロセスにおける食材混合状態認識のためのテクスチャ特徴量の有効性に関する検討</div><div class="pub-venue">SSII2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">部分的に食材が遮蔽された料理画像のためのCLIPを利用したレシピ文ベースの食材状態認識</div><div class="pub-venue">PRMU研究会</div></div></div>
-      <div class="pub-item"><span class="pub-year">2025</span><div class="pub-meta"><div class="pub-title">CLIPモデルを用いた未学習素地の欠陥様相推定手法の提案</div><div class="pub-venue">DIA2025</div></div></div>
-      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">正常特徴から生成された部分空間の正常近似能力に基づく異常検知手法の提案</div><div class="pub-venue">ViEW2024</div></div></div>
-      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">少量異常サンプルを用いた有効特徴次元セット選択によるPaDiMの高精度化</div><div class="pub-venue">IMEC2024</div></div></div>
-      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">正規性指標に基づく特徴次元選択による異常検知アルゴリズム PaDiM の高精度化</div><div class="pub-venue">SS2024</div></div></div>
-      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">固有空間における自然なデータ拡張に基づく外観検査の高精度化</div><div class="pub-venue">MIRU2024</div></div></div>
-      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">画像クラスタリングに基づくincorrectペアの生成によるCLIPモデルの対照学習性能の向上</div><div class="pub-venue">MIRU2024</div></div></div>
-      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">正常特徴量の正規性制約を用いた事前学習に基づくPaDiMによる高精度異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">画像工学研究会（IE） 【IE賞】</div></div></div>
-      <div class="pub-item"><span class="pub-year">2024</span><div class="pub-meta"><div class="pub-title">検出サイズを制御可能な高精度異常検知：多段DoG-PaDiMの提案</div><div class="pub-venue">DIA2024</div></div></div>
-      <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">固有空間上における情報の合成に基づく高リアリティ不良品画像生成</div><div class="pub-venue">ViEW2023</div></div></div>
-      <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">Scale-Invariantな欠陥検出のための多重解像度PaDiMの提案</div><div class="pub-venue">ViEW2023</div></div></div>
-      <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">透過マスクを用いた実欠陥特徴の転移に基づく異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">MIRU2023</div></div></div>
-      <div class="pub-item"><span class="pub-year">2023</span><div class="pub-meta"><div class="pub-title">特徴抽出型ネットワークを用いた異常検知のための事前学習用データセットの実験的性能分析 <span class="pub-badge">First Author</span></div><div class="pub-venue">SSII2023</div></div></div>
-      <div class="pub-item"><span class="pub-year">2022</span><div class="pub-meta"><div class="pub-title">テクスチャドメイン間における実欠陥特徴の転移に基づく異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">ViEW2022 【画像応用技術専門委員会 優秀論文賞】</div></div></div>
-      <div class="pub-item"><span class="pub-year">2022</span><div class="pub-meta"><div class="pub-title">異種テクスチャにおける実欠陥特徴の転移に基づく異常検知 <span class="pub-badge">First Author</span></div><div class="pub-venue">MIRU2022</div></div></div>
-      <div class="pub-item"><span class="pub-year">2021</span><div class="pub-meta"><div class="pub-title">統計的網羅性と写実性に基づくランダム画像を用いた正常画像生成による教師なし欠陥検出 <span class="pub-badge">First Author</span></div><div class="pub-venue">ViEW2021</div></div></div>
-      <div class="pub-item"><span class="pub-year">2021</span><div class="pub-meta"><div class="pub-title">ランダム画像群からの正常画像生成に基づく教師なし欠陥検出手法の提案 <span class="pub-badge">First Author</span></div><div class="pub-venue">MIRU2021</div></div></div>
-      <div class="pub-item"><span class="pub-year">2020</span><div class="pub-meta"><div class="pub-title">異状発生直前・直後のペア画像を用いた高リアリティ画像生成に基づくキズ検出 <span class="pub-badge">First Author</span></div><div class="pub-venue">SSII2020 / DIA2020 【研究奨励賞】</div></div></div>
-      <div class="pub-item"><span class="pub-year">2020</span><div class="pub-meta"><div class="pub-title">異状発生直前・直後のペア画像群を用いた高リアリティ画像生成に基づくキズ検出 <span class="pub-badge">First Author</span></div><div class="pub-venue">精密工学会秋季大会 【ベストプレゼンテーション賞】</div></div></div>
-    </div>
-    <button class="show-more-btn" id="domestic-toggle" onclick="toggleDomestic()">Show all 56 papers ↓</button>
-  </div>
-</section>
-```
 
-  </div><!-- /content -->
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-  <!-- SIDEBAR -->
+      <!-- STATS -->
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <span class="stat-num">8</span>
+          <span class="stat-label">Journal Papers</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num">14</span>
+          <span class="stat-label">Int'l Conf.</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num">56</span>
+          <span class="stat-label">Domestic Conf.</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num">11</span>
+          <span class="stat-label">Awards</span>
+        </div>
+      </div>
 
-  <aside class="sidebar">
+      <!-- AFFILIATION -->
+      <div class="info-card" id="affiliation">
+        <div class="info-card-title">Affiliation</div>
+        <div class="info-row">
+          <span class="info-key">Position</span>
+          <span class="info-val">AI Engineer</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Company</span>
+          <span class="info-val">
+            <a href="https://www.araya.org/" style="color: var(--accent); text-decoration: none;" target="_blank" rel="noopener noreferrer">Araya Inc.</a>
+          </span>
+        </div>
+      </div>
 
-```
-<!-- STATS -->
-<div class="stats-grid">
-  <div class="stat-cell">
-    <span class="stat-num">8</span>
-    <span class="stat-label">Journal Papers</span>
-  </div>
-  <div class="stat-cell">
-    <span class="stat-num">14</span>
-    <span class="stat-label">Int'l Conf.</span>
-  </div>
-  <div class="stat-cell">
-    <span class="stat-num">56</span>
-    <span class="stat-label">Domestic Conf.</span>
-  </div>
-  <div class="stat-cell">
-    <span class="stat-num">11</span>
-    <span class="stat-label">Awards</span>
-  </div>
-</div>
+      <!-- EDUCATION -->
+      <div class="info-card" id="education">
+        <div class="info-card-title">Education</div>
+        <div class="edu-item">
+          <div class="edu-period">2023 – 2026</div>
+          <div class="edu-degree">PhD in Engineering</div>
+          <div class="edu-school">Chukyo University</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-period">2021 – 2023</div>
+          <div class="edu-degree">MSc in Engineering</div>
+          <div class="edu-school">Chukyo University</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-period">2017 – 2021</div>
+          <div class="edu-degree">BSc in Engineering</div>
+          <div class="edu-school">Chukyo University</div>
+        </div>
+      </div>
 
-<!-- AFFILIATION -->
-<div class="info-card" id="about">
-  <div class="info-card-title">Affiliation</div>
-  <div class="info-row">
-    <span class="info-key">Position</span>
-    <span class="info-val">AI Engineer</span>
-  </div>
-  <div class="info-row">
-    <span class="info-key">Company</span>
-    <span class="info-val"><a href="https://www.araya.org/" style="color:var(--accent);text-decoration:none;" target="_blank">Araya Inc.</a></span>
-  </div>
-</div>
+      <!-- AWARDS -->
+      <div class="info-card" id="awards">
+        <div class="info-card-title">Selected Awards</div>
+        <ul class="awards-list">
+          <li>精密工学会研究奨励賞（2026）</li>
+          <li>学長賞 — Chukyo University（2024）</li>
+          <li>IEEE Nagoya Section Conference Presentation Award（2024）</li>
+          <li>IE賞 — 電子情報通信学会（2024）</li>
+          <li>研究奨励賞 — DIA2023</li>
+          <li>学長賞 — Chukyo University（2023）</li>
+          <li>画像応用技術専門委員会 優秀論文賞 — ViEW2022</li>
+          <li>IEEE Nagoya Section Excellent Student Award（2021）</li>
+          <li>学長賞 — Chukyo University（2021）</li>
+          <li>ベストプレゼンテーション賞 — 精密工学会（2020）</li>
+          <li>研究奨励賞 — DIA2020</li>
+        </ul>
+      </div>
 
-<!-- EDUCATION -->
-<div class="info-card" id="education">
-  <div class="info-card-title">Education</div>
-  <div class="edu-item">
-    <div class="edu-period">2023 – 2026</div>
-    <div class="edu-degree">PhD in Engineering</div>
-    <div class="edu-school">Chukyo University</div>
-  </div>
-  <div class="edu-item">
-    <div class="edu-period">2021 – 2023</div>
-    <div class="edu-degree">MSc in Engineering</div>
-    <div class="edu-school">Chukyo University</div>
-  </div>
-  <div class="edu-item">
-    <div class="edu-period">2017 – 2021</div>
-    <div class="edu-degree">BSc in Engineering</div>
-    <div class="edu-school">Chukyo University</div>
-  </div>
-</div>
+      <!-- CERTIFICATIONS -->
+      <div class="info-card">
+        <div class="info-card-title">Certifications</div>
+        <ul class="cert-list">
+          <li>Fundamental Information Technology Engineer Examination</li>
+          <li>Image Processing Engineer Examination (Basic)</li>
+          <li>JDLA Deep Learning for GENERAL 2020 #1</li>
+        </ul>
+      </div>
 
-<!-- AWARDS -->
-<div class="info-card" id="awards">
-  <div class="info-card-title">Selected Awards</div>
-  <ul class="awards-list">
-    <li>精密工学会研究奨励賞（2026）</li>
-    <li>学長賞 — Chukyo University（2024）</li>
-    <li>IEEE Nagoya Section Conference Presentation Award（2024）</li>
-    <li>IE賞 — 電子情報通信学会（2024）</li>
-    <li>研究奨励賞 — DIA2023</li>
-    <li>学長賞 — Chukyo University（2023）</li>
-    <li>画像応用技術専門委員会 優秀論文賞 — ViEW2022</li>
-    <li>IEEE Nagoya Section Excellent Student Award（2021）</li>
-    <li>学長賞 — Chukyo University（2021）</li>
-    <li>ベストプレゼンテーション賞 — 精密工学会（2020）</li>
-    <li>研究奨励賞 — DIA2020</li>
-  </ul>
-</div>
+    </aside>
+  </main>
 
-<!-- CERTIFICATIONS -->
-<div class="info-card">
-  <div class="info-card-title">Certifications</div>
-  <ul class="cert-list">
-    <li>Fundamental Information Technology Engineer Examination</li>
-    <li>Image Processing Engineer Examination (Basic)</li>
-    <li>JDLA Deep Learning for GENERAL 2020 #1</li>
-  </ul>
-</div>
-```
+  <footer>
+    © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
+  </footer>
 
-  </aside>
-</main>
+  <script>
+    function switchTab(id, btn) {
+      document.querySelectorAll('.pub-list').forEach(function(el) {
+        el.classList.remove('active');
+      });
 
-<footer>
-  © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
-</footer>
+      document.querySelectorAll('.pub-tab').forEach(function(el) {
+        el.classList.remove('active');
+      });
 
-<script>
-  function switchTab(id) {
-    document.querySelectorAll('.pub-list').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.pub-tab').forEach(el => el.classList.remove('active'));
-    document.getElementById('tab-' + id).classList.add('active');
-    event.target.classList.add('active');
-  }
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
 
-  let domesticExpanded = false;
-  function toggleDomestic() {
-    domesticExpanded = !domesticExpanded;
-    document.getElementById('domestic-rest').style.display = domesticExpanded ? 'block' : 'none';
-    document.getElementById('domestic-toggle').textContent = domesticExpanded ? 'Show less ↑' : 'Show all 56 papers ↓';
-  }
-</script>
+    let domesticExpanded = false;
+
+    function toggleDomestic() {
+      domesticExpanded = !domesticExpanded;
+      document.getElementById('domestic-rest').style.display = domesticExpanded ? 'block' : 'none';
+      document.getElementById('domestic-toggle').textContent = domesticExpanded ? 'Show less ↑' : 'Show all 56 papers ↓';
+    }
+  </script>
 
 </body>
 </html>
