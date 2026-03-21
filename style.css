@@ -11,3 +11,35 @@ body {
   margin: 0 auto;
   padding: 24px 0;
 }
+
+header h1 {
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #666;
+  margin-top: 0;
+}
+
+nav {
+  margin-top: 16px;
+}
+
+nav a {
+  margin-right: 16px;
+  text-decoration: none;
+  color: #0b57d0;
+  font-weight: 600;
+}
+
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+h2 {
+  margin-top: 0;
+}
