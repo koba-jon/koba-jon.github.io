@@ -595,3 +595,15 @@ footer {
   .pub-item { grid-template-columns: 1fr; gap: 6px; }
   .pub-year { padding-top: 0; }
 }
+
+.pub-note {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+.award-badge {
+  background: #8f6a2a;
+}
