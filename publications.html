@@ -6,20 +6,6 @@
   <title>Publications | Hiroki Kobayashi</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-    .pub-acceptance-rate {
-      display: inline-block;
-      margin-left: 8px;
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      color: #fff;
-      background: #3a6ea8;
-      padding: 2px 7px;
-      border-radius: 2px;
-      vertical-align: middle;
-    }
-  </style>
 </head>
 <body>
   <header class="hero">
@@ -87,14 +73,12 @@
   <script>
     function buildPubItem(p) {
       const badges = (p.first_author ? '<span class="pub-badge">First Author</span>' : '')
-                   + (p.award ? '<span class="pub-badge award-badge">' + p.award + '</span>' : '');
-      const acceptanceRate = (p.acceptance_rate != null)
-        ? '<span class="pub-acceptance-rate">Acceptance Rate: ' + p.acceptance_rate + '%</span>'
-        : '';
+                   + (p.award ? '<span class="pub-badge award-badge">' + p.award + '</span>' : '')
+                   + (p.award ? '<span class="pub-badge aacceptance-rate-badge">Acceptance Rate: ' + p.acceptance_rate + '</span>' : '');
       return '<div class="pub-item">'
            + '<span class="pub-year">' + p.year + '</span>'
            + '<div>'
-           + '<div class="pub-title">' + p.title + badges + acceptanceRate + '</div>'
+           + '<div class="pub-title">' + p.title + badges + '</div>'
            + '<div class="pub-authors">' + p.authors + '</div>'
            + '<div class="pub-venue">' + p.venue + '</div>'
            + '</div></div>';
