@@ -1,34 +1,20 @@
 import json
 import os
 import sys
-import time
 
 from scholarly import scholarly
-
 
 DATA_JSON_PATH = "data.json"
 
 
-def fetch_total_citations(author_id: str, retries: int = 3, sleep_sec: int = 10) -> int:
-    last_error = None
+def fetch_total_citations(author_id: str) -> int:
+    author = scholarly.search_author_id(author_id)
+    citedby = author.get("citedby", None)
 
-    for attempt in range(1, retries + 1):
-        try:
-            author = scholarly.search_author_id(author_id)
-            author = scholarly.fill(author, sections=["basics", "indices"])
-            citedby = author.get("citedby", None)
+    if citedby is None:
+        raise ValueError("Could not find 'citedby' in Scholar response.")
 
-            if citedby is None:
-                raise ValueError("Could not find 'citedby' in Scholar response.")
-
-            return int(citedby)
-
-        except Exception as e:
-            last_error = e
-            if attempt < retries:
-                time.sleep(sleep_sec)
-
-    raise RuntimeError(f"Failed to fetch citations after {retries} attempts: {last_error}")
+    return int(citedby)
 
 
 def main() -> int:
