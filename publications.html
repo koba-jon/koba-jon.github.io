@@ -74,7 +74,7 @@
     function buildPubItem(p) {
       const badges = (p.first_author ? '<span class="pub-badge">First Author</span>' : '')
                    + (p.award ? '<span class="pub-badge award-badge">' + p.award + '</span>' : '')
-                   + (p.award ? '<span class="pub-badge aacceptance-rate-badge">Acceptance Rate: ' + p.acceptance_rate + '</span>' : '');
+                   + (p.acceptance_rate ? '<span class="pub-badge acceptance-rate-badge">Acceptance Rate: ' + p.acceptance_rate + '</span>' : '');
       return '<div class="pub-item">'
            + '<span class="pub-year">' + p.year + '</span>'
            + '<div>'
