@@ -1,10 +1,10 @@
 name: Update Google Scholar Citations
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
   push:
     branches:
-    - main
+      - main
   schedule:
     - cron: "0 0 * * *"
 
@@ -27,12 +27,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install scholarly
+          pip install requests
 
       - name: Update citations in data.json
         timeout-minutes: 3
         env:
           GOOGLE_SCHOLAR_ID: HzjxmYoAAAAJ
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
         run: |
           python scripts/update_scholar.py
 
