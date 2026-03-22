@@ -677,3 +677,23 @@ footer {
   font-size: 0.98rem;
   line-height: 1.7;
 }
+
+.cv-download-btn {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 32px;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.cv-download-btn:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
