@@ -679,25 +679,143 @@ footer {
 }
 
 .cv-download-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 28px;
-  padding: 14px 36px;
-  background: var(--accent);
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 32px;
+  background-color: #1a1a1a;
   color: #fff;
-  font-family: var(--mono);
-  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-decoration: none;
-  border-radius: 2px;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 4px 16px rgba(200, 80, 42, 0.3);
+  border-radius: 4px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .cv-download-btn:hover {
-  background: #a83e1f;
+  background-color: #333;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(200, 80, 42, 0.4);
+}
+
+/* ── Education Timeline ── */
+.edu-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.edu-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--border);
+}
+
+.edu-tl-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.edu-tl-item:last-child {
+  margin-bottom: 0;
+}
+
+.edu-tl-dot {
+  position: absolute;
+  left: -2rem;
+  top: 6px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg);
+  box-sizing: border-box;
+}
+
+.edu-tl-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px 28px;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.edu-tl-card:hover {
+  box-shadow: 0 8px 32px rgba(26, 23, 20, 0.08);
+  transform: translateY(-2px);
+}
+
+.edu-tl-period {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+}
+
+.edu-tl-degree {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.edu-tl-school {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.edu-tl-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+.edu-tl-meta {
+  display: grid;
+  gap: 8px;
+}
+
+.edu-tl-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.edu-tl-key {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  padding-top: 2px;
+}
+
+.edu-tl-val {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.edu-tl-thesis {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  font-style: italic;
+  font-weight: 300;
+}
+
+@media (max-width: 600px) {
+  .edu-timeline { padding-left: 1.5rem; }
+  .edu-tl-dot { left: -1.5rem; }
+  .edu-tl-row { grid-template-columns: 1fr; gap: 2px; }
+  .edu-tl-card { padding: 18px 20px; }
 }
