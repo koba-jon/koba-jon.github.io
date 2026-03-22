@@ -101,7 +101,8 @@
         "title": "Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score",
         "authors": "Hiroki Kobayashi, Naoki Murakami, Naoto Hiramatsu, Takahiro Suzuki, Manabu Hashimoto",
         "venue": "BMVC2024",
-        "first_author": true
+        "first_author": true,
+        "acceptance_rate": "25.78"
       },
       {
         "year": 2024,
@@ -143,7 +144,8 @@
         "title": "DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask",
         "authors": "Hiroki Kobayashi, Manabu Hashimoto",
         "venue": "IJCNN2023",
-        "first_author": true
+        "first_author": true,
+        "acceptance_rate": "54.76"
       },
       {
         "year": 2023,
