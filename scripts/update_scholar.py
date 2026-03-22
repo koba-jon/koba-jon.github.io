@@ -10,6 +10,7 @@ DATA_JSON_PATH = "data.json"
 def fetch_total_citations(author_id: str) -> int:
     print("Start fetching author...", flush=True)
     author = scholarly.search_author_id(author_id)
+    author = scholarly.fill(author)
     print("Author fetched.", flush=True)
 
     citedby = author.get("citedby", None)
