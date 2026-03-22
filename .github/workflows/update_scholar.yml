@@ -30,6 +30,7 @@ jobs:
           pip install scholarly
 
       - name: Update citations in data.json
+        timeout-minutes: 3
         env:
           GOOGLE_SCHOLAR_ID: HzjxmYoAAAAJ
         run: |
