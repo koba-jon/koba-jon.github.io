@@ -615,6 +615,10 @@ footer {
   background: #8f6a2a;
 }
 
+.acceptance-rate-badge {
+  background: #3a6ea8;
+}
+
 .pub-stats-bar {
   display: flex;
   gap: 1px;
