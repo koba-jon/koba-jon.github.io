@@ -1,7 +1,6 @@
 import json
 import os
 import sys
-import time
 
 from scholarly import scholarly
 
@@ -36,19 +35,23 @@ def main() -> int:
     with open(DATA_JSON_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    citations = fetch_total_citations(scholar_id)
+    try:
+        citations = fetch_total_citations(scholar_id)
+        if "metrics" not in data or not isinstance(data["metrics"], dict):
+            data["metrics"] = {}
+        data["metrics"]["citations"] = citations
 
-    if "metrics" not in data or not isinstance(data["metrics"], dict):
-        data["metrics"] = {}
+        print("Writing updated data.json...", flush=True)
+        with open(DATA_JSON_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+            f.write("\n")
 
-    data["metrics"]["citations"] = citations
+        print(f"Updated total citations: {citations}", flush=True)
 
-    print("Writing updated data.json...", flush=True)
-    with open(DATA_JSON_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-        f.write("\n")
+    except Exception as e:
+        print(f"WARNING: failed to fetch citations: {e}", flush=True)
+        print("Keeping previous citation count.", flush=True)
 
-    print(f"Updated total citations: {citations}", flush=True)
     return 0
 
 
