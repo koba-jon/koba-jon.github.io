@@ -47,7 +47,29 @@
           <div class="info-row">
             <span class="info-key">Email</span>
             <span class="info-val">
-              <a href="mailto:your-email@example.com" class="text-link">your-email@example.com</a>
+              <button
+                id="reveal-email-btn"
+                type="button"
+                class="text-link"
+                style="background:none; border:none; padding:0; cursor:pointer; font:inherit;"
+              >
+                Click to reveal email
+              </button>
+              <span id="email-container" style="display:none;"></span>
+            </span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-key">LinkedIn</span>
+            <span class="info-val">
+              <a
+                href="https://www.linkedin.com/in/hiroki-kobayashi-phd"
+                class="text-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                linkedin.com/in/hiroki-kobayashi-phd
+              </a>
             </span>
           </div>
         </div>
@@ -72,5 +94,29 @@
   <footer>
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
   </footer>
+
+  <script>
+    (function () {
+      // 実際のメールアドレスに置き換えてください
+      const user = "your-email";
+      const domain = "example.com";
+      const email = user + "@" + domain;
+
+      const btn = document.getElementById("reveal-email-btn");
+      const container = document.getElementById("email-container");
+
+      btn.addEventListener("click", function () {
+        const link = document.createElement("a");
+        link.href = "mailto:" + email;
+        link.className = "text-link";
+        link.textContent = email;
+
+        container.innerHTML = "";
+        container.appendChild(link);
+        container.style.display = "inline";
+        btn.style.display = "none";
+      });
+    })();
+  </script>
 </body>
 </html>
