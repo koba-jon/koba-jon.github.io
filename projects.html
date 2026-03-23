@@ -6,6 +6,45 @@
   <title>Projects | Hiroki Kobayashi</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .projects-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--accent, #b07d4f);
+      margin-bottom: 6px;
+    }
+
+    .projects-section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin: 0 0 20px 0;
+      color: var(--text, #1a1a1a);
+      border-bottom: 1px solid var(--border, #e0d6cc);
+      padding-bottom: 12px;
+    }
+
+    .projects-block {
+      margin-bottom: 52px;
+    }
+
+    .project-tag-research {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 3px;
+      background: var(--accent, #b07d4f);
+      color: #fff;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
   <header class="hero">
@@ -39,123 +78,137 @@
     </div>
   </nav>
 
-
   <main class="single-column">
     <div class="content">
       <section>
         <div class="section-label">Projects</div>
 
-        <div style="display: grid; gap: 28px;">
+        <!-- ── Research Projects ── -->
+        <div class="projects-block">
+          <div class="projects-section-label">Category</div>
+          <h2 class="projects-section-title">Research Projects</h2>
+          <div style="display: grid; gap: 28px;">
 
-          <div class="project-card">
-            <div style="text-align: center;"><img src="images/pytorch_cpp.png" alt="PyTorch C++ Samples" class="project-img2"></div>
-            <div class="project-body">
-              <span class="project-tag">Open Source · C++ · LibTorch</span>
-              <h2 class="project-title">PyTorch C++ Samples</h2>
-              <p class="project-desc">
-                A large-scale open-source project for deep learning implementations in C++ using LibTorch.
-                It covers image classification, object detection, generative models, diffusion-related architectures,
-                and many modern deep learning systems.
-              </p>
-              <p class="project-desc">
-                This project shows practical implementation skill in serious depth, not just model usage.
-                It reflects long-term work on building and organizing deep learning systems in C++.
-              </p>
-              <a href="https://github.com/koba-jon/pytorch_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+            <div class="project-card">
+              <div style="text-align: center;"><img src="images/drept.png" alt="DRepT" class="project-img2"></div>
+              <div class="project-body">
+                <span class="project-tag-research">Research · Anomaly Detection · IJCNN2023</span>
+                <h2 class="project-title">DRepT</h2>
+                <p class="project-desc">
+                  DRepT is a research project for anomaly detection based on transfer of defect representation with a transmittance mask.
+                  It focuses on generating and transferring realistic defect characteristics to improve industrial visual inspection.
+                </p>
+                <p class="project-desc">
+                  This project better represents the research side of the portfolio: industrial anomaly detection,
+                  pseudo-defect modeling, and practical methods designed for real manufacturing scenarios.
+                </p>
+                <a href="https://github.com/koba-jon/DRepT" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
             </div>
-          </div>
-          <div class="project-card">
-            <div style="text-align: center;">
-              <img src="images/svm_cpp.png" alt="SVM C++" class="project-img2">
-            </div>
-            <div class="project-body">
-              <span class="project-tag">Open Source · C++ · Machine Learning</span>
-              <h2 class="project-title">SVM C++ Samples</h2>
-              <p class="project-desc">
-                A C++ implementation project focused on Support Vector Machines and related machine learning methods.
-                It highlights understanding of classical machine learning algorithms at the implementation level,
-                not only at the library-usage level.
-              </p>
-              <p class="project-desc">
-                This project helps show breadth beyond deep learning by covering optimization-based traditional methods
-                in a clean and engineering-oriented form.
-              </p>
-              <a href="https://github.com/koba-jon/svm_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
-            </div>
-          </div>
 
-          <div class="project-card">
-            <div class="project-body">
-              <span class="project-tag">Open Source · C++ · Machine Learning</span>
-              <h2 class="project-title">GMM C++ Samples</h2>
-              <p class="project-desc">
-                A C++ project for Gaussian Mixture Models and related probabilistic modeling techniques.
-                It reflects strong interest in statistical machine learning, density modeling,
-                and implementation of mathematically grounded methods.
-              </p>
-              <p class="project-desc">
-                This project is especially relevant to research involving anomaly generation, distribution modeling,
-                and representation of structured variations in data.
-              </p>
-              <a href="https://github.com/koba-jon/gmm_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
-            </div>
           </div>
-
-          <div class="project-card">
-            <div class="project-body">
-              <span class="project-tag">Open Source · C++ · Large Language Models</span>
-              <h2 class="project-title">LLM C++ Samples</h2>
-              <p class="project-desc">
-                A C++ implementation project centered on large language model architectures and related components.
-                It demonstrates interest in modern foundation models and the ability to explore them
-                from the implementation side.
-              </p>
-              <p class="project-desc">
-                This project expands the portfolio beyond computer vision and shows readiness to work
-                across multiple AI domains, including language modeling.
-              </p>
-              <a href="https://github.com/koba-jon/LLM_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-body">
-              <span class="project-tag">Open Source · Deep Learning Framework · Lightweight Autograd</span>
-              <h2 class="project-title">LightGrad</h2>
-              <p class="project-desc">
-                lightgrad is a lightweight project for understanding and implementing automatic differentiation
-                and the core mechanisms behind deep learning frameworks.
-              </p>
-              <p class="project-desc">
-                It shows low-level understanding of training systems themselves, not just model construction,
-                and gives the portfolio a stronger systems and educational-engineering dimension.
-              </p>
-              <a href="https://github.com/koba-jon/lightgrad" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
-            </div>
-          </div>
-          
-          <div class="project-card">
-            <div style="text-align: center;"><img src="images/drept.png" alt="DRepT" class="project-img2"></div>
-            <div class="project-body">
-              <span class="project-tag">Research · Anomaly Detection · IJCNN2023</span>
-              <h2 class="project-title">DRepT</h2>
-              <p class="project-desc">
-                DRepT is a research project for anomaly detection based on transfer of defect representation with a transmittance mask.
-                It focuses on generating and transferring realistic defect characteristics to improve industrial visual inspection.
-              </p>
-              <p class="project-desc">
-                This project better represents the research side of the portfolio: industrial anomaly detection,
-                pseudo-defect modeling, and practical methods designed for real manufacturing scenarios.
-              </p>
-              <a href="https://github.com/koba-jon/DRepT" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
-            </div>
-          </div>
-
         </div>
+
+        <!-- ── Open Source Projects ── -->
+        <div class="projects-block">
+          <div class="projects-section-label">Category</div>
+          <h2 class="projects-section-title">Open Source Projects</h2>
+          <div style="display: grid; gap: 28px;">
+
+            <div class="project-card">
+              <div style="text-align: center;"><img src="images/pytorch_cpp.png" alt="PyTorch C++ Samples" class="project-img2"></div>
+              <div class="project-body">
+                <span class="project-tag">Open Source · C++ · LibTorch</span>
+                <h2 class="project-title">PyTorch C++ Samples</h2>
+                <p class="project-desc">
+                  A large-scale open-source project for deep learning implementations in C++ using LibTorch.
+                  It covers image classification, object detection, generative models, diffusion-related architectures,
+                  and many modern deep learning systems.
+                </p>
+                <p class="project-desc">
+                  This project shows practical implementation skill in serious depth, not just model usage.
+                  It reflects long-term work on building and organizing deep learning systems in C++.
+                </p>
+                <a href="https://github.com/koba-jon/pytorch_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div style="text-align: center;">
+                <img src="images/svm_cpp.png" alt="SVM C++" class="project-img2">
+              </div>
+              <div class="project-body">
+                <span class="project-tag">Open Source · C++ · Machine Learning</span>
+                <h2 class="project-title">SVM C++ Samples</h2>
+                <p class="project-desc">
+                  A C++ implementation project focused on Support Vector Machines and related machine learning methods.
+                  It highlights understanding of classical machine learning algorithms at the implementation level,
+                  not only at the library-usage level.
+                </p>
+                <p class="project-desc">
+                  This project helps show breadth beyond deep learning by covering optimization-based traditional methods
+                  in a clean and engineering-oriented form.
+                </p>
+                <a href="https://github.com/koba-jon/svm_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-body">
+                <span class="project-tag">Open Source · C++ · Machine Learning</span>
+                <h2 class="project-title">GMM C++ Samples</h2>
+                <p class="project-desc">
+                  A C++ project for Gaussian Mixture Models and related probabilistic modeling techniques.
+                  It reflects strong interest in statistical machine learning, density modeling,
+                  and implementation of mathematically grounded methods.
+                </p>
+                <p class="project-desc">
+                  This project is especially relevant to research involving anomaly generation, distribution modeling,
+                  and representation of structured variations in data.
+                </p>
+                <a href="https://github.com/koba-jon/gmm_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-body">
+                <span class="project-tag">Open Source · C++ · Large Language Models</span>
+                <h2 class="project-title">LLM C++ Samples</h2>
+                <p class="project-desc">
+                  A C++ implementation project centered on large language model architectures and related components.
+                  It demonstrates interest in modern foundation models and the ability to explore them
+                  from the implementation side.
+                </p>
+                <p class="project-desc">
+                  This project expands the portfolio beyond computer vision and shows readiness to work
+                  across multiple AI domains, including language modeling.
+                </p>
+                <a href="https://github.com/koba-jon/LLM_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-body">
+                <span class="project-tag">Open Source · Deep Learning Framework · Lightweight Autograd</span>
+                <h2 class="project-title">LightGrad</h2>
+                <p class="project-desc">
+                  lightgrad is a lightweight project for understanding and implementing automatic differentiation
+                  and the core mechanisms behind deep learning frameworks.
+                </p>
+                <p class="project-desc">
+                  It shows low-level understanding of training systems themselves, not just model construction,
+                  and gives the portfolio a stronger systems and educational-engineering dimension.
+                </p>
+                <a href="https://github.com/koba-jon/lightgrad" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </section>
     </div>
   </main>
-
 
   <footer>
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
