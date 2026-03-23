@@ -120,6 +120,10 @@
           <span class="stat-num" id="stat-awards">-</span>
           <span class="stat-label">Awards</span>
         </div>
+        <div class="stat-cell" style="grid-column: 1 / -1;">
+          <span class="stat-num" id="stat-pv">-</span>
+          <span class="stat-label">Page Views</span>
+        </div>
       </div>
 
       <div class="info-card">
@@ -173,6 +177,20 @@
         }
       })
       .catch(() => {});
+
+    // Page view counter via hits.seeyoufarm.com
+    fetch('https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkoba-jon.github.io&count_bg=%23C8502A&title_bg=%23555555&title=PV&edge_flat=true')
+      .then(r => r.text())
+      .then(svg => {
+        const m = svg.match(/<text[^>]*>(\d+)<\/text>/g);
+        if (m && m.length >= 2) {
+          const val = m[m.length - 1].replace(/<[^>]+>/g, '');
+          document.getElementById('stat-pv').textContent = Number(val).toLocaleString();
+        }
+      })
+      .catch(() => {
+        document.getElementById('stat-pv').textContent = '—';
+      });
   </script>
 
   <footer>
