@@ -181,7 +181,7 @@
     // Page view counter via counterapi.dev V1 (CORS-enabled, no auth required)
     (function () {
       const pvCell = document.getElementById('stat-pv');
-      fetch('https://api.counterapi.dev/v1/koba-jon-github-io/pageviews/up')
+      fetch('https://api.counterapi.dev/v2/koba-jon-github-io/pageviews/up')
         .then(function (r) { return r.json(); })
         .then(function (data) {
           const count = data.value;
