@@ -40,52 +40,65 @@
   </nav>
 
   <main class="single-column">
-    <div class="content" style="max-width: 860px;">
-      <section>
-        <div class="section-label">Contact</div>
-        <div class="info-card">
-          <div class="info-row">
-            <span class="info-key">Email</span>
-            <span class="info-val">
-              <span id="email-display">your-email [at] example.com</span>
-              <button
-                id="copy-email-btn"
-                type="button"
-                class="text-link"
-                style="background:none; border:none; padding:0; margin-left:12px; cursor:pointer; font:inherit;"
-              >
-                Copy email
-              </button>
-              <span id="copy-status" aria-live="polite" style="margin-left:8px; font-size:0.95em;"></span>
-            </span>
-          </div>
-
-          <div class="info-row">
-            <span class="info-key">LinkedIn</span>
-            <span class="info-val">
-              <a
-                href="https://www.linkedin.com/in/hiroki-kobayashi-phd"
-                class="text-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                linkedin.com/in/hiroki-kobayashi-phd
-              </a>
-            </span>
-          </div>
-        </div>
+    <div class="content contact-page" style="max-width: 920px;">
+      <section class="contact-intro-card">
+        <div class="section-label">Get in Touch</div>
+        <h2 class="contact-title">Open to research, engineering, and collaboration inquiries</h2>
+        <p class="contact-lead">
+          If you would like to discuss research collaboration, industrial AI, anomaly detection,
+          computer vision, or practical deep learning systems, please feel free to reach out.
+        </p>
       </section>
 
-      <section>
-        <div class="section-label">Note</div>
-        <div class="about-text">
-          <p>
-            For research collaboration, technical discussion, or professional inquiries,
-            please feel free to contact me by email or LinkedIn.
+      <section class="contact-grid">
+        <article class="contact-card">
+          <div class="contact-card-label">Primary Contact</div>
+          <h3 class="contact-card-title">Email</h3>
+          <p class="contact-card-text">
+            The email address is shown in a spam-resistant format.
           </p>
+
+          <div class="contact-method">
+            <span id="email-display" class="contact-email">your-email [at] example.com</span>
+          </div>
+
+          <div class="contact-actions">
+            <button id="copy-email-btn" type="button" class="contact-action-btn">
+              Copy email
+            </button>
+            <span id="copy-status" class="copy-status" aria-live="polite"></span>
+          </div>
+        </article>
+
+        <article class="contact-card">
+          <div class="contact-card-label">Professional Network</div>
+          <h3 class="contact-card-title">LinkedIn</h3>
+          <p class="contact-card-text">
+            For professional inquiries and networking, LinkedIn is also a good contact channel.
+          </p>
+
+          <a
+            href="https://www.linkedin.com/in/hiroki-kobayashi-phd"
+            class="contact-link-card"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="contact-link-label">Visit LinkedIn</span>
+            <span class="contact-link-value">linkedin.com/in/hiroki-kobayashi-phd</span>
+          </a>
+        </article>
+      </section>
+
+      <section class="contact-note-card">
+        <div class="section-label">Interests</div>
+        <div class="about-text">
           <p>
             I am particularly interested in computer vision, anomaly detection, industrial AI,
             representation learning, and practical deep learning systems in Python/C++.
+          </p>
+          <p>
+            I welcome discussions related to research collaboration, engineering opportunities,
+            open-source development, and real-world deployment of machine learning systems.
           </p>
         </div>
       </section>
