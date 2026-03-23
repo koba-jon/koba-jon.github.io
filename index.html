@@ -28,17 +28,16 @@
 
   <nav>
     <div class="nav-inner">
-        <a href="index.html" class="nav-link current">Home</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="projects.html" class="nav-link">Projects</a>
-        <a href="publications.html" class="nav-link">Publications</a>
-        <a href="awards.html" class="nav-link">Awards</a>
-        <a href="education.html" class="nav-link">Education</a>
-        <a href="certifications.html" class="nav-link">Certifications</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+      <a href="index.html" class="nav-link current">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="publications.html" class="nav-link">Publications</a>
+      <a href="awards.html" class="nav-link">Awards</a>
+      <a href="education.html" class="nav-link">Education</a>
+      <a href="certifications.html" class="nav-link">Certifications</a>
+      <a href="contact.html" class="nav-link">Contact</a>
     </div>
   </nav>
-
 
   <main>
     <div class="content">
@@ -59,33 +58,33 @@
           <span class="tag">Representation Learning</span>
         </div>
       </section>
-      
+
       <section>
         <div class="section-label">Selected Publications</div>
-          <div class="pub-item">
-            <span class="pub-year">2024</span>
-            <div>
-              <div class="pub-title">
-                Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score
-                <span class="pub-badge">First Author</span>
-                <span class="pub-badge acceptance-rate-badge">Acceptance Rate: 25.78%</span>
-              </div>
-              <div class="pub-authors"><strong>Hiroki Kobayashi</strong>, Naoki Murakami, Naoto Hiramatsu, Takahiro Suzuki, Manabu Hashimoto</div>
-              <div class="pub-venue">BMVC2024</div>
+        <div class="pub-item">
+          <span class="pub-year">2024</span>
+          <div>
+            <div class="pub-title">
+              Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score
+              <span class="pub-badge">First Author</span>
+              <span class="pub-badge acceptance-rate-badge">Acceptance Rate: 25.78%</span>
             </div>
+            <div class="pub-authors"><strong>Hiroki Kobayashi</strong>, Naoki Murakami, Naoto Hiramatsu, Takahiro Suzuki, Manabu Hashimoto</div>
+            <div class="pub-venue">BMVC2024</div>
           </div>
-          <div class="pub-item">
-            <span class="pub-year">2023</span>
-            <div>
-              <div class="pub-title">
-                DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask
-                <span class="pub-badge">First Author</span>
-                <span class="pub-badge acceptance-rate-badge">Acceptance Rate: 54.76%</span>
-              </div>
-              <div class="pub-authors"><strong>Hiroki Kobayashi</strong>, Manabu Hashimoto</div>
-              <div class="pub-venue">IJCNN2023</div>
+        </div>
+        <div class="pub-item">
+          <span class="pub-year">2023</span>
+          <div>
+            <div class="pub-title">
+              DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask
+              <span class="pub-badge">First Author</span>
+              <span class="pub-badge acceptance-rate-badge">Acceptance Rate: 54.76%</span>
             </div>
+            <div class="pub-authors"><strong>Hiroki Kobayashi</strong>, Manabu Hashimoto</div>
+            <div class="pub-venue">IJCNN2023</div>
           </div>
+        </div>
       </section>
 
       <section>
@@ -119,10 +118,6 @@
         <div class="stat-cell">
           <span class="stat-num" id="stat-awards">-</span>
           <span class="stat-label">Awards</span>
-        </div>
-        <div class="stat-cell" style="grid-column: 1 / -1;">
-          <span class="stat-num" id="stat-pv">-</span>
-          <span class="stat-label">Page Views</span>
         </div>
       </div>
 
@@ -162,7 +157,6 @@
     </aside>
   </main>
 
-
   <script>
     fetch('data.json')
       .then(r => r.json())
@@ -177,31 +171,10 @@
         }
       })
       .catch(() => {});
-
-    // Page view counter via hitscounter.dev (successor to hits.seeyoufarm.com)
-    (function () {
-      const pvCell = document.getElementById('stat-pv');
-      const url = encodeURIComponent('https://koba-jon.github.io');
-      fetch('https://hitscounter.dev/api/hit?url=' + url, {
-        headers: { 'Accept': 'application/json' }
-      })
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          // レスポンス例: { "today": 5, "total": 123 }
-          const count = data.total ?? data.count ?? data.value;
-          if (typeof count === 'number') {
-            pvCell.textContent = count.toLocaleString();
-          } else {
-            pvCell.textContent = '—';
-          }
-        })
-        .catch(function () { pvCell.textContent = '—'; });
-    })();
   </script>
 
   <footer>
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
   </footer>
-  
 </body>
 </html>
