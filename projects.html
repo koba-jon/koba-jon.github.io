@@ -7,16 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    .projects-section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.13em;
-      text-transform: none;
-      color: var(--accent, #b07d4f);
-      margin-bottom: 6px;
-    }
-
     .projects-section-title {
       font-family: 'DM Serif Display', serif;
       font-size: 1.5rem;
@@ -31,6 +21,11 @@
       margin-bottom: 52px;
     }
 
+    .projects-grid {
+      display: grid;
+      gap: 28px;
+    }
+
     .project-tag-research {
       display: inline-block;
       font-family: 'DM Mono', monospace;
@@ -43,6 +38,50 @@
       background: var(--accent, #b07d4f);
       color: #fff;
       margin-bottom: 10px;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .stat-item {
+      flex: 1;
+      background: var(--surface);
+      padding: 16px 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-number {
+      font-family: var(--serif, 'DM Serif Display', serif);
+      font-size: 1.8rem;
+      color: var(--ink, #1a1a1a);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--mono, 'DM Mono', monospace);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint, #666);
+    }
+
+    .project-image-center {
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .stats-bar {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -67,14 +106,14 @@
 
   <nav>
     <div class="nav-inner">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="projects.html" class="nav-link current">Projects</a>
-        <a href="publications.html" class="nav-link">Publications</a>
-        <a href="awards.html" class="nav-link">Awards</a>
-        <a href="education.html" class="nav-link">Education</a>
-        <a href="certifications.html" class="nav-link">Certifications</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="projects.html" class="nav-link current">Projects</a>
+      <a href="publications.html" class="nav-link">Publications</a>
+      <a href="awards.html" class="nav-link">Awards</a>
+      <a href="education.html" class="nav-link">Education</a>
+      <a href="certifications.html" class="nav-link">Certifications</a>
+      <a href="contact.html" class="nav-link">Contact</a>
     </div>
   </nav>
 
@@ -83,29 +122,31 @@
       <section>
         <div class="section-label">Projects</div>
 
-        <!-- ── Stats Bar ── -->
-        <div style="display:flex;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:40px;">
-          <div style="flex:1;background:var(--surface);padding:16px 12px;text-align:center;display:flex;flex-direction:column;gap:4px;">
-            <span style="font-family:var(--serif);font-size:1.8rem;color:var(--ink);line-height:1;">1</span>
-            <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--ink-faint);">Research Projects</span>
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span id="research-count" class="stat-number">0</span>
+            <span class="stat-label">Research Projects</span>
           </div>
-          <div style="flex:1;background:var(--surface);padding:16px 12px;text-align:center;display:flex;flex-direction:column;gap:4px;">
-            <span style="font-family:var(--serif);font-size:1.8rem;color:var(--ink);line-height:1;">5</span>
-            <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--ink-faint);">Open Source Projects</span>
+          <div class="stat-item">
+            <span id="opensource-count" class="stat-number">0</span>
+            <span class="stat-label">Open Source Projects</span>
           </div>
-          <div style="flex:1;background:var(--surface);padding:16px 12px;text-align:center;display:flex;flex-direction:column;gap:4px;">
-            <span style="font-family:var(--serif);font-size:1.8rem;color:var(--ink);line-height:1;">6</span>
-            <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--ink-faint);">Total Projects</span>
+          <div class="stat-item">
+            <span id="total-count" class="stat-number">0</span>
+            <span class="stat-label">Total Projects</span>
           </div>
         </div>
 
-        <!-- ── Research Projects ── -->
-        <div class="projects-block">
+        <!-- Research Projects -->
+        <div class="projects-block" id="research-projects">
           <h2 class="projects-section-title">Research Projects</h2>
-          <div style="display: grid; gap: 28px;">
+          <div class="projects-grid">
 
             <div class="project-card">
-              <div style="text-align: center;"><img src="images/drept.png" alt="DRepT" class="project-img2"></div>
+              <div class="project-image-center">
+                <img src="images/drept.png" alt="DRepT" class="project-img2">
+              </div>
               <div class="project-body">
                 <span class="project-tag-research">Research · Anomaly Detection · IJCNN2023</span>
                 <h2 class="project-title">DRepT</h2>
@@ -124,13 +165,15 @@
           </div>
         </div>
 
-        <!-- ── Open Source Projects ── -->
-        <div class="projects-block">
+        <!-- Open Source Projects -->
+        <div class="projects-block" id="opensource-projects">
           <h2 class="projects-section-title">Open Source Projects</h2>
-          <div style="display: grid; gap: 28px;">
+          <div class="projects-grid">
 
             <div class="project-card">
-              <div style="text-align: center;"><img src="images/pytorch_cpp.png" alt="PyTorch C++ Samples" class="project-img2"></div>
+              <div class="project-image-center">
+                <img src="images/pytorch_cpp.png" alt="PyTorch C++ Samples" class="project-img2">
+              </div>
               <div class="project-body">
                 <span class="project-tag">Open Source · C++ · LibTorch</span>
                 <h2 class="project-title">PyTorch C++ Samples</h2>
@@ -148,8 +191,8 @@
             </div>
 
             <div class="project-card">
-              <div style="text-align: center;">
-                <img src="images/svm_cpp.png" alt="SVM C++" class="project-img2">
+              <div class="project-image-center">
+                <img src="images/svm_cpp.png" alt="SVM C++ Samples" class="project-img2">
               </div>
               <div class="project-body">
                 <span class="project-tag">Open Source · C++ · Machine Learning</span>
@@ -168,8 +211,11 @@
             </div>
 
             <div class="project-card">
+              <div class="project-image-center">
+                <img src="images/gmm_cpp.png" alt="GMM C++ Samples" class="project-img2">
+              </div>
               <div class="project-body">
-                <span class="project-tag">Open Source · C++ · Machine Learning</span>
+                <span class="project-tag">Open Source · C++ · Probabilistic Modeling</span>
                 <h2 class="project-title">GMM C++ Samples</h2>
                 <p class="project-desc">
                   A C++ project for Gaussian Mixture Models and related probabilistic modeling techniques.
@@ -185,6 +231,9 @@
             </div>
 
             <div class="project-card">
+              <div class="project-image-center">
+                <img src="images/LLM_cpp.png" alt="LLM C++ Samples" class="project-img2">
+              </div>
               <div class="project-body">
                 <span class="project-tag">Open Source · C++ · Large Language Models</span>
                 <h2 class="project-title">LLM C++ Samples</h2>
@@ -202,6 +251,9 @@
             </div>
 
             <div class="project-card">
+              <div class="project-image-center">
+                <img src="images/lightgrad.png" alt="LightGrad" class="project-img2">
+              </div>
               <div class="project-body">
                 <span class="project-tag">Open Source · Deep Learning Framework · Lightweight Autograd</span>
                 <h2 class="project-title">LightGrad</h2>
@@ -227,6 +279,17 @@
   <footer>
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
   </footer>
-  
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const researchProjects = document.querySelectorAll("#research-projects .project-card").length;
+      const openSourceProjects = document.querySelectorAll("#opensource-projects .project-card").length;
+      const totalProjects = researchProjects + openSourceProjects;
+
+      document.getElementById("research-count").textContent = researchProjects;
+      document.getElementById("opensource-count").textContent = openSourceProjects;
+      document.getElementById("total-count").textContent = totalProjects;
+    });
+  </script>
 </body>
 </html>
