@@ -6,6 +6,21 @@
   <title>About | Hiroki Kobayashi</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .memberships-list {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    .memberships-list li {
+      margin-bottom: 0.45rem;
+      line-height: 1.7;
+    }
+
+    .memberships-list li:last-child {
+      margin-bottom: 0;
+    }
+  </style>
 </head>
 <body>
   <header class="hero">
@@ -41,7 +56,6 @@
 
   <main class="single-column">
     <div class="content">
-      <!-- About section with card -->
       <section>
         <div class="section-label">About</div>
         <div class="info-card">
@@ -69,7 +83,6 @@
         </div>
       </section>
 
-      <!-- Affiliation section with additional details -->
       <section>
         <div class="section-label">Affiliation</div>
         <div class="info-card">
@@ -84,7 +97,16 @@
         </div>
       </section>
 
-      <!-- Background timeline section -->
+      <section>
+        <div class="section-label">Professional Memberships</div>
+        <div class="info-card">
+          <ul class="memberships-list">
+            <li>The Institute of Electronics, Information and Communication Engineers (IEICE)</li>
+            <li>IEEE</li>
+          </ul>
+        </div>
+      </section>
+
       <section>
         <div class="section-label">Background</div>
         <div class="info-card">
@@ -110,7 +132,6 @@
         </div>
       </section>
 
-      <!-- Research areas section -->
       <section>
         <div class="section-label">Research Areas</div>
         <div class="info-card">
