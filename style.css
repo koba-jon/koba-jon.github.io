@@ -964,3 +964,14 @@ footer {
     font-size: 1.5rem;
   }
 }
+
+.contact-note {
+  margin-top: 8px;
+}
+
+.contact-note-text {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.8;
+  max-width: 760px;
+}
