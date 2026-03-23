@@ -178,16 +178,18 @@
       })
       .catch(() => {});
 
-    // Page view counter via counterapi.dev (CORS-enabled JSON API)
+    // Page view counter via counterapi.dev V1 (CORS-enabled, no auth required)
     (function () {
       const pvCell = document.getElementById('stat-pv');
-      const namespace = 'koba-jon-github-io';
-      const key = 'pageviews';
-      fetch('https://counterapi.dev/api/' + namespace + '/' + key + '/hit')
+      fetch('https://api.counterapi.dev/v1/koba-jon-github-io/pageviews/up')
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          const count = data.count || data.value || data.hits || 0;
-          pvCell.textContent = Number(count).toLocaleString();
+          const count = data.value;
+          if (typeof count === 'number') {
+            pvCell.textContent = count.toLocaleString();
+          } else {
+            pvCell.textContent = '—';
+          }
         })
         .catch(function () { pvCell.textContent = '—'; });
     })();
