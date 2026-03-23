@@ -178,13 +178,17 @@
       })
       .catch(() => {});
 
-    // Page view counter via counterapi.dev V1 (CORS-enabled, no auth required)
+    // Page view counter via hitscounter.dev (successor to hits.seeyoufarm.com)
     (function () {
       const pvCell = document.getElementById('stat-pv');
-      fetch('https://api.counterapi.dev/v2/koba-jon-github-io/pageviews/up')
+      const url = encodeURIComponent('https://koba-jon.github.io');
+      fetch('https://hitscounter.dev/api/hit?url=' + url, {
+        headers: { 'Accept': 'application/json' }
+      })
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          const count = data.value;
+          // レスポンス例: { "today": 5, "total": 123 }
+          const count = data.total ?? data.count ?? data.value;
           if (typeof count === 'number') {
             pvCell.textContent = count.toLocaleString();
           } else {
