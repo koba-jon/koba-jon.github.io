@@ -47,15 +47,16 @@
           <div class="info-row">
             <span class="info-key">Email</span>
             <span class="info-val">
+              <span id="email-display">your-email [at] example.com</span>
               <button
-                id="reveal-email-btn"
+                id="copy-email-btn"
                 type="button"
                 class="text-link"
-                style="background:none; border:none; padding:0; cursor:pointer; font:inherit;"
+                style="background:none; border:none; padding:0; margin-left:12px; cursor:pointer; font:inherit;"
               >
-                Click to reveal email
+                Copy email
               </button>
-              <span id="email-container" style="display:none;"></span>
+              <span id="copy-status" aria-live="polite" style="margin-left:8px; font-size:0.95em;"></span>
             </span>
           </div>
 
@@ -97,24 +98,22 @@
 
   <script>
     (function () {
-      // 実際のメールアドレスに置き換えてください
-      const user = "your-email";
-      const domain = "example.com";
-      const email = user + "@" + domain;
+      const displayedEmail = "your-email [at] example.com";
+      const realEmail = displayedEmail.replace(" [at] ", "@");
 
-      const btn = document.getElementById("reveal-email-btn");
-      const container = document.getElementById("email-container");
+      const copyBtn = document.getElementById("copy-email-btn");
+      const copyStatus = document.getElementById("copy-status");
 
-      btn.addEventListener("click", function () {
-        const link = document.createElement("a");
-        link.href = "mailto:" + email;
-        link.className = "text-link";
-        link.textContent = email;
-
-        container.innerHTML = "";
-        container.appendChild(link);
-        container.style.display = "inline";
-        btn.style.display = "none";
+      copyBtn.addEventListener("click", async function () {
+        try {
+          await navigator.clipboard.writeText(realEmail);
+          copyStatus.textContent = "Copied";
+          setTimeout(function () {
+            copyStatus.textContent = "";
+          }, 2000);
+        } catch (err) {
+          copyStatus.textContent = "Copy failed";
+        }
       });
     })();
   </script>
