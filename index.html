@@ -178,19 +178,20 @@
       })
       .catch(() => {});
 
-    // Page view counter via hits.seeyoufarm.com
-    fetch('https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkoba-jon.github.io&count_bg=%23C8502A&title_bg=%23555555&title=PV&edge_flat=true')
-      .then(r => r.text())
-      .then(svg => {
-        const m = svg.match(/<text[^>]*>(\d+)<\/text>/g);
-        if (m && m.length >= 2) {
-          const val = m[m.length - 1].replace(/<[^>]+>/g, '');
-          document.getElementById('stat-pv').textContent = Number(val).toLocaleString();
-        }
-      })
-      .catch(() => {
-        document.getElementById('stat-pv').textContent = '—';
-      });
+    // Page view counter via hits.seeyoufarm.com (badge img — avoids CORS)
+    (function () {
+      const pvCell = document.getElementById('stat-pv');
+      const hitsUrl = 'https://hits.seeyoufarm.com/api/count/incr/badge.svg'
+        + '?url=https%3A%2F%2Fkoba-jon.github.io'
+        + '&count_bg=%23C8502A&title_bg=%23444444&title=Page+Views&edge_flat=true';
+      const img = document.createElement('img');
+      img.src = hitsUrl;
+      img.alt = 'Page Views';
+      img.style.cssText = 'height:20px;vertical-align:middle;border-radius:2px;';
+      img.onload = function () { pvCell.textContent = ''; pvCell.appendChild(img); };
+      img.onerror = function () { pvCell.textContent = '—'; };
+      pvCell.textContent = '…';
+    })();
   </script>
 
   <footer>
