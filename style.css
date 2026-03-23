@@ -389,8 +389,10 @@ section { margin-bottom: 52px; }
 .info-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 24px;
+  border-radius: 18px;
+  padding: 24px 28px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
 }
 
 .info-card-title {
@@ -404,9 +406,10 @@ section { margin-bottom: 52px; }
 
 .info-row {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -423,6 +426,8 @@ section { margin-bottom: 52px; }
   letter-spacing: 0.1em;
   text-transform: none;
   color: var(--ink-faint);
+  /* Ensure keys take up consistent width within a row */
+  flex-basis: 30%;
 }
 
 .info-val {
@@ -430,6 +435,8 @@ section { margin-bottom: 52px; }
   color: var(--ink);
   font-weight: 400;
   line-height: 1.5;
+  /* Allow values to occupy the remaining space */
+  flex-basis: 70%;
 }
 
 .edu-item {
