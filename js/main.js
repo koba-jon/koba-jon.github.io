@@ -67,7 +67,7 @@ async function initSiteChrome() {
   const pageTitle = body.dataset.pageTitle || '';
   const pageTagline = body.dataset.pageTagline || '';
   const currentPage = body.dataset.page || 'index';
-  const profile = await loadJson('assets/data/profile.json');
+  const profile = await loadJson('data/profile.json');
 
   const header = document.getElementById('site-header');
   const nav = document.getElementById('site-nav');
