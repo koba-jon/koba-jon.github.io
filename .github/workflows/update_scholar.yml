@@ -35,7 +35,7 @@ jobs:
           GOOGLE_SCHOLAR_ID: HzjxmYoAAAAJ
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
         run: |
-          python update_scholar.py
+          python scripts/update_scholar.py
 
       - name: Commit and push if changed
         run: |
