@@ -29,7 +29,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Update citations in assets/data/metrics.json
+      - name: Update citations in data/metrics.json
         timeout-minutes: 3
         env:
           GOOGLE_SCHOLAR_ID: HzjxmYoAAAAJ
