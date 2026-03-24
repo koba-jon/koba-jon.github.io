@@ -30,8 +30,6 @@ function renderHero(profile, pageTitle, pageTagline) {
     ['Google Scholar', profile.links.scholar],
   ];
 
-  const cvLink = profile.links.cv || 'assets/Hiroki_Kobayashi_CV.pdf';
-
   return `
   <header class="hero">
     <div class="hero-inner">
@@ -41,13 +39,6 @@ function renderHero(profile, pageTitle, pageTagline) {
         <div class="hero-label">${escapeHtml(profile.title)}</div>
         <h1 class="hero-name">${escapeHtml(pageTitle)}</h1>
         <p class="hero-tagline">${escapeHtml(pageTagline)}</p>
-
-        <div class="hero-actions">
-          <a href="${cvLink}" class="hero-cv-button" target="_blank" rel="noopener noreferrer" download>
-            <span class="hero-cv-button__text">Download CV</span>
-            <span class="hero-cv-button__icon" aria-hidden="true">↘</span>
-          </a>
-        </div>
 
         <div class="hero-links">
           ${links.map(([label, href]) => `
