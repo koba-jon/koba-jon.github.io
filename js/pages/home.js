@@ -4,11 +4,11 @@
 
   try {
     const [profile, journal, intl, domestic, awards] = await Promise.all([
-      loadJson('assets/data/profile.json'),
-      loadJson('assets/data/publications-journal.json'),
-      loadJson('assets/data/publications-international.json'),
-      loadJson('assets/data/publications-domestic.json'),
-      loadJson('assets/data/awards.json'),
+      loadJson('data/profile.json'),
+      loadJson('data/publications-journal.json'),
+      loadJson('data/publications-international.json'),
+      loadJson('data/publications-domestic.json'),
+      loadJson('data/awards.json'),
     ]);
 
     document.getElementById('stat-journal').textContent = journal.length;
