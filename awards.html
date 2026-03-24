@@ -1,86 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Awards | Hiroki Kobayashi</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/awards.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages/awards.css">
 </head>
-<body>
-<header class="hero">
-  <div class="hero-inner">
-    <img src="images/profile.jpg" alt="Hiroki Kobayashi" class="hero-avatar">
-    <div class="hero-text">
-      <div class="hero-label">Computer Vision Researcher &amp; AI Engineer</div>
-      <h1 class="hero-name">Awards</h1>
-      <p class="hero-tagline">Hiroki Kobayashi</p>
-      <div class="hero-links">
-        <a href="https://github.com/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://qiita.com/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">Qiita</a>
-        <a href="https://huggingface.co/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">Hugging Face</a>
-        <a href="https://www.linkedin.com/in/hiroki-kobayashi-phd" class="hero-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://scholar.google.co.jp/citations?user=HzjxmYoAAAAJ&hl=en" class="hero-link" target="_blank" rel="noopener noreferrer">Google Scholar</a>
-      </div>
+<body data-page="awards" data-page-title="Awards" data-page-tagline="Hiroki Kobayashi">
+  <div id="site-header"></div>
+  <div id="site-nav"></div>
+  
+  <main class="single-column">
+    <div class="content content--awards">
+      <section>
+        <div class="section-label">Awards</div>
+        <div class="awards-count-bar">
+          <div class="awards-count-cell"><span class="awards-count-num" id="count-research">—</span><span class="awards-count-label">Research Presentation Awards</span></div>
+          <div class="awards-count-cell"><span class="awards-count-num" id="count-review">—</span><span class="awards-count-label">Review Awards</span></div>
+          <div class="awards-count-cell"><span class="awards-count-num" id="count-scholarship">—</span><span class="awards-count-label">Scholarships / Financial Honors</span></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Research Presentation Awards</div>
+        <div class="award-cards" id="list-research"></div>
+      </section>
+
+      <section>
+        <div class="section-label">Review Awards</div>
+        <div class="award-cards" id="list-review"></div>
+      </section>
+
+      <section>
+        <div class="section-label">Scholarships / Financial Honors</div>
+        <div class="award-cards" id="list-scholarship"></div>
+      </section>
     </div>
-  </div>
-</header>
+  </main>
 
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-link">Home</a>
-    <a href="about.html" class="nav-link">About</a>
-    <a href="projects.html" class="nav-link">Projects</a>
-    <a href="publications.html" class="nav-link">Publications</a>
-    <a href="awards.html" class="nav-link current">Awards</a>
-    <a href="education.html" class="nav-link">Education</a>
-    <a href="certifications.html" class="nav-link">Certifications</a>
-    <a href="contact.html" class="nav-link">Contact</a>
-  </div>
-</nav>
-
-<main class="single-column">
-  <div class="content content--awards">
-    <section>
-      <div class="section-label">Awards</div>
-      <div class="awards-count-bar">
-        <div class="awards-count-cell">
-          <span class="awards-count-num" id="count-research">—</span>
-          <span class="awards-count-label">Research Presentation Awards</span>
-        </div>
-        <div class="awards-count-cell">
-          <span class="awards-count-num" id="count-review">—</span>
-          <span class="awards-count-label">Review Awards</span>
-        </div>
-        <div class="awards-count-cell">
-          <span class="awards-count-num" id="count-scholarship">—</span>
-          <span class="awards-count-label">Scholarships / Financial Honors</span>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-label">Research Presentation Awards</div>
-      <div class="award-cards" id="list-research"></div>
-    </section>
-
-    <section>
-      <div class="section-label">Review Awards</div>
-      <div class="award-cards" id="list-review"></div>
-    </section>
-
-    <section>
-      <div class="section-label">Scholarships / Financial Honors</div>
-      <div class="award-cards" id="list-scholarship"></div>
-    </section>
-  </div>
-</main>
-
-<footer>
-  &copy; Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
-</footer>
-
-<script src="js/awards.js"></script>
+  <footer id="site-footer"></footer>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/pages/awards.js"></script>
 </body>
 </html>

@@ -1,119 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About | Hiroki Kobayashi</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/about.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages/about.css">
 </head>
-<body>
-<header class="hero">
-  <div class="hero-inner">
-    <img src="images/profile.jpg" alt="Hiroki Kobayashi" class="hero-avatar">
-    <div class="hero-text">
-      <div class="hero-label">Computer Vision Researcher &amp; AI Engineer</div>
-      <h1 class="hero-name">About</h1>
-      <p class="hero-tagline">Hiroki Kobayashi</p>
-      <div class="hero-links">
-        <a href="https://github.com/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://qiita.com/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">Qiita</a>
-        <a href="https://huggingface.co/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">Hugging Face</a>
-        <a href="https://www.linkedin.com/in/hiroki-kobayashi-phd" class="hero-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://scholar.google.co.jp/citations?user=HzjxmYoAAAAJ&hl=en" class="hero-link" target="_blank" rel="noopener noreferrer">Google Scholar</a>
-      </div>
+<body data-page="about" data-page-title="About" data-page-tagline="Hiroki Kobayashi">
+  <div id="site-header"></div>
+  <div id="site-nav"></div>
+  
+  <main class="single-column">
+    <div class="content">
+      <section>
+        <div class="section-label">About</div>
+        <div class="info-card">
+          <p>I am an AI engineer at Araya Inc. with a background in computer vision research, specializing in industrial anomaly detection, representation learning, and generative modeling.</p>
+          <p>My work focuses on practical and robust machine learning methods for visual inspection, especially in manufacturing settings where defective samples are scarce and strong generalization matters more than benchmark cosmetics.</p>
+          <p>I am particularly interested in pseudo-defect generation, domain-specific pre-training, feature modeling for anomaly detection, and bridging the gap between academic research and deployable AI systems.</p>
+          <p>Beyond research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source work built on PyTorch and LibTorch.</p>
+          <a href="assets/Hiroki_Kobayashi_CV.pdf" class="project-link">Download CV (PDF)</a>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Affiliation</div>
+        <div class="info-card" id="current-role"></div>
+      </section>
+
+      <section>
+        <div class="section-label">Professional Memberships</div>
+        <div class="info-card">
+          <ul class="memberships-list" id="memberships-list"></ul>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Background</div>
+        <div class="info-card" id="background-list"></div>
+      </section>
+
+      <section>
+        <div class="section-label">Research Areas</div>
+        <div class="info-card">
+          <div class="tag-cloud" id="research-areas"></div>
+        </div>
+      </section>
     </div>
-  </div>
-</header>
+  </main>
 
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-link">Home</a>
-    <a href="about.html" class="nav-link current">About</a>
-    <a href="projects.html" class="nav-link">Projects</a>
-    <a href="publications.html" class="nav-link">Publications</a>
-    <a href="awards.html" class="nav-link">Awards</a>
-    <a href="education.html" class="nav-link">Education</a>
-    <a href="certifications.html" class="nav-link">Certifications</a>
-    <a href="contact.html" class="nav-link">Contact</a>
-  </div>
-</nav>
-
-<main class="single-column">
-  <div class="content">
-    <section>
-      <div class="section-label">About</div>
-      <div class="info-card">
-        <p>
-          I am an AI engineer at Araya Inc. with a background in computer vision research,
-          specializing in industrial anomaly detection, representation learning, and generative modeling.
-        </p>
-        <p>
-          My work focuses on practical and robust machine learning methods for visual inspection,
-          especially in manufacturing settings where defective samples are scarce and strong
-          generalization matters more than benchmark cosmetics.
-        </p>
-        <p>
-          I am particularly interested in pseudo-defect generation, domain-specific pre-training,
-          feature modeling for anomaly detection, and bridging the gap between academic research
-          and deployable AI systems.
-        </p>
-        <p>
-          Beyond research, I actively develop deep learning implementations in both Python and C++,
-          including large-scale open-source work built on PyTorch and LibTorch.
-        </p>
-        <a href="assets/Hiroki_Kobayashi_CV.pdf" class="cv-download-btn" download>
-          ↓ Download CV (PDF)
-        </a>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-label">Affiliation</div>
-      <div class="info-card">
-        <div class="info-row">
-          <span class="info-key">Current</span>
-          <span class="info-val">AI Engineer, Araya Inc.</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Since</span>
-          <span class="info-val">April 2026</span>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-label">Professional Memberships</div>
-      <div class="info-card">
-        <ul class="memberships-list" id="memberships-list">
-          <!-- populated by js/about.js -->
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-label">Background</div>
-      <div class="info-card" id="background-list">
-        <!-- populated by js/about.js -->
-      </div>
-    </section>
-
-    <section>
-      <div class="section-label">Research Areas</div>
-      <div class="info-card">
-        <div class="tag-cloud" id="research-areas">
-          <!-- populated by js/about.js -->
-        </div>
-      </div>
-    </section>
-  </div>
-</main>
-
-<footer>
-  &copy; Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
-</footer>
-
-<script src="js/about.js"></script>
+  <footer id="site-footer"></footer>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/pages/about.js"></script>
 </body>
 </html>

@@ -1,0 +1,2 @@
+.about-text { color: var(--ink-soft); max-width: 760px; }
+.about-text p + p { margin-top: 14px; }

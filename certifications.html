@@ -1,60 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Certifications | Hiroki Kobayashi</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/certifications.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages/certifications.css">
 </head>
-<body>
-<header class="hero">
-  <div class="hero-inner">
-    <img src="images/profile.jpg" alt="Hiroki Kobayashi" class="hero-avatar">
-    <div class="hero-text">
-      <div class="hero-label">Computer Vision Researcher &amp; AI Engineer</div>
-      <h1 class="hero-name">Certifications</h1>
-      <p class="hero-tagline">Hiroki Kobayashi</p>
-      <div class="hero-links">
-        <a href="https://github.com/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://qiita.com/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">Qiita</a>
-        <a href="https://huggingface.co/koba-jon" class="hero-link" target="_blank" rel="noopener noreferrer">Hugging Face</a>
-        <a href="https://www.linkedin.com/in/hiroki-kobayashi-phd" class="hero-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://scholar.google.co.jp/citations?user=HzjxmYoAAAAJ&hl=en" class="hero-link" target="_blank" rel="noopener noreferrer">Google Scholar</a>
-      </div>
+<body data-page="certifications" data-page-title="Certifications" data-page-tagline="Hiroki Kobayashi">
+  <div id="site-header"></div>
+  <div id="site-nav"></div>
+  
+  <main class="single-column">
+    <div class="content">
+      <section>
+        <div class="section-label">Certifications</div>
+        <div class="cert-grid" id="cert-grid"></div>
+      </section>
     </div>
-  </div>
-</header>
+  </main>
 
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-link">Home</a>
-    <a href="about.html" class="nav-link">About</a>
-    <a href="projects.html" class="nav-link">Projects</a>
-    <a href="publications.html" class="nav-link">Publications</a>
-    <a href="awards.html" class="nav-link">Awards</a>
-    <a href="education.html" class="nav-link">Education</a>
-    <a href="certifications.html" class="nav-link current">Certifications</a>
-    <a href="contact.html" class="nav-link">Contact</a>
-  </div>
-</nav>
-
-<main class="single-column">
-  <div class="content">
-    <section>
-      <div class="section-label">Certifications</div>
-      <div class="cert-grid" id="cert-grid">
-        <!-- populated by js/certifications.js -->
-      </div>
-    </section>
-  </div>
-</main>
-
-<footer>
-  &copy; Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
-</footer>
-
-<script src="js/certifications.js"></script>
+  <footer id="site-footer"></footer>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/pages/certifications.js"></script>
 </body>
 </html>
