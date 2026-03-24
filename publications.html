@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publications | Hiroki Kobayashi</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -11,11 +12,11 @@
 <body data-page="publications" data-page-title="Publications" data-page-tagline="Hiroki Kobayashi">
   <div id="site-header"></div>
   <div id="site-nav"></div>
-  
+
   <main class="single-column">
     <div class="content content--publications">
-      <section>
-        <div class="section-label">Publications</div>
+      <section aria-labelledby="publication-overview-heading">
+        <h2 id="publication-overview-heading" class="section-label">Publication Overview</h2>
         <div class="pub-stats-bar">
           <div class="pub-stat"><span class="pub-stat-num" id="stat-journal">—</span><span class="pub-stat-label">Journal Papers</span></div>
           <div class="pub-stat"><span class="pub-stat-num" id="stat-intl">—</span><span class="pub-stat-label">Int'l Conferences</span></div>
@@ -24,7 +25,7 @@
           <div class="pub-stat"><span class="pub-stat-num" id="stat-citations">—</span><span class="pub-stat-label">Citations</span></div>
         </div>
 
-        <div class="pub-tabs">
+        <div class="pub-tabs" role="tablist" aria-label="Publication categories">
           <button class="pub-tab active" type="button" data-tab="journal">Journal Papers <span class="pub-tab-count" id="tab-count-journal">0</span></button>
           <button class="pub-tab" type="button" data-tab="intl">International Conf. <span class="pub-tab-count" id="tab-count-intl">0</span></button>
           <button class="pub-tab" type="button" data-tab="domestic">Domestic Conf. <span class="pub-tab-count" id="tab-count-domestic">0</span></button>

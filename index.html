@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | Hiroki Kobayashi</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -11,17 +12,17 @@
 <body data-page="index" data-page-title="Home" data-page-tagline="PhD in Engineering · Araya Inc.">
   <div id="site-header"></div>
   <div id="site-nav"></div>
-  
+
   <main>
     <div class="content">
-      <section>
-        <div class="section-label">Overview</div>
+      <section aria-labelledby="home-overview-heading">
+        <h2 id="home-overview-heading" class="section-label">Overview</h2>
         <div class="about-text" id="overview-text"></div>
         <div class="tag-cloud tag-cloud--spaced" id="tag-cloud"></div>
       </section>
 
-      <section>
-        <div class="section-label">Selected Publications</div>
+      <section aria-labelledby="selected-publications-heading">
+        <h2 id="selected-publications-heading" class="section-label">Selected Publications</h2>
         <div class="pub-item">
           <span class="pub-year">2024</span>
           <div>
@@ -48,8 +49,8 @@
         </div>
       </section>
 
-      <section>
-        <div class="section-label">Featured Project</div>
+      <section aria-labelledby="featured-project-heading">
+        <h2 id="featured-project-heading" class="section-label">Featured Project</h2>
         <article class="project-card">
           <div class="project-image-center">
             <img src="images/pytorch_cpp.png" alt="PyTorch C++ Samples" class="project-img2">
@@ -72,21 +73,21 @@
         <div class="stat-cell"><span class="stat-num" id="stat-awards">-</span><span class="stat-label">Awards</span></div>
       </div>
 
-      <div class="info-card">
-        <div class="info-card-title">Affiliation</div>
+      <section class="info-card" aria-labelledby="affiliation-heading">
+        <h2 id="affiliation-heading" class="info-card-title">Affiliation</h2>
         <div class="info-row"><span class="info-key">Position</span><span class="info-val">AI Engineer</span></div>
         <div class="info-row"><span class="info-key">Company</span><span class="info-val"><a href="https://www.araya.org/" class="link-accent" target="_blank" rel="noopener noreferrer">Araya Inc.</a></span></div>
-      </div>
+      </section>
 
-      <div class="info-card">
-        <div class="info-card-title">Quick Links</div>
+      <nav class="info-card" aria-labelledby="quick-links-heading">
+        <h2 id="quick-links-heading" class="info-card-title">Quick Links</h2>
         <div class="info-row"><span class="info-val"><a href="about.html" class="link-accent">About</a></span></div>
         <div class="info-row"><span class="info-val"><a href="projects.html" class="link-accent">Projects</a></span></div>
         <div class="info-row"><span class="info-val"><a href="publications.html" class="link-accent">Publications</a></span></div>
         <div class="info-row"><span class="info-val"><a href="awards.html" class="link-accent">Awards</a></span></div>
         <div class="info-row"><span class="info-val"><a href="education.html" class="link-accent">Education</a></span></div>
         <div class="info-row"><span class="info-val"><a href="certifications.html" class="link-accent">Certifications</a></span></div>
-      </div>
+      </nav>
     </aside>
   </main>
 

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Hiroki Kobayashi</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -11,10 +12,12 @@
 <body data-page="contact" data-page-title="Contact" data-page-tagline="Hiroki Kobayashi">
   <div id="site-header"></div>
   <div id="site-nav"></div>
-  
+
   <main class="single-column">
     <div class="content contact-page content--contact">
-      <section class="contact-grid">
+      <section class="contact-grid" aria-labelledby="contact-methods-heading">
+        <h2 id="contact-methods-heading" class="section-label">Contact Methods</h2>
+
         <article class="contact-card">
           <h3 class="contact-card-title">Email</h3>
           <div class="contact-method">
@@ -35,7 +38,8 @@
         </article>
       </section>
 
-      <section class="contact-note">
+      <section class="contact-note" aria-labelledby="contact-note-heading">
+        <h2 id="contact-note-heading" class="section-label">Inquiry Scope</h2>
         <p class="contact-note-text">
           I welcome research, engineering, and collaboration inquiries related to computer vision,
           anomaly detection, industrial AI, representation learning, and practical deep learning systems.

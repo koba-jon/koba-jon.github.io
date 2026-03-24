@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Hiroki Kobayashi</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -11,11 +12,11 @@
 <body data-page="about" data-page-title="About" data-page-tagline="Hiroki Kobayashi">
   <div id="site-header"></div>
   <div id="site-nav"></div>
-  
+
   <main class="single-column">
     <div class="content">
-      <section>
-        <div class="section-label">About</div>
+      <section aria-labelledby="profile-summary-heading">
+        <h2 id="profile-summary-heading" class="section-label">Profile Summary</h2>
         <div class="info-card">
           <p>I am an AI engineer at Araya Inc. with a background in computer vision research, specializing in industrial anomaly detection, representation learning, and generative modeling.</p>
           <p>My work focuses on practical and robust machine learning methods for visual inspection, especially in manufacturing settings where defective samples are scarce and strong generalization matters more than benchmark cosmetics.</p>
@@ -25,25 +26,25 @@
         </div>
       </section>
 
-      <section>
-        <div class="section-label">Affiliation</div>
+      <section aria-labelledby="about-affiliation-heading">
+        <h2 id="about-affiliation-heading" class="section-label">Affiliation</h2>
         <div class="info-card" id="current-role"></div>
       </section>
 
-      <section>
-        <div class="section-label">Professional Memberships</div>
+      <section aria-labelledby="memberships-heading">
+        <h2 id="memberships-heading" class="section-label">Professional Memberships</h2>
         <div class="info-card">
           <ul class="memberships-list" id="memberships-list"></ul>
         </div>
       </section>
 
-      <section>
-        <div class="section-label">Background</div>
+      <section aria-labelledby="background-heading">
+        <h2 id="background-heading" class="section-label">Background</h2>
         <div class="info-card" id="background-list"></div>
       </section>
 
-      <section>
-        <div class="section-label">Research Areas</div>
+      <section aria-labelledby="research-areas-heading">
+        <h2 id="research-areas-heading" class="section-label">Research Areas</h2>
         <div class="info-card">
           <div class="tag-cloud" id="research-areas"></div>
         </div>
