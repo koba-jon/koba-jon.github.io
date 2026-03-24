@@ -3,7 +3,7 @@
   await initSiteChrome();
 
   try {
-    const data = await loadJson('assets/data/projects.json');
+    const data = await loadJson('data/projects.json');
 
     const buildCard = (project) => {
       const imageHtml = project.image
