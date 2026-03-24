@@ -1,0 +1,75 @@
+{
+  "research": [
+    {
+      "id": "drept",
+      "title": "DRepT",
+      "tag": "Research · Anomaly Detection · IJCNN2023",
+      "tag_type": "research",
+      "image": "images/drept.png",
+      "description": [
+        "DRepT is a research project for anomaly detection based on transfer of defect representation with a transmittance mask. It focuses on generating and transferring realistic defect characteristics to improve industrial visual inspection.",
+        "This project better represents the research side of the portfolio: industrial anomaly detection, pseudo-defect modeling, and practical methods designed for real manufacturing scenarios."
+      ],
+      "link": "https://github.com/koba-jon/DRepT"
+    }
+  ],
+  "opensource": [
+    {
+      "id": "pytorch_cpp",
+      "title": "PyTorch C++ Samples",
+      "tag": "Open Source · C++ · LibTorch",
+      "tag_type": "opensource",
+      "image": "images/pytorch_cpp.png",
+      "description": [
+        "A large-scale open-source project for deep learning implementations in C++ using LibTorch. It covers image classification, object detection, generative models, diffusion-related architectures, and many modern deep learning systems.",
+        "This project shows practical implementation skill in serious depth, not just model usage. It reflects long-term work on building and organizing deep learning systems in C++."
+      ],
+      "link": "https://github.com/koba-jon/pytorch_cpp"
+    },
+    {
+      "id": "svm_cpp",
+      "title": "SVM C++ Samples",
+      "tag": "Open Source · C++ · Machine Learning",
+      "tag_type": "opensource",
+      "image": "images/svm_cpp.png",
+      "description": [
+        "A C++ implementation project focused on Support Vector Machines and related machine learning methods. It highlights understanding of classical machine learning algorithms at the implementation level, not only at the library-usage level.",
+        "This project helps show breadth beyond deep learning by covering optimization-based traditional methods in a clean and engineering-oriented form."
+      ],
+      "link": "https://github.com/koba-jon/svm_cpp"
+    },
+    {
+      "id": "gmm_cpp",
+      "title": "GMM C++ Samples",
+      "tag": "Open Source · C++ · Probabilistic Modeling",
+      "tag_type": "opensource",
+      "description": [
+        "A C++ project for Gaussian Mixture Models and related probabilistic modeling techniques. It reflects strong interest in statistical machine learning, density modeling, and implementation of mathematically grounded methods.",
+        "This project is especially relevant to research involving anomaly generation, distribution modeling, and representation of structured variations in data."
+      ],
+      "link": "https://github.com/koba-jon/gmm_cpp"
+    },
+    {
+      "id": "llm_cpp",
+      "title": "LLM C++ Samples",
+      "tag": "Open Source · C++ · Large Language Models",
+      "tag_type": "opensource",
+      "description": [
+        "A C++ implementation project centered on large language model architectures and related components. It demonstrates interest in modern foundation models and the ability to explore them from the implementation side.",
+        "This project expands the portfolio beyond computer vision and shows readiness to work across multiple AI domains, including language modeling."
+      ],
+      "link": "https://github.com/koba-jon/LLM_cpp"
+    },
+    {
+      "id": "lightgrad",
+      "title": "LightGrad",
+      "tag": "Open Source · Deep Learning Framework · Lightweight Autograd",
+      "tag_type": "opensource",
+      "description": [
+        "LightGrad is a lightweight project for understanding and implementing automatic differentiation and the core mechanisms behind deep learning frameworks.",
+        "It shows low-level understanding of training systems themselves, not just model construction, and gives the portfolio a stronger systems and educational-engineering dimension."
+      ],
+      "link": "https://github.com/koba-jon/lightgrad"
+    }
+  ]
+}
