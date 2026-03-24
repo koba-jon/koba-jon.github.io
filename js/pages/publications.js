@@ -23,10 +23,10 @@
 
   try {
     const [journal, intl, domestic, metrics] = await Promise.all([
-      loadJson('assets/data/publications-journal.json'),
-      loadJson('assets/data/publications-international.json'),
-      loadJson('assets/data/publications-domestic.json'),
-      loadJson('assets/data/metrics.json'),
+      loadJson('data/publications-journal.json'),
+      loadJson('data/publications-international.json'),
+      loadJson('data/publications-domestic.json'),
+      loadJson('data/metrics.json'),
     ]);
 
     const allFirstAuthors = [...journal, ...intl, ...domestic].filter((item) => item.first_author).length;
