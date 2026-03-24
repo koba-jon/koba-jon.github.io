@@ -1,27 +1,55 @@
-document.addEventListener('DOMContentLoaded', async () => {
+(async function () {
+  const { loadJson, initSiteChrome, escapeHtml } = window.siteUtils;
+  await initSiteChrome();
+
   try {
-    const { profile } = await window.siteUtils.initSiteChrome();
+    const [profile, journal, intl, domestic, awards] = await Promise.all([
+      loadJson('data/profile.json'),
+      loadJson('data/publications-journal.json'),
+      loadJson('data/publications-international.json'),
+      loadJson('data/publications-domestic.json'),
+      loadJson('data/awards.json'),
+    ]);
 
-    const container = document.getElementById('affiliation-content');
-    if (!container) return;
+    document.getElementById('stat-journal').textContent = journal.length;
+    document.getElementById('stat-intl').textContent = intl.length;
+    document.getElementById('stat-domestic').textContent = domestic.length;
+    document.getElementById('stat-awards').textContent =
+      Object.values(awards).reduce((s, arr) => s + arr.length, 0);
 
-    const position = window.siteUtils.escapeHtml(profile.position || '');
-    const company = window.siteUtils.escapeHtml(profile.company || '');
-    const companyUrl = profile.company_url || '#';
+    const overview = document.getElementById('overview-text');
 
-    container.innerHTML = `
-      <div class="meta-item">
-        <span class="meta-label">Position</span>
-        <span class="meta-value">${position}</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Company</span>
-        <span class="meta-value">
-          <a href="${companyUrl}" target="_blank" rel="noopener noreferrer">${company}</a>
-        </span>
-      </div>
+    overview.innerHTML = `
+      <p>I am a computer vision researcher and AI engineer specializing in industrial anomaly detection, representation learning, and generative modeling. My work focuses on building practical and robust machine learning methods for visual inspection, especially in manufacturing environments where real defective data are limited.</p>
+      <p>My research explores pseudo-defect generation, domain-specific pre-training, and feature modeling for anomaly detection, with the goal of improving both accuracy and generalization in real-world applications. I am particularly interested in bridging the gap between academic research and deployable AI systems.</p>
+      <p>In addition to research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source projects based on PyTorch and LibTorch.</p>
     `;
+
+    document.getElementById('tag-cloud').innerHTML = profile.research_areas
+      .slice(0, 6)
+      .map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`)
+      .join('');
+
+    const affiliationBody = document.getElementById('affiliation-body');
+    if (affiliationBody) {
+      const position = escapeHtml(profile.position || '');
+      const company = escapeHtml(profile.company || '');
+      const companyUrl = profile.company_url || '#';
+
+      affiliationBody.innerHTML = `
+        <div class="info-row">
+          <span class="info-key">Position</span>
+          <span class="info-val">${position}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Company</span>
+          <span class="info-val">
+            <a href="${companyUrl}" class="link-accent" target="_blank" rel="noopener noreferrer">${company}</a>
+          </span>
+        </div>
+      `;
+    }
   } catch (error) {
-    console.error('Failed to render home page:', error);
+    console.warn(error);
   }
-});
+})();
