@@ -6,21 +6,7 @@
   <title>About | Hiroki Kobayashi</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-    .memberships-list {
-      margin: 0;
-      padding-left: 1.2rem;
-    }
-
-    .memberships-list li {
-      margin-bottom: 0.45rem;
-      line-height: 1.7;
-    }
-
-    .memberships-list li:last-child {
-      margin-bottom: 0;
-    }
-  </style>
+  <link rel="stylesheet" href="css/about.css">
 </head>
 <body>
   <header class="hero">
@@ -56,6 +42,7 @@
 
   <main class="single-column">
     <div class="content">
+
       <section>
         <div class="section-label">About</div>
         <div class="info-card">
@@ -100,58 +87,35 @@
       <section>
         <div class="section-label">Professional Memberships</div>
         <div class="info-card">
-          <ul class="memberships-list">
-            <li>The Institute of Electronics, Information and Communication Engineers (IEICE)</li>
-            <li>IEEE</li>
+          <ul class="memberships-list" id="memberships-list">
+            <!-- populated by js/about.js -->
           </ul>
         </div>
       </section>
 
       <section>
         <div class="section-label">Background</div>
-        <div class="info-card">
-          <div class="info-row">
-            <span class="info-key">Apr. 2026 – Present</span>
-            <span class="info-val">AI Engineer, Araya Inc.</span>
-          </div>
-          <div class="info-row">
-            <span class="info-key">Apr. 2023 – Mar. 2026</span>
-            <span class="info-val">PhD in Engineering, Chukyo University — research on industrial anomaly detection,
-              pseudo-defect generation, and domain-specific pre-training.</span>
-          </div>
-          <div class="info-row">
-            <span class="info-key">Apr. 2021 – Mar. 2023</span>
-            <span class="info-val">MSc in Engineering, Chukyo University — research on unsupervised defect detection
-              based on normal image generation.</span>
-          </div>
-          <div class="info-row">
-            <span class="info-key">Apr. 2017 – Mar. 2021</span>
-            <span class="info-val">BSc in Engineering, Chukyo University — research on scratch detection using
-              realistic image generation from before/after defect pairs.</span>
-          </div>
+        <div class="info-card" id="background-list">
+          <!-- populated by js/about.js -->
         </div>
       </section>
 
       <section>
         <div class="section-label">Research Areas</div>
         <div class="info-card">
-          <div class="tag-cloud">
-            <span class="tag">Anomaly Detection</span>
-            <span class="tag">Computer Vision</span>
-            <span class="tag">Visual Inspection</span>
-            <span class="tag">Representation Learning</span>
-            <span class="tag">Generative Modeling</span>
-            <span class="tag">PyTorch</span>
-            <span class="tag">LibTorch</span>
-            <span class="tag">Industrial AI</span>
+          <div class="tag-cloud" id="research-areas">
+            <!-- populated by js/about.js -->
           </div>
         </div>
       </section>
+
     </div>
   </main>
 
   <footer>
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
   </footer>
+
+  <script src="js/about.js"></script>
 </body>
 </html>

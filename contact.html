@@ -44,22 +44,17 @@
       <section class="contact-grid">
         <article class="contact-card">
           <h3 class="contact-card-title">Email</h3>
-
           <div class="contact-method">
             <span id="email-display" class="contact-email">koba37b8011 [at] gmail.com</span>
           </div>
-
           <div class="contact-actions">
-            <button id="copy-email-btn" type="button" class="contact-action-btn">
-              Copy email
-            </button>
+            <button id="copy-email-btn" type="button" class="contact-action-btn">Copy email</button>
             <span id="copy-status" class="copy-status" aria-live="polite"></span>
           </div>
         </article>
 
         <article class="contact-card">
           <h3 class="contact-card-title">LinkedIn</h3>
-
           <a
             href="https://www.linkedin.com/in/hiroki-kobayashi-phd"
             class="contact-link-card"
@@ -85,26 +80,6 @@
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
   </footer>
 
-  <script>
-    (function () {
-      const displayedEmail = "koba37b8011 [at] gmail.com";
-      const realEmail = displayedEmail.replace(" [at] ", "@");
-
-      const copyBtn = document.getElementById("copy-email-btn");
-      const copyStatus = document.getElementById("copy-status");
-
-      copyBtn.addEventListener("click", async function () {
-        try {
-          await navigator.clipboard.writeText(realEmail);
-          copyStatus.textContent = "Copied";
-          setTimeout(function () {
-            copyStatus.textContent = "";
-          }, 2000);
-        } catch (err) {
-          copyStatus.textContent = "Copy failed";
-        }
-      });
-    })();
-  </script>
+  <script src="js/contact.js"></script>
 </body>
 </html>

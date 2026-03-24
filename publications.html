@@ -40,12 +40,11 @@
   </nav>
 
   <main class="single-column">
-    
     <div class="content" style="max-width: 860px;">
       <section>
         <div class="section-label">Publications</div>
 
-        <div class="pub-stats-bar" id="pub-stats">
+        <div class="pub-stats-bar">
           <div class="pub-stat"><span class="pub-stat-num" id="stat-journal">—</span><span class="pub-stat-label">Journal Papers</span></div>
           <div class="pub-stat"><span class="pub-stat-num" id="stat-intl">—</span><span class="pub-stat-label">Int'l Conferences</span></div>
           <div class="pub-stat"><span class="pub-stat-num" id="stat-domestic">—</span><span class="pub-stat-label">Domestic Conferences</span></div>
@@ -70,54 +69,6 @@
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
   </footer>
 
-  <script>
-    function buildPubItem(p) {
-      const badges = (p.first_author ? '<span class="pub-badge">First Author</span>' : '')
-                   + (p.award ? '<span class="pub-badge award-badge">' + p.award + '</span>' : '')
-                   + (p.acceptance_rate ? '<span class="pub-badge acceptance-rate-badge">Acceptance Rate: ' + p.acceptance_rate + '%</span>' : '');
-      return '<div class="pub-item">'
-           + '<span class="pub-year">' + p.year + '</span>'
-           + '<div>'
-           + '<div class="pub-title">' + p.title + badges + '</div>'
-           + '<div class="pub-authors">' + p.authors + '</div>'
-           + '<div class="pub-venue">' + p.venue + '</div>'
-           + '</div></div>';
-    }
-
-    function switchTab(id, btn) {
-      document.querySelectorAll('.pub-list').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.pub-tab').forEach(el => el.classList.remove('active'));
-      document.getElementById('tab-' + id).classList.add('active');
-      btn.classList.add('active');
-    }
-
-    fetch('data.json')
-      .then(r => r.json())
-      .then(d => {
-        const pubs = d.publications;
-        const allFirst = [...pubs.journal, ...pubs.international, ...pubs.domestic]
-                           .filter(p => p.first_author).length;
-
-        // stats bar
-        document.getElementById('stat-journal').textContent  = pubs.journal.length;
-        document.getElementById('stat-intl').textContent     = pubs.international.length;
-        document.getElementById('stat-domestic').textContent = pubs.domestic.length;
-        document.getElementById('stat-first').textContent    = allFirst;
-        document.getElementById('stat-citations').textContent = d.metrics?.citations ?? '—';
-
-        // tab counts
-        document.getElementById('tab-count-journal').textContent  = pubs.journal.length;
-        document.getElementById('tab-count-intl').textContent     = pubs.international.length;
-        document.getElementById('tab-count-domestic').textContent = pubs.domestic.length;
-
-        // render lists
-        document.getElementById('tab-journal').innerHTML  = pubs.journal.map(buildPubItem).join('');
-        document.getElementById('tab-intl').innerHTML     = pubs.international.map(buildPubItem).join('');
-        document.getElementById('tab-domestic').innerHTML = pubs.domestic.map(buildPubItem).join('');
-      })
-      .catch(() => {
-        document.getElementById('tab-journal').innerHTML = '<p style="color:var(--ink-soft);padding:16px 0;">データを読み込めませんでした。</p>';
-      });
-  </script>
+  <script src="js/publications.js"></script>
 </body>
 </html>

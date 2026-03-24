@@ -1,0 +1,26 @@
+[
+  {
+    "period": "Apr. 2023 – Mar. 2026",
+    "degree": "Doctor of Philosophy in Engineering",
+    "school": "Graduate School of Engineering, Chukyo University",
+    "lab": "Advanced Sensing & Machine Intelligence Group (Hashimoto and Akizuki Laboratory)",
+    "supervisor": "Prof. Manabu Hashimoto",
+    "dissertation": "欠陥特徴の利用可能性に応じた大規模画像データセットの構築と外観検査モデルの学習法に関する研究"
+  },
+  {
+    "period": "Apr. 2021 – Mar. 2023",
+    "degree": "Master of Science in Engineering",
+    "school": "Graduate School of Engineering, Chukyo University",
+    "lab": "Advanced Sensing & Machine Intelligence Group (Hashimoto and Akizuki Laboratory)",
+    "supervisor": "Prof. Manabu Hashimoto",
+    "dissertation": "ランダム画像群からの正常画像生成ネットワークに基づく教師なし欠陥検出に関する研究"
+  },
+  {
+    "period": "Apr. 2017 – Mar. 2021",
+    "degree": "Bachelor of Science in Engineering",
+    "school": "School of Engineering, Chukyo University",
+    "lab": "Advanced Sensing & Machine Intelligence Group (Hashimoto and Akizuki Laboratory)",
+    "supervisor": "Prof. Manabu Hashimoto",
+    "dissertation": "異状発生直前・直後のペア画像を用いた高リアリティ画像生成に基づくキズ検出"
+  }
+]

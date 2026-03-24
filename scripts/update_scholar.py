@@ -3,7 +3,7 @@ import os
 import sys
 import requests
 
-DATA_JSON_PATH = "data.json"
+METRICS_JSON_PATH = "data/metrics.json"
 
 
 def fetch_total_citations(author_id: str, api_key: str) -> int:
@@ -31,18 +31,18 @@ def main() -> int:
     if not api_key:
         print("ERROR: SERPAPI_KEY is not set.", file=sys.stderr)
         return 1
-    if not os.path.exists(DATA_JSON_PATH):
-        print(f"ERROR: {DATA_JSON_PATH} not found.", file=sys.stderr)
+    if not os.path.exists(METRICS_JSON_PATH):
+        print(f"ERROR: {METRICS_JSON_PATH} not found.", file=sys.stderr)
         return 1
 
-    with open(DATA_JSON_PATH, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    with open(METRICS_JSON_PATH, "r", encoding="utf-8") as f:
+        metrics = json.load(f)
 
     try:
         citations = fetch_total_citations(scholar_id, api_key)
-        data.setdefault("metrics", {})["citations"] = citations
-        with open(DATA_JSON_PATH, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        metrics["citations"] = citations
+        with open(METRICS_JSON_PATH, "w", encoding="utf-8") as f:
+            json.dump(metrics, f, ensure_ascii=False, indent=2)
             f.write("\n")
         print(f"Updated citations: {citations}", flush=True)
     except Exception as e:

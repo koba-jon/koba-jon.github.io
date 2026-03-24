@@ -48,7 +48,6 @@
           <p>My research explores pseudo-defect generation, domain-specific pre-training, and feature modeling for anomaly detection, with the goal of improving both accuracy and generalization in real-world applications. I am particularly interested in bridging the gap between academic research and deployable AI systems.</p>
           <p>In addition to research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source projects based on PyTorch and LibTorch.</p>
         </div>
-
         <div class="tag-cloud" style="margin-top: 24px;">
           <span class="tag">Anomaly Detection</span>
           <span class="tag">Visual Inspection</span>
@@ -135,46 +134,20 @@
 
       <div class="info-card">
         <div class="info-card-title">Quick Links</div>
-        <div class="info-row">
-          <span class="info-val"><a href="about.html" style="color: var(--accent); text-decoration: none;">About</a></span>
-        </div>
-        <div class="info-row">
-          <span class="info-val"><a href="projects.html" style="color: var(--accent); text-decoration: none;">Projects</a></span>
-        </div>
-        <div class="info-row">
-          <span class="info-val"><a href="publications.html" style="color: var(--accent); text-decoration: none;">Publications</a></span>
-        </div>
-        <div class="info-row">
-          <span class="info-val"><a href="awards.html" style="color: var(--accent); text-decoration: none;">Awards</a></span>
-        </div>
-        <div class="info-row">
-          <span class="info-val"><a href="education.html" style="color: var(--accent); text-decoration: none;">Education</a></span>
-        </div>
-        <div class="info-row">
-          <span class="info-val"><a href="certifications.html" style="color: var(--accent); text-decoration: none;">Certifications</a></span>
-        </div>
+        <div class="info-row"><span class="info-val"><a href="about.html" style="color: var(--accent); text-decoration: none;">About</a></span></div>
+        <div class="info-row"><span class="info-val"><a href="projects.html" style="color: var(--accent); text-decoration: none;">Projects</a></span></div>
+        <div class="info-row"><span class="info-val"><a href="publications.html" style="color: var(--accent); text-decoration: none;">Publications</a></span></div>
+        <div class="info-row"><span class="info-val"><a href="awards.html" style="color: var(--accent); text-decoration: none;">Awards</a></span></div>
+        <div class="info-row"><span class="info-val"><a href="education.html" style="color: var(--accent); text-decoration: none;">Education</a></span></div>
+        <div class="info-row"><span class="info-val"><a href="certifications.html" style="color: var(--accent); text-decoration: none;">Certifications</a></span></div>
       </div>
     </aside>
   </main>
 
-  <script>
-    fetch('data.json')
-      .then(r => r.json())
-      .then(d => {
-        const p = d.publications;
-        document.getElementById('stat-journal').textContent  = p.journal.length;
-        document.getElementById('stat-intl').textContent     = p.international.length;
-        document.getElementById('stat-domestic').textContent = p.domestic.length;
-        if (d.awards) {
-          const total = Object.values(d.awards).reduce((s, a) => s + a.length, 0);
-          document.getElementById('stat-awards').textContent = total;
-        }
-      })
-      .catch(() => {});
-  </script>
-
   <footer>
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
   </footer>
+
+  <script src="js/index.js"></script>
 </body>
 </html>

@@ -28,107 +28,32 @@
 
   <nav>
     <div class="nav-inner">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="projects.html" class="nav-link">Projects</a>
-        <a href="publications.html" class="nav-link">Publications</a>
-        <a href="awards.html" class="nav-link">Awards</a>
-        <a href="education.html" class="nav-link current">Education</a>
-        <a href="certifications.html" class="nav-link">Certifications</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="publications.html" class="nav-link">Publications</a>
+      <a href="awards.html" class="nav-link">Awards</a>
+      <a href="education.html" class="nav-link current">Education</a>
+      <a href="certifications.html" class="nav-link">Certifications</a>
+      <a href="contact.html" class="nav-link">Contact</a>
     </div>
   </nav>
 
-
   <main class="single-column">
     <div class="content">
-
       <section>
         <div class="section-label">Education</div>
-        <div class="edu-timeline">
-
-          <div class="edu-tl-item">
-            <div class="edu-tl-dot"></div>
-            <div class="edu-tl-card">
-              <div class="edu-tl-period">Apr. 2023 – Mar. 2026</div>
-              <div class="edu-tl-degree">Doctor of Philosophy in Engineering</div>
-              <div class="edu-tl-school">Graduate School of Engineering, Chukyo University</div>
-              <div class="edu-tl-divider"></div>
-              <div class="edu-tl-meta">
-                <div class="edu-tl-row">
-                  <span class="edu-tl-key">Lab</span>
-                  <span class="edu-tl-val">Advanced Sensing &amp; Machine Intelligence Group (Hashimoto and Akizuki Laboratory)</span>
-                </div>
-                <div class="edu-tl-row">
-                  <span class="edu-tl-key">Supervisor</span>
-                  <span class="edu-tl-val">Prof. Manabu Hashimoto</span>
-                </div>
-                <div class="edu-tl-row">
-                  <span class="edu-tl-key">Dissertation</span>
-                  <span class="edu-tl-thesis">欠陥特徴の利用可能性に応じた大規模画像データセットの構築と外観検査モデルの学習法に関する研究</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="edu-tl-item">
-            <div class="edu-tl-dot"></div>
-            <div class="edu-tl-card">
-              <div class="edu-tl-period">Apr. 2021 – Mar. 2023</div>
-              <div class="edu-tl-degree">Master of Science in Engineering</div>
-              <div class="edu-tl-school">Graduate School of Engineering, Chukyo University</div>
-              <div class="edu-tl-divider"></div>
-              <div class="edu-tl-meta">
-                <div class="edu-tl-row">
-                  <span class="edu-tl-key">Lab</span>
-                  <span class="edu-tl-val">Advanced Sensing &amp; Machine Intelligence Group (Hashimoto and Akizuki Laboratory)</span>
-                </div>
-                <div class="edu-tl-row">
-                  <span class="edu-tl-key">Supervisor</span>
-                  <span class="edu-tl-val">Prof. Manabu Hashimoto</span>
-                </div>
-                <div class="edu-tl-row">
-                  <span class="edu-tl-key">Dissertation</span>
-                  <span class="edu-tl-thesis">ランダム画像群からの正常画像生成ネットワークに基づく教師なし欠陥検出に関する研究</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="edu-tl-item">
-            <div class="edu-tl-dot"></div>
-            <div class="edu-tl-card">
-              <div class="edu-tl-period">Apr. 2017 – Mar. 2021</div>
-              <div class="edu-tl-degree">Bachelor of Science in Engineering</div>
-              <div class="edu-tl-school">School of Engineering, Chukyo University</div>
-              <div class="edu-tl-divider"></div>
-              <div class="edu-tl-meta">
-                <div class="edu-tl-row">
-                  <span class="edu-tl-key">Lab</span>
-                  <span class="edu-tl-val">Advanced Sensing &amp; Machine Intelligence Group (Hashimoto and Akizuki Laboratory)</span>
-                </div>
-                <div class="edu-tl-row">
-                  <span class="edu-tl-key">Supervisor</span>
-                  <span class="edu-tl-val">Prof. Manabu Hashimoto</span>
-                </div>
-                <div class="edu-tl-row">
-                  <span class="edu-tl-key">Dissertation</span>
-                  <span class="edu-tl-thesis">異状発生直前・直後のペア画像を用いた高リアリティ画像生成に基づくキズ検出</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <div class="edu-timeline" id="edu-timeline">
+          <!-- populated by js/education.js -->
         </div>
       </section>
-
     </div>
   </main>
-
 
   <footer>
     © Hiroki Kobayashi · Computer Vision Researcher · AI Engineer at Araya Inc.
   </footer>
-  
+
+  <script src="js/education.js"></script>
 </body>
 </html>
