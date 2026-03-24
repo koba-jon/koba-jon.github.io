@@ -1,98 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home | Hiroki Kobayashi</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/pages/home.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
 </head>
-<body data-page="index" data-page-title="Hiroki Kobayashi" data-page-tagline="PhD in Engineering · Araya Inc.">
-  <div id="site-header"></div>
-  <div id="site-nav"></div>
+<body data-page="index" data-page-title="Home" data-page-tagline="Hiroki Kobayashi">
+  <header id="site-header"></header>
+  <nav id="site-nav"></nav>
 
-  <main>
-    <div class="content">
-      <section aria-labelledby="home-overview-heading">
-        <h2 id="home-overview-heading" class="section-label">Overview</h2>
-        <div class="about-text" id="overview-text"></div>
-        <div class="tag-cloud tag-cloud--spaced" id="tag-cloud"></div>
-      </section>
+  <main class="page-shell">
+    <section class="grid two-column">
+      <article class="card">
+        <div class="section-heading">
+          <span class="section-kicker">Overview</span>
+          <h2>Selected Publications</h2>
+        </div>
 
-      <section aria-labelledby="selected-publications-heading">
-        <h2 id="selected-publications-heading" class="section-label">Selected Publications</h2>
-        <div class="pub-item">
-          <span class="pub-year">2024</span>
-          <div>
-            <div class="pub-title">
-              Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score
-              <span class="pub-badge">First Author</span>
-              <span class="pub-badge acceptance-rate-badge">Acceptance Rate: 25.78%</span>
-            </div>
-            <div class="pub-authors"><strong>Hiroki Kobayashi</strong>, Naoki Murakami, Naoto Hiramatsu, Takahiro Suzuki, Manabu Hashimoto</div>
-            <div class="pub-venue">BMVC2024</div>
+        <div class="publication-list">
+          <div class="publication-item">
+            <div class="publication-meta">2024</div>
+            <h3>Anomaly Detection Based on Semi-Formula Driven Pre-training Dataset to Represent Subtle Difference and Anomaly Score</h3>
+            <p>Hiroki Kobayashi, Naoki Murakami, Naoto Hiramatsu, Takahiro Suzuki, Manabu Hashimoto</p>
+            <p>BMVC 2024 · First Author · Acceptance Rate: 25.78%</p>
+          </div>
+
+          <div class="publication-item">
+            <div class="publication-meta">2023</div>
+            <h3>DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask</h3>
+            <p>Hiroki Kobayashi, Manabu Hashimoto</p>
+            <p>IJCNN 2023 · First Author · Acceptance Rate: 54.76%</p>
           </div>
         </div>
-        <div class="pub-item">
-          <span class="pub-year">2023</span>
-          <div>
-            <div class="pub-title">
-              DRepT: Anomaly Detection Based on Transfer of Defect Representation with Transmittance Mask
-              <span class="pub-badge">First Author</span>
-              <span class="pub-badge acceptance-rate-badge">Acceptance Rate: 54.76%</span>
+      </article>
+
+      <aside class="stack">
+        <section class="card">
+          <div class="section-heading">
+            <span class="section-kicker">Featured Project</span>
+            <h2>PyTorch C++ Samples</h2>
+          </div>
+
+          <img
+            src="images/pytorch_cpp.png"
+            alt="PyTorch C++ Samples"
+            class="project-thumb"
+          />
+
+          <p class="eyebrow">Open Source · C++ · LibTorch</p>
+          <p>
+            A large-scale open-source project for deep learning implementations in C++ using LibTorch.
+            Covers image classification, object detection, generative models, and a wide range of modern deep learning architectures.
+          </p>
+          <p>
+            <a href="https://github.com/koba-jon/pytorch_cpp" target="_blank" rel="noopener noreferrer">
+              View on GitHub →
+            </a>
+          </p>
+        </section>
+
+        <section class="card stats-card">
+          <div class="stat-grid">
+            <div class="stat-item">
+              <span class="stat-value">-</span>
+              <span class="stat-label">Journal Papers</span>
             </div>
-            <div class="pub-authors"><strong>Hiroki Kobayashi</strong>, Manabu Hashimoto</div>
-            <div class="pub-venue">IJCNN2023</div>
+            <div class="stat-item">
+              <span class="stat-value">-</span>
+              <span class="stat-label">Int'l Conf.</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">-</span>
+              <span class="stat-label">Domestic Conf.</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">-</span>
+              <span class="stat-label">Awards</span>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section aria-labelledby="featured-project-heading">
-        <h2 id="featured-project-heading" class="section-label">Featured Project</h2>
-        <article class="project-card">
-          <div class="project-image-center">
-            <img src="images/pytorch_cpp.png" alt="PyTorch C++ Samples" class="project-img2">
+        <section class="card">
+          <div class="section-heading">
+            <span class="section-kicker">Home</span>
+            <h2>Affiliation</h2>
           </div>
-          <div class="project-body">
-            <span class="project-tag">Open Source · C++ · LibTorch</span>
-            <h3 class="project-title">PyTorch C++ Samples</h3>
-            <p class="project-desc">A large-scale open-source project for deep learning implementations in C++ using LibTorch. Covers image classification, object detection, generative models, and a wide range of modern deep learning architectures.</p>
-            <a href="https://github.com/koba-jon/pytorch_cpp" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+
+          <div id="affiliation-content" class="meta-list"></div>
+        </section>
+
+        <section class="card">
+          <div class="section-heading">
+            <span class="section-kicker">Navigate</span>
+            <h2>Quick Links</h2>
           </div>
-        </article>
-      </section>
-    </div>
 
-    <aside class="sidebar">
-      <div class="stats-grid">
-        <div class="stat-cell"><span class="stat-num" id="stat-journal">-</span><span class="stat-label">Journal Papers</span></div>
-        <div class="stat-cell"><span class="stat-num" id="stat-intl">-</span><span class="stat-label">Int'l Conf.</span></div>
-        <div class="stat-cell"><span class="stat-num" id="stat-domestic">-</span><span class="stat-label">Domestic Conf.</span></div>
-        <div class="stat-cell"><span class="stat-num" id="stat-awards">-</span><span class="stat-label">Awards</span></div>
-      </div>
-
-      <section class="info-card" aria-labelledby="affiliation-heading">
-        <h2 id="affiliation-heading" class="info-card-title">Affiliation</h2>
-        <div class="info-row"><span class="info-key">Position</span><span class="info-val">AI Engineer</span></div>
-        <div class="info-row"><span class="info-key">Company</span><span class="info-val"><a href="https://www.araya.org/" class="link-accent" target="_blank" rel="noopener noreferrer">Araya Inc.</a></span></div>
-      </section>
-
-      <nav class="info-card" aria-labelledby="quick-links-heading">
-        <h2 id="quick-links-heading" class="info-card-title">Quick Links</h2>
-        <div class="info-row"><span class="info-val"><a href="about.html" class="link-accent">About</a></span></div>
-        <div class="info-row"><span class="info-val"><a href="projects.html" class="link-accent">Projects</a></span></div>
-        <div class="info-row"><span class="info-val"><a href="publications.html" class="link-accent">Publications</a></span></div>
-        <div class="info-row"><span class="info-val"><a href="awards.html" class="link-accent">Awards</a></span></div>
-        <div class="info-row"><span class="info-val"><a href="education.html" class="link-accent">Education</a></span></div>
-        <div class="info-row"><span class="info-val"><a href="certifications.html" class="link-accent">Certifications</a></span></div>
-      </nav>
-    </aside>
+          <div class="quick-links">
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="publications.html">Publications</a>
+            <a href="awards.html">Awards</a>
+            <a href="education.html">Education</a>
+            <a href="certifications.html">Certifications</a>
+          </div>
+        </section>
+      </aside>
+    </section>
   </main>
 
   <footer id="site-footer"></footer>
+
   <script src="js/main.js"></script>
-  <script src="js/pages/home.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>
