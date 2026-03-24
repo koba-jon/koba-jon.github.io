@@ -3,7 +3,7 @@
   await initSiteChrome();
 
   try {
-    const profile = await loadJson('assets/data/profile.json');
+    const profile = await loadJson('data/profile.json');
 
     document.getElementById('memberships-list').innerHTML = profile.memberships
       .map((item) => `<li>${escapeHtml(item)}</li>`)
