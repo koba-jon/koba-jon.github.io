@@ -20,7 +20,7 @@
   };
 
   try {
-    const data = await loadJson('assets/data/awards.json');
+    const data = await loadJson('data/awards.json');
     document.getElementById('count-research').textContent = data.research.length;
     document.getElementById('count-review').textContent = data.review.length;
     document.getElementById('count-scholarship').textContent = data.scholarship.length;
