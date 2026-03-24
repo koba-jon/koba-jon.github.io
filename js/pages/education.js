@@ -3,7 +3,7 @@
   await initSiteChrome();
 
   try {
-    const items = await loadJson('assets/data/education.json');
+    const items = await loadJson('data/education.json');
     document.getElementById('edu-timeline').innerHTML = items.map((item) => `
       <article class="edu-tl-item">
         <div class="edu-tl-dot"></div>
