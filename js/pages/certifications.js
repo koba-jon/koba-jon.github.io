@@ -9,7 +9,7 @@
   };
 
   try {
-    const items = await loadJson('assets/data/certifications.json');
+    const items = await loadJson('data/certifications.json');
     document.getElementById('cert-grid').innerHTML = items.map((item) => `
       <article class="cert-card">
         <div class="cert-icon">${icons[item.icon] || icons.computer}</div>
