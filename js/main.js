@@ -67,7 +67,7 @@ function renderFooter(profile) {
   return `
   <span>&copy; ${escapeHtml(profile.name)} · ${escapeHtml(profile.title)} · ${escapeHtml(profile.position)} at ${escapeHtml(profile.company)}</span>
   <span class="footer-visitor-counter">
-  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkoba-jon.github.io&count_bg=%23c8502a&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=true" alt="visitor counter">
+  <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fkoba-jon.github.io&label=visitors&countColor=%23c8502a&labelColor=%23555555&style=flat" alt="visitor counter">
   </span>
   `;
 }
