@@ -5,8 +5,34 @@
   align-items: stretch;
 }
 
+.stats-bar {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stats-bar .stat-item {
+  padding: 16px 10px;
+}
+
+.stats-bar .stat-label {
+  white-space: nowrap;
+  font-size: 8.5px;
+  letter-spacing: 0.04em;
+}
+
 @media (max-width: 860px) {
   .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .stats-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .stats-bar {
     grid-template-columns: 1fr;
   }
 }
