@@ -184,6 +184,22 @@
 .project-tag-research { background: #e8eef8; color: #3a6ea8; }
 .project-title { margin: 0 0 10px; font-family: var(--serif); font-size: 1.4rem; font-weight: 400; }
 .project-desc { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 16px; }
+.repo-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+.repo-stat {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: var(--ink-soft);
+  background: #f6f3ef;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
 .project-link, .text-link {
   font-family: var(--mono);
   font-size: 11px;
