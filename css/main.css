@@ -187,9 +187,11 @@ footer {
 }
 
 .visitor-counter {
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .visitor-counter img {
+  display: block;
   height: 20px;
+  width: auto;
 }
