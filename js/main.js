@@ -64,21 +64,7 @@ function renderNav(currentSlug) {
 }
 
 function renderFooter(profile) {
-  return `
-    <div class="footer-inner">
-      <div class="footer-copy">
-        &copy; ${escapeHtml(profile.name)} · ${escapeHtml(profile.title)} · ${escapeHtml(profile.position)} at ${escapeHtml(profile.company)}
-      </div>
-      <div class="visitor-counter">
-        <a href="https://hits.seeyoufarm.com">
-          <img
-            src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkoba-jon.github.io&count_bg=%23222222&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitors&edge_flat=false"
-            alt="Visitors counter"
-          >
-        </a>
-      </div>
-    </div>
-  `;
+  return `&copy; ${escapeHtml(profile.name)} · ${escapeHtml(profile.title)} · ${escapeHtml(profile.position)} at ${escapeHtml(profile.company)}`;
 }
 
 async function initSiteChrome() {
