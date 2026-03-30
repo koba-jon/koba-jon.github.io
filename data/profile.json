@@ -37,5 +37,11 @@
     "PyTorch",
     "LibTorch",
     "Industrial AI"
+  ],
+  "profile_summary": [
+    "I am an AI engineer at Araya Inc. with a background in computer vision research, specializing in industrial anomaly detection, representation learning, and generative modeling.",
+    "My work focuses on practical and robust machine learning methods for visual inspection, especially in manufacturing settings where defective samples are scarce and strong generalization matters more than benchmark cosmetics.",
+    "I am particularly interested in pseudo-defect generation, domain-specific pre-training, feature modeling for anomaly detection, and bridging the gap between academic research and deployable AI systems.",
+    "Beyond research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source work built on PyTorch and LibTorch."
   ]
 }
