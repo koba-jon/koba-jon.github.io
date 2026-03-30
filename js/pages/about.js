@@ -5,6 +5,17 @@
   try {
     const profile = await loadJson('data/profile.json');
 
+
+    const profileSummaryContainer = document.getElementById('profile-summary-content');
+    if (profileSummaryContainer && Array.isArray(profile.profile_summary)) {
+      profileSummaryContainer.insertAdjacentHTML(
+        'afterbegin',
+        profile.profile_summary
+          .map((item) => `<p>${escapeHtml(item)}</p>`)
+          .join('')
+      );
+    }
+
     document.getElementById('memberships-list').innerHTML = profile.memberships
       .map((item) => `<li>${escapeHtml(item)}</li>`)
       .join('');
