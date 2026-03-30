@@ -160,6 +160,14 @@ footer {
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.08em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.footer-visitor-counter img {
+  vertical-align: middle;
+  height: 18px;
 }
 
 @media (max-width: 860px) {
