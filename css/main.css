@@ -173,25 +173,3 @@ footer {
   main { padding: 36px 20px 60px; }
   .nav-inner { padding: 0 16px; }
 }
-
-.footer-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem;
-  text-align: center;
-}
-
-.footer-copy {
-  line-height: 1.6;
-}
-
-.visitor-counter {
-  opacity: 0.95;
-}
-
-.visitor-counter img {
-  display: block;
-  height: 20px;
-  width: auto;
-}
