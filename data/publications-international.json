@@ -33,7 +33,8 @@
     "authors": "Hiroki Kobayashi, Naoki Murakami, Naoto Hiramatsu, Takahiro Suzuki, Manabu Hashimoto",
     "venue": "BMVC2024",
     "first_author": true,
-    "acceptance_rate": "25.78"
+    "acceptance_rate": "25.78",
+    "select": true
   },
   {
     "year": 2024,
@@ -76,7 +77,8 @@
     "authors": "Hiroki Kobayashi, Manabu Hashimoto",
     "venue": "IJCNN2023",
     "first_author": true,
-    "acceptance_rate": "54.76"
+    "acceptance_rate": "54.76",
+    "select": true
   },
   {
     "year": 2023,
