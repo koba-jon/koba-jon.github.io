@@ -18,6 +18,32 @@
       }
     };
 
+    const parseCompactCount = (value) => {
+      if (typeof value !== 'string') return null;
+      const normalized = value.replace(/,/g, '').trim().toLowerCase();
+      const match = normalized.match(/^([0-9]*\.?[0-9]+)\s*([kmb])?$/);
+      if (!match) return null;
+      const base = Number.parseFloat(match[1]);
+      if (!Number.isFinite(base)) return null;
+      const multipliers = { k: 1_000, m: 1_000_000, b: 1_000_000_000 };
+      const suffix = match[2];
+      return Math.round(base * (suffix ? multipliers[suffix] : 1));
+    };
+
+    const fetchShieldsCount = async (repoPath, metric) => {
+      try {
+        const response = await fetch(`https://img.shields.io/github/${metric}/${repoPath}.json`);
+        if (!response.ok) throw new Error(`Shields API error: ${response.status}`);
+        const payload = await response.json();
+        const raw = typeof payload.value === 'string' ? payload.value : '';
+        const cleaned = raw.replace(new RegExp(`^${metric}:\\s*`, 'i'), '');
+        return parseCompactCount(cleaned);
+      } catch (error) {
+        console.warn(`Failed to load GitHub ${metric} for ${repoPath} via Shields`, error);
+        return null;
+      }
+    };
+
     const fetchGithubStats = async (projectLink) => {
       const repoPath = parseGitHubRepoPath(projectLink);
       if (!repoPath) return null;
@@ -37,10 +63,25 @@
         githubStatsCache.set(repoPath, stats);
         return stats;
       } catch (error) {
-        console.warn(`Failed to load GitHub stats for ${repoPath}`, error);
-        githubStatsCache.set(repoPath, null);
-        return null;
+        console.warn(`Failed to load GitHub stats for ${repoPath} via GitHub API`, error);
       }
+
+      const [stars, forks] = await Promise.all([
+        fetchShieldsCount(repoPath, 'stars'),
+        fetchShieldsCount(repoPath, 'forks'),
+      ]);
+
+      if (Number.isFinite(stars) || Number.isFinite(forks)) {
+        const stats = {
+          stars: Number.isFinite(stars) ? stars : 0,
+          forks: Number.isFinite(forks) ? forks : 0,
+        };
+        githubStatsCache.set(repoPath, stats);
+        return stats;
+      }
+
+      githubStatsCache.set(repoPath, null);
+      return null;
     };
 
     const formatCount = (value) => new Intl.NumberFormat('en-US').format(value);
@@ -94,8 +135,9 @@
     document.querySelector('#opensource-projects .projects-grid').innerHTML = opensourceCards.join('');
     document.getElementById('research-count').textContent = data.research.length;
     document.getElementById('opensource-count').textContent = data.opensource.length;
-    document.getElementById('github-stars-total').textContent = formatCount(githubTotals.stars);
-    document.getElementById('github-forks-total').textContent = formatCount(githubTotals.forks);
+    const hasGithubStats = githubStatsCache.size > 0 && Array.from(githubStatsCache.values()).some(Boolean);
+    document.getElementById('github-stars-total').textContent = hasGithubStats ? formatCount(githubTotals.stars) : '—';
+    document.getElementById('github-forks-total').textContent = hasGithubStats ? formatCount(githubTotals.forks) : '—';
   } catch (error) {
     console.warn(error);
   }
