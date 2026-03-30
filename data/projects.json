@@ -19,6 +19,7 @@
       "title": "PyTorch C++ Samples",
       "tag": "Open Source · C++ · LibTorch",
       "tag_type": "opensource",
+      "feature": true,
       "image": "images/pytorch_cpp.png",
       "description": [
         "A large-scale open-source project for deep learning implementations in C++ using LibTorch. It covers image classification, object detection, generative models, diffusion-related architectures, and many modern deep learning systems.",

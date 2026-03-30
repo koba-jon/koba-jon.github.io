@@ -3,12 +3,13 @@
   await initSiteChrome();
 
   try {
-    const [profile, journal, intl, domestic, awards] = await Promise.all([
+    const [profile, journal, intl, domestic, awards, projects] = await Promise.all([
       loadJson('data/profile.json'),
       loadJson('data/publications-journal.json'),
       loadJson('data/publications-international.json'),
       loadJson('data/publications-domestic.json'),
       loadJson('data/awards.json'),
+      loadJson('data/projects.json'),
     ]);
 
     document.getElementById('stat-journal').textContent = journal.length;
@@ -47,6 +48,62 @@
           </span>
         </div>
       `;
+    }
+
+    const buildPubItem = (publication) => {
+      const badges = [
+        publication.first_author ? '<span class="pub-badge">First Author</span>' : '',
+        publication.award ? `<span class="pub-badge award-badge">${escapeHtml(publication.award)}</span>` : '',
+        publication.acceptance_rate ? `<span class="pub-badge acceptance-rate-badge">Acceptance Rate: ${escapeHtml(publication.acceptance_rate)}%</span>` : '',
+      ].join('');
+
+      return `
+        <div class="pub-item">
+          <span class="pub-year">${escapeHtml(publication.year)}</span>
+          <div>
+            <div class="pub-title">${escapeHtml(publication.title)}${badges}</div>
+            <div class="pub-authors">${escapeHtml(publication.authors)}</div>
+            <div class="pub-venue">${escapeHtml(publication.venue)}</div>
+          </div>
+        </div>
+      `;
+    };
+
+    const allPublications = [...journal, ...intl, ...domestic];
+    const selectedPublications = allPublications.filter((publication) => publication.select === true);
+    const selectedPublicationsList = document.getElementById('selected-publications-list');
+    if (selectedPublicationsList) {
+      selectedPublicationsList.innerHTML = selectedPublications.length
+        ? selectedPublications.map(buildPubItem).join('')
+        : '<p>No selected publications configured yet.</p>';
+    }
+
+    const allProjects = [...(projects.research ?? []), ...(projects.opensource ?? [])];
+    const featuredProjects = allProjects.filter((project) => project.feature === true);
+    const featuredProjectList = document.getElementById('featured-project-list');
+    if (featuredProjectList) {
+      featuredProjectList.innerHTML = featuredProjects.length
+        ? featuredProjects.map((project) => {
+          const imageHtml = project.image
+            ? `<div class="project-image-center"><img src="${project.image}" alt="${escapeHtml(project.title)}" class="project-img2"></div>`
+            : '';
+          const descriptions = (project.description ?? [])
+            .map((line) => `<p class="project-desc">${escapeHtml(line)}</p>`)
+            .join('');
+          const tagClass = project.tag_type === 'research' ? 'project-tag-research' : 'project-tag';
+          return `
+            <article class="project-card">
+              ${imageHtml}
+              <div class="project-body">
+                <span class="${tagClass}">${escapeHtml(project.tag ?? '')}</span>
+                <h3 class="project-title">${escapeHtml(project.title)}</h3>
+                ${descriptions}
+                <a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
+            </article>
+          `;
+        }).join('')
+        : '<p>No featured project configured yet.</p>';
     }
   } catch (error) {
     console.warn(error);
