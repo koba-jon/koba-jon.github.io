@@ -80,11 +80,22 @@
     const researchCards = await Promise.all(data.research.map(buildCard));
     const opensourceCards = await Promise.all(data.opensource.map(buildCard));
 
+    const githubTotals = Array.from(githubStatsCache.values()).reduce(
+      (accumulator, stats) => {
+        if (!stats) return accumulator;
+        accumulator.stars += stats.stars;
+        accumulator.forks += stats.forks;
+        return accumulator;
+      },
+      { stars: 0, forks: 0 },
+    );
+
     document.querySelector('#research-projects .projects-grid').innerHTML = researchCards.join('');
     document.querySelector('#opensource-projects .projects-grid').innerHTML = opensourceCards.join('');
     document.getElementById('research-count').textContent = data.research.length;
     document.getElementById('opensource-count').textContent = data.opensource.length;
-    document.getElementById('total-count').textContent = data.research.length + data.opensource.length;
+    document.getElementById('github-stars-total').textContent = formatCount(githubTotals.stars);
+    document.getElementById('github-forks-total').textContent = formatCount(githubTotals.forks);
   } catch (error) {
     console.warn(error);
   }
