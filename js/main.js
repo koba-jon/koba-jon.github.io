@@ -64,12 +64,7 @@ function renderNav(currentSlug) {
 }
 
 function renderFooter(profile) {
-  return `
-  <span>&copy; ${escapeHtml(profile.name)} · ${escapeHtml(profile.title)} · ${escapeHtml(profile.position)} at ${escapeHtml(profile.company)}</span>
-  <span class="footer-visitor-counter">
-  <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fkoba-jon.github.io&label=visitors&countColor=%23c8502a&labelColor=%23555555&style=flat" alt="visitor counter">
-  </span>
-  `;
+  return `&copy; ${escapeHtml(profile.name)} · ${escapeHtml(profile.title)} · ${escapeHtml(profile.position)} at ${escapeHtml(profile.company)}`;
 }
 
 async function initSiteChrome() {
