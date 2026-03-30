@@ -3,8 +3,9 @@
   await initSiteChrome();
 
   try {
-    const [profile, journal, intl, domestic, awards, projects] = await Promise.all([
+    const [profile, home, journal, intl, domestic, awards, projects] = await Promise.all([
       loadJson('data/profile.json'),
+      loadJson('data/home.json'),
       loadJson('data/publications-journal.json'),
       loadJson('data/publications-international.json'),
       loadJson('data/publications-domestic.json'),
@@ -59,11 +60,10 @@
       Object.values(awards).reduce((s, arr) => s + arr.length, 0);
 
     const overview = document.getElementById('overview-text');
-    overview.innerHTML = `
-      <p>I am a computer vision researcher and AI engineer specializing in industrial anomaly detection, representation learning, and generative modeling. My work focuses on building practical and robust machine learning methods for visual inspection, especially in manufacturing environments where real defective data are limited.</p>
-      <p>My research explores pseudo-defect generation, domain-specific pre-training, and feature modeling for anomaly detection, with the goal of improving both accuracy and generalization in real-world applications. I am particularly interested in bridging the gap between academic research and deployable AI systems.</p>
-      <p>In addition to research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source projects based on PyTorch and LibTorch.</p>
-    `;
+    const overviewParagraphs = Array.isArray(home.overview) ? home.overview : [];
+    overview.innerHTML = overviewParagraphs
+      .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+      .join('');
 
     document.getElementById('tag-cloud').innerHTML = profile.research_areas
       .slice(0, 6)
