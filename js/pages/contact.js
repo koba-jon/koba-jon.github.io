@@ -4,22 +4,25 @@
 
   try {
     const profile = await loadJson('data/profile.json');
-    const displayedEmail = profile.email_display;
-    const realEmail = displayedEmail.replace(' [at] ', '@');
+    const realEmail = profile.email_display.replace(' [at] ', '@');
 
-    const email = document.getElementById('email-display');
-    const copyButton = document.getElementById('copy-email-btn');
-    const copyStatus = document.getElementById('copy-status');
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('contact-form-status');
 
-    email.textContent = displayedEmail;
-    copyButton.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(realEmail);
-        copyStatus.textContent = 'Copied';
-        setTimeout(() => { copyStatus.textContent = ''; }, 2000);
-      } catch (error) {
-        copyStatus.textContent = 'Copy failed';
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const subject = form.subject.value.trim();
+      const message = form.message.value.trim();
+
+      if (!subject || !message) {
+        status.textContent = 'Please fill in subject and message.';
+        return;
       }
+
+      const mailtoUrl = `mailto:${realEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+      window.location.href = mailtoUrl;
+      status.textContent = 'Opening email client...';
     });
   } catch (error) {
     console.warn(error);

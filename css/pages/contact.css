@@ -1,7 +1,39 @@
-.contact-method {
-  margin-bottom: 0;
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.contact-card--form {
+  padding: 24px;
+}
+
+.contact-form {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-form-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.contact-form-input,
+.contact-form-textarea {
+  width: 100%;
+  border: 1px solid #c8ccd0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font: inherit;
+  background: #fff;
+}
+
+.contact-form-textarea {
+  resize: vertical;
 }
 
 .contact-actions {
-  margin-top: 20px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
