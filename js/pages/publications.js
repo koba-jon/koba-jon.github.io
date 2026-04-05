@@ -143,11 +143,16 @@
 
   const createPaperListPdf = (journal, intl, domestic) => {
     const bodyHtml = buildPaperListHtml(journal, intl, domestic);
-    const printWindow = window.open('', '_blank', 'noopener,noreferrer');
+    // NOTE:
+    // - `noopener`/`noreferrer` can cause `window.open` to return `null` in some browsers.
+    // - We need a live window reference to inject HTML before printing.
+    // - To keep the new tab detached from this page, clear `opener` explicitly.
+    const printWindow = window.open('', '_blank');
     if (!printWindow) {
       window.alert('Unable to open a new window for PDF export. Please allow pop-ups and try again.');
       return;
     }
+    printWindow.opener = null;
 
     const htmlDoc = `
       <!DOCTYPE html>
