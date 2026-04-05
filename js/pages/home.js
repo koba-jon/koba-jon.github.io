@@ -269,6 +269,12 @@
       `;
     };
 
+    const formatProjectTag = (tagValue) => {
+      if (Array.isArray(tagValue)) {
+        return tagValue.filter(Boolean).join(' · ');
+      }
+      return String(tagValue ?? '');
+    };
     const allProjects = [...(projects.research ?? []), ...(projects.opensource ?? [])];
     const featuredProjects = allProjects.filter((project) => project.feature === true);
     const featuredProjectList = document.getElementById('featured-project-list');
@@ -296,7 +302,7 @@
       const cardsHtml = featuredProjects.map((project) => {
         const repoInfo = featuredCardsByProjectId.get(project.id) ?? null;
         const title = language === 'ja' ? (project.title_ja || project.title || '') : (project.title || '');
-        const tag = language === 'ja' ? (project.tag_ja || project.tag || '') : (project.tag || '');
+        const tag = formatProjectTag(language === 'ja' ? (project.tag_ja || project.tag || '') : (project.tag || ''));
         const descriptions = language === 'ja'
           ? (Array.isArray(project.description_ja) ? project.description_ja : (Array.isArray(project.description) ? project.description : []))
           : (Array.isArray(project.description) ? project.description : []);
