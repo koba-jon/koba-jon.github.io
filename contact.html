@@ -21,6 +21,10 @@
         <div class="contact-grid">
           <article class="contact-card contact-card--form">
             <form id="contact-form" class="contact-form">
+              <div class="contact-form-honeypot" aria-hidden="true">
+                <label for="contact-website">Website</label>
+                <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
               <label for="contact-name" class="contact-form-label">Your Name</label>
               <input id="contact-name" name="name" type="text" class="contact-form-input" required>
 

@@ -8,6 +8,11 @@
   const yearSelect = document.getElementById('pub-filter-year');
   const firstAuthorOnlyInput = document.getElementById('pub-filter-first-author');
   const resetButton = document.getElementById('pub-filter-reset');
+  const FILTER_QUERY_KEYS = {
+    keyword: 'q',
+    year: 'year',
+    firstAuthorOnly: 'first',
+  };
   const buildPubItem = (publication) => {
     const badges = [
       publication.first_author ? '<span class="pub-badge">First Author</span>' : '',
@@ -242,6 +247,31 @@
       : `${filteredCount} / ${totalCount}`;
   };
 
+  const readFiltersFromQuery = () => {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      keyword: (params.get(FILTER_QUERY_KEYS.keyword) || '').trim(),
+      year: (params.get(FILTER_QUERY_KEYS.year) || '').trim(),
+      firstAuthorOnly: ['1', 'true', 'yes'].includes((params.get(FILTER_QUERY_KEYS.firstAuthorOnly) || '').toLowerCase()),
+    };
+  };
+
+  const writeFiltersToQuery = (filters) => {
+    const url = new URL(window.location.href);
+    const setOrDelete = (key, value) => {
+      if (value) {
+        url.searchParams.set(key, value);
+      } else {
+        url.searchParams.delete(key);
+      }
+    };
+
+    setOrDelete(FILTER_QUERY_KEYS.keyword, filters.keyword);
+    setOrDelete(FILTER_QUERY_KEYS.year, filters.year);
+    setOrDelete(FILTER_QUERY_KEYS.firstAuthorOnly, filters.firstAuthorOnly ? '1' : '');
+    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+  };
+
   try {
     const [journal, intl, domestic, metrics] = await Promise.all([
       loadJson('data/publications-journal.json'),
@@ -264,6 +294,15 @@
       ...years.map((year) => `<option value="${escapeHtml(year)}">${escapeHtml(year)}</option>`),
     ].join('');
 
+    const initialFilters = readFiltersFromQuery();
+    keywordInput.value = initialFilters.keyword;
+    if (initialFilters.year && years.includes(initialFilters.year)) {
+      yearSelect.value = initialFilters.year;
+    } else {
+      yearSelect.value = '';
+    }
+    firstAuthorOnlyInput.checked = initialFilters.firstAuthorOnly;
+
     const applyFilters = () => {
       const filters = {
         keyword: normalizeText(keywordInput.value.trim()),
@@ -282,6 +321,11 @@
       updateTabCount('tab-count-journal', filteredJournal.length, journal.length);
       updateTabCount('tab-count-intl', filteredIntl.length, intl.length);
       updateTabCount('tab-count-domestic', filteredDomestic.length, domestic.length);
+      writeFiltersToQuery({
+        keyword: keywordInput.value.trim(),
+        year: yearSelect.value,
+        firstAuthorOnly: firstAuthorOnlyInput.checked,
+      });
     };
 
     keywordInput?.addEventListener('input', applyFilters);
