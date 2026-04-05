@@ -197,7 +197,7 @@
       )).sort((left, right) => left.localeCompare(right, getCurrentLanguage() === 'ja' ? 'ja' : 'en', { sensitivity: 'base' }));
 
       tagSelect.innerHTML = [
-        '<option value="">All tags</option>',
+        `<option value="">${escapeHtml(t('projects.allTags', getCurrentLanguage()))}</option>`,
         ...uniqueTags.map((tag) => `<option value="${escapeHtml(normalizeTagValue(tag))}">${escapeHtml(tag)}</option>`),
       ].join('');
     };

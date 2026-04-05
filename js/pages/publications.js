@@ -1,5 +1,5 @@
 (async function () {
-  const { loadJson, initSiteChrome, escapeHtml, setStructuredData, absolutePageUrl } = window.siteUtils;
+  const { loadJson, initSiteChrome, escapeHtml, setStructuredData, absolutePageUrl, t, getCurrentLanguage } = window.siteUtils;
   await initSiteChrome();
   const exportDocButton = document.getElementById('create-paper-list-btn');
   const exportCsvButton = document.getElementById('export-csv-btn');
@@ -358,7 +358,7 @@
     const years = Array.from(new Set([...journal, ...intl, ...domestic].map((publication) => publication.year)))
       .sort((left, right) => Number(right) - Number(left));
     yearSelect.innerHTML = [
-      '<option value="">All years</option>',
+      `<option value="">${escapeHtml(t('publications.allYears', getCurrentLanguage()))}</option>`,
       ...years.map((year) => `<option value="${escapeHtml(year)}">${escapeHtml(year)}</option>`),
     ].join('');
 
@@ -382,9 +382,9 @@
       const filteredIntl = intl.filter((publication) => publicationMatches(publication, filters));
       const filteredDomestic = domestic.filter((publication) => publicationMatches(publication, filters));
 
-      renderPublicationList('tab-journal', filteredJournal, 'No journal papers match the current filters.', 'journal');
-      renderPublicationList('tab-intl', filteredIntl, 'No international conference papers match the current filters.', 'intl');
-      renderPublicationList('tab-domestic', filteredDomestic, 'No domestic conference papers match the current filters.', 'domestic');
+      renderPublicationList('tab-journal', filteredJournal, t('publications.noJournal', getCurrentLanguage()), 'journal');
+      renderPublicationList('tab-intl', filteredIntl, t('publications.noIntl', getCurrentLanguage()), 'intl');
+      renderPublicationList('tab-domestic', filteredDomestic, t('publications.noDomestic', getCurrentLanguage()), 'domestic');
 
       updateTabCount('tab-count-journal', filteredJournal.length, journal.length);
       updateTabCount('tab-count-intl', filteredIntl.length, intl.length);

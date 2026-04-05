@@ -1,5 +1,5 @@
 (async function () {
-  const { loadJson, initSiteChrome } = window.siteUtils;
+  const { loadJson, initSiteChrome, t, getCurrentLanguage, formatMessage } = window.siteUtils;
   await initSiteChrome();
 
   try {
@@ -26,6 +26,9 @@
 
     const form = document.getElementById('contact-form');
     const status = document.getElementById('contact-form-status');
+    const setStatus = (key, values = {}) => {
+      status.textContent = formatMessage(t(key, getCurrentLanguage()), values);
+    };
 
     const getCooldownRemainingMs = () => {
       const cooldownUntil = Number.parseInt(localStorage.getItem(storageKeys.cooldownUntil) || '0', 10);
@@ -43,28 +46,28 @@
       const website = form.elements.website?.value?.trim() || '';
 
       if (!name || !email || !subject || !message) {
-        status.textContent = 'Please fill in all fields.';
+        setStatus('contact.fillAll');
         return;
       }
 
       if (website) {
-        status.textContent = 'Unable to send message. Please try again later.';
+        setStatus('contact.unavailable');
         return;
       }
 
       if (Date.now() - startedAt < minimumFillMs) {
-        status.textContent = 'Please wait a few seconds before submitting.';
+        setStatus('contact.waitBeforeSubmit');
         return;
       }
 
       const cooldownRemainingMs = getCooldownRemainingMs();
       if (cooldownRemainingMs > 0) {
         const seconds = Math.ceil(cooldownRemainingMs / 1000);
-        status.textContent = `Please wait ${seconds}s before sending another message.`;
+        setStatus('contact.waitBeforeNext', { seconds });
         return;
       }
 
-      status.textContent = 'Sending...';
+      setStatus('contact.sending');
 
       try {
         const response = await fetch(submitEndpoint, {
@@ -95,12 +98,12 @@
           throw new Error(result.message || 'Failed to send message.');
         }
 
-        status.textContent = 'Message sent successfully.';
+        setStatus('contact.sent');
         localStorage.setItem(storageKeys.cooldownUntil, String(Date.now() + cooldownMs));
         form.reset();
       } catch (error) {
         console.warn(error);
-        status.textContent = 'Failed to send message. Please try again later.';
+        setStatus('contact.failed');
       }
     });
   } catch (error) {
