@@ -9,6 +9,7 @@ const SITE_PAGES = [
   { slug: 'contact', file: 'contact.html', label: 'Contact' },
 ];
 const SITE_BASE_URL = 'https://koba-jon.github.io/';
+const DEFAULT_SOCIAL_IMAGE = 'images/profile.jpg';
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (ch) => ({
@@ -68,10 +69,57 @@ function renderFooter(profile) {
   return `&copy; ${escapeHtml(profile.name)} · ${escapeHtml(profile.title)} · ${escapeHtml(profile.position)} at ${escapeHtml(profile.company)}`;
 }
 
+function upsertMetaTag(key, value, isProperty = false) {
+  const attrName = isProperty ? 'property' : 'name';
+  const selector = `meta[${attrName}="${key}"]`;
+  let element = document.head.querySelector(selector);
+  if (!element) {
+    element = document.createElement('meta');
+    element.setAttribute(attrName, key);
+    document.head.appendChild(element);
+  }
+  element.setAttribute('content', value);
+}
+
+function upsertLinkTag(rel, href) {
+  let element = document.head.querySelector(`link[rel="${rel}"]`);
+  if (!element) {
+    element = document.createElement('link');
+    element.setAttribute('rel', rel);
+    document.head.appendChild(element);
+  }
+  element.setAttribute('href', href);
+}
+
+function setSeoMeta(profile, currentPage, pageTitle, pageDescription) {
+  const pagePath = `${currentPage || 'index'}.html`;
+  const canonicalUrl = absolutePageUrl(pagePath);
+  const siteName = `${profile.name}`;
+  const socialImage = absolutePageUrl(DEFAULT_SOCIAL_IMAGE);
+  const seoTitle = `${pageTitle} | ${profile.name}`;
+
+  upsertMetaTag('description', pageDescription);
+  upsertMetaTag('robots', 'index,follow');
+  upsertLinkTag('canonical', canonicalUrl);
+
+  upsertMetaTag('og:type', 'website', true);
+  upsertMetaTag('og:site_name', siteName, true);
+  upsertMetaTag('og:title', seoTitle, true);
+  upsertMetaTag('og:description', pageDescription, true);
+  upsertMetaTag('og:url', canonicalUrl, true);
+  upsertMetaTag('og:image', socialImage, true);
+
+  upsertMetaTag('twitter:card', 'summary_large_image');
+  upsertMetaTag('twitter:title', seoTitle);
+  upsertMetaTag('twitter:description', pageDescription);
+  upsertMetaTag('twitter:image', socialImage);
+}
+
 async function initSiteChrome() {
   const body = document.body;
   const pageTitle = body.dataset.pageTitle || '';
   const pageTagline = body.dataset.pageTagline || '';
+  const pageDescription = body.dataset.pageDescription || '';
   const currentPage = body.dataset.page || 'index';
   const profile = await loadJson('data/profile.json');
 
@@ -85,6 +133,10 @@ async function initSiteChrome() {
 
   document.documentElement.lang = 'en';
   document.title = `${pageTitle || profile.name} | ${profile.name}`;
+  const resolvedDescription = pageDescription
+    || profile.profile_summary?.[0]
+    || `${profile.name} - ${profile.title}`;
+  setSeoMeta(profile, currentPage, pageTitle || profile.name, resolvedDescription);
   setStructuredData('site-identity-jsonld', [
     buildPersonSchema(profile),
     buildWebsiteSchema(profile, pageTitle || profile.name, currentPage),
