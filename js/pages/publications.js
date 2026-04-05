@@ -22,7 +22,12 @@
     `;
   };
 
-  const toPaperListEntry = (publication, index) => `　[${index + 1}] ${publication.authors}，${publication.title}，${publication.venue}，${publication.year}．`;
+  const toPaperListEntry = (publication, index) => {
+    const isJapanese = publication.lang === 'ja';
+    const comma = isJapanese ? '，' : ', ';
+    const period = isJapanese ? '．' : '.';
+    return `　[${index + 1}] ${publication.authors}${comma}${publication.title}${comma}${publication.venue}${comma}${publication.year}${period}`;
+  };
 
   const buildPaperListText = (journal, intl, domestic) => {
     const sections = [
