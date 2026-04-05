@@ -1,48 +1,18 @@
 (async function () {
-  const { loadJson, initSiteChrome, escapeHtml, setStructuredData, absolutePageUrl } = window.siteUtils;
+  const {
+    loadJson,
+    initSiteChrome,
+    escapeHtml,
+    setStructuredData,
+    absolutePageUrl,
+    parseGitHubRepoPath,
+    fetchShieldsRepoCount,
+  } = window.siteUtils;
   await initSiteChrome();
 
   try {
     const data = await loadJson('data/projects.json');
     const githubStatsCache = new Map();
-
-    const parseGitHubRepoPath = (url) => {
-      try {
-        const parsed = new URL(url);
-        if (parsed.hostname !== 'github.com') return null;
-        const [owner, repo] = parsed.pathname.replace(/^\/+/, '').split('/');
-        if (!owner || !repo) return null;
-        return `${owner}/${repo}`;
-      } catch (error) {
-        return null;
-      }
-    };
-
-    const parseCompactCount = (value) => {
-      if (typeof value !== 'string') return null;
-      const normalized = value.replace(/,/g, '').trim().toLowerCase();
-      const match = normalized.match(/^([0-9]*\.?[0-9]+)\s*([kmb])?$/);
-      if (!match) return null;
-      const base = Number.parseFloat(match[1]);
-      if (!Number.isFinite(base)) return null;
-      const multipliers = { k: 1_000, m: 1_000_000, b: 1_000_000_000 };
-      const suffix = match[2];
-      return Math.round(base * (suffix ? multipliers[suffix] : 1));
-    };
-
-    const fetchShieldsCount = async (repoPath, metric) => {
-      try {
-        const response = await fetch(`https://img.shields.io/github/${metric}/${repoPath}.json`);
-        if (!response.ok) throw new Error(`Shields API error: ${response.status}`);
-        const payload = await response.json();
-        const raw = typeof payload.value === 'string' ? payload.value : '';
-        const cleaned = raw.replace(new RegExp(`^${metric}:\\s*`, 'i'), '');
-        return parseCompactCount(cleaned);
-      } catch (error) {
-        console.warn(`Failed to load GitHub ${metric} for ${repoPath} via Shields`, error);
-        return null;
-      }
-    };
 
     const fetchGithubStats = async (projectLink) => {
       const repoPath = parseGitHubRepoPath(projectLink);
@@ -67,8 +37,8 @@
       }
 
       const [stars, forks] = await Promise.all([
-        fetchShieldsCount(repoPath, 'stars'),
-        fetchShieldsCount(repoPath, 'forks'),
+        fetchShieldsRepoCount(repoPath, 'stars'),
+        fetchShieldsRepoCount(repoPath, 'forks'),
       ]);
 
       if (Number.isFinite(stars) || Number.isFinite(forks)) {
@@ -85,8 +55,6 @@
     };
 
     const formatCount = (value) => new Intl.NumberFormat('en-US').format(value);
-
-
     const buildCard = async (project) => {
       const imageHtml = project.image
         ? `<div class="project-image-center"><img src="${project.image}" alt="${escapeHtml(project.title)}" class="project-img2"></div>`
