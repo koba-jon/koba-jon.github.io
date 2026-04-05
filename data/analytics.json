@@ -1,0 +1,24 @@
+{
+  "enabled": true,
+  "provider": "countapi",
+  "namespace": "koba-jon.github.io",
+  "trackNavigationTo": [
+    "about",
+    "projects",
+    "publications",
+    "awards",
+    "education",
+    "certifications",
+    "contact"
+  ],
+  "trackOutboundFrom": [
+    "index",
+    "about",
+    "projects",
+    "publications",
+    "awards",
+    "education",
+    "certifications",
+    "contact"
+  ]
+}
