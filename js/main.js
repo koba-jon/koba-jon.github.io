@@ -125,7 +125,10 @@ function getCurrentLanguage() {
 
 function t(key, lang = getCurrentLanguage()) {
   const locale = UI_TEXT[lang] ? lang : 'en';
-  return UI_TEXT[locale][key] || UI_TEXT.en[key] || key;
+  const resolveKey = (dictionary, dottedKey) => dottedKey
+    .split('.')
+    .reduce((value, segment) => (value && typeof value === 'object' ? value[segment] : undefined), dictionary);
+  return resolveKey(UI_TEXT[locale], key) || resolveKey(UI_TEXT.en, key) || key;
 }
 
 function formatMessage(template, values = {}) {
