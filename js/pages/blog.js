@@ -109,6 +109,10 @@
       .join(' ') || filename;
   };
 
+  const pathToSlug = (path) => String(path || '')
+    .replace(/^blog\//i, '')
+    .replace(/\.md$/i, '');
+
   const fetchLatestCommitDate = async (owner, repo, path) => {
     const commitsApiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${encodeURIComponent(path)}&per_page=1`;
     const commitResponse = await fetch(commitsApiUrl, { headers: { Accept: 'application/vnd.github+json' } });
@@ -246,7 +250,12 @@
             </span>
             <span class="blog-post-toggle" aria-hidden="true">+</span>
           </button>
-          <div id="${contentId}" class="blog-post-content" hidden>${post.contentHtml}</div>
+          <div id="${contentId}" class="blog-post-content" hidden>
+            ${post.contentHtml}
+            <p class="blog-post-permalink-wrap">
+              <a class="blog-post-permalink" href="blog/post.html?slug=${encodeURIComponent(post.slug)}">Permalink</a>
+            </p>
+          </div>
         </article>
       `;
     }).join('');
@@ -273,6 +282,7 @@
       const parsed = extractTitleAndBody(markdown, filenameToTitle(file.name));
       return {
         title: parsed.title,
+        slug: pathToSlug(file.path),
         updatedAt: file.updatedAt,
         contentHtml: markdownToHtml(parsed.bodyMarkdown),
       };
