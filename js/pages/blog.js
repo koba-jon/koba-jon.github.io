@@ -109,6 +109,17 @@
       .join(' ') || filename;
   };
 
+  const fetchLatestCommitDate = async (owner, repo, path) => {
+    const commitsApiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${encodeURIComponent(path)}&per_page=1`;
+    const commitResponse = await fetch(commitsApiUrl, { headers: { Accept: 'application/vnd.github+json' } });
+    if (!commitResponse.ok) {
+      throw new Error(`GitHub commits API returned ${commitResponse.status} for ${path}`);
+    }
+
+    const commits = await commitResponse.json();
+    return commits?.[0]?.commit?.committer?.date || null;
+  };
+
   const fetchMarkdownFiles = async () => {
     const { owner, repo } = inferRepoInfo();
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/blog`;
@@ -118,13 +129,25 @@
     }
 
     const entries = await apiResponse.json();
-    return entries
-      .filter((entry) => entry?.type === 'file' && /\.md$/i.test(entry.name))
-      .map((entry) => ({
+    const markdownEntries = entries
+      .filter((entry) => entry?.type === 'file' && /\.md$/i.test(entry.name));
+
+    const markdownFiles = await Promise.all(markdownEntries.map(async (entry) => {
+      const path = `blog/${entry.name}`;
+      const updatedAt = await fetchLatestCommitDate(owner, repo, path);
+      return {
         name: entry.name,
-        path: `blog/${entry.name}`,
-      }))
-      .sort((left, right) => left.name.localeCompare(right.name));
+        path,
+        updatedAt,
+      };
+    }));
+
+    return markdownFiles.sort((left, right) => {
+      const leftTime = left.updatedAt ? new Date(left.updatedAt).getTime() : 0;
+      const rightTime = right.updatedAt ? new Date(right.updatedAt).getTime() : 0;
+      if (leftTime !== rightTime) return rightTime - leftTime;
+      return right.name.localeCompare(left.name);
+    });
   };
 
   const extractTitleFromMarkdown = (markdown, fallbackTitle) => {
