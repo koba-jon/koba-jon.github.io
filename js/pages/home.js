@@ -120,8 +120,12 @@
         return Number.isFinite(count) ? count : null;
       };
 
+      const buildCounterUrl = (endpoint, action, namespace, key) => (
+        `${endpoint}/${action}/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`
+      );
+
       const fetchCounter = async (endpoint, action, namespace, key) => {
-        const response = await fetch(`${endpoint}/${action}/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`, {
+        const response = await fetch(buildCounterUrl(endpoint, action, namespace, key), {
           method: 'GET',
           mode: 'cors',
           cache: 'no-store',
@@ -133,6 +137,23 @@
         const count = parseCounterResponse(payload);
         if (!Number.isFinite(count)) {
           throw new Error('Counter API returned a non-numeric count');
+        }
+        return count;
+      };
+
+      const fetchCounterViaProxy = async (proxyBase, endpoint, action, namespace, key) => {
+        const targetUrl = buildCounterUrl(endpoint, action, namespace, key);
+        const response = await fetch(`${proxyBase}${encodeURIComponent(targetUrl)}`, {
+          method: 'GET',
+          cache: 'no-store',
+        });
+        if (!response.ok) {
+          throw new Error(`Counter proxy error: ${response.status}`);
+        }
+        const payload = await response.json();
+        const count = parseCounterResponse(payload);
+        if (!Number.isFinite(count)) {
+          throw new Error('Counter proxy returned a non-numeric count');
         }
         return count;
       };
@@ -163,6 +184,25 @@
             return;
           } catch (error) {
             // Try the next endpoint/strategy.
+          }
+        }
+      }
+
+      const proxyBases = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+      ];
+      for (const proxyBase of proxyBases) {
+        for (const endpoint of endpoints) {
+          for (const strategy of strategies) {
+            try {
+              const count = await fetchCounterViaProxy(proxyBase, endpoint, strategy.action, namespace, strategy.key);
+              cacheCount(count);
+              counterEl.textContent = formatCounterDisplay(count);
+              return;
+            } catch (error) {
+              // Try the next proxy/endpoint/strategy.
+            }
           }
         }
       }
