@@ -2,6 +2,128 @@
   const { loadJson, initSiteChrome, escapeHtml } = window.siteUtils;
   await initSiteChrome();
 
+  const formatCounterDisplay = (value) => {
+    const counterDigits = 9;
+    const normalized = Number.parseInt(value, 10);
+    const safeValue = Number.isFinite(normalized) ? Math.max(0, normalized) : 0;
+    const padded = String(safeValue).padStart(counterDigits, '0').slice(-counterDigits);
+    return padded.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  const loadVisitorCounter = async () => {
+    const counterEl = document.getElementById('visitor-counter-digits');
+    if (!counterEl) return;
+
+    const cacheKey = 'homeVisitorCounterLastKnownGlobal';
+    const getCachedCount = () => {
+      const cached = Number.parseInt(localStorage.getItem(cacheKey) || '', 10);
+      return Number.isFinite(cached) ? cached : null;
+    };
+    const cacheCount = (count) => {
+      localStorage.setItem(cacheKey, String(count));
+    };
+
+    const parseCounterResponse = (payload) => {
+      const raw = payload && typeof payload === 'object' ? payload.value ?? payload.count : null;
+      const count = Number.parseInt(raw, 10);
+      return Number.isFinite(count) ? count : null;
+    };
+
+    const buildCounterUrl = (endpoint, action, namespace, key) => (
+      `${endpoint}/${action}/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`
+    );
+
+    const fetchCounter = async (endpoint, action, namespace, key) => {
+      const response = await fetch(buildCounterUrl(endpoint, action, namespace, key), {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-store',
+      });
+      if (!response.ok) {
+        throw new Error(`Counter API error: ${response.status}`);
+      }
+      const payload = await response.json();
+      const count = parseCounterResponse(payload);
+      if (!Number.isFinite(count)) {
+        throw new Error('Counter API returned a non-numeric count');
+      }
+      return count;
+    };
+
+    const fetchCounterViaProxy = async (proxyBase, endpoint, action, namespace, key) => {
+      const targetUrl = buildCounterUrl(endpoint, action, namespace, key);
+      const response = await fetch(`${proxyBase}${encodeURIComponent(targetUrl)}`, {
+        method: 'GET',
+        cache: 'no-store',
+      });
+      if (!response.ok) {
+        throw new Error(`Counter proxy error: ${response.status}`);
+      }
+      const payload = await response.json();
+      const count = parseCounterResponse(payload);
+      if (!Number.isFinite(count)) {
+        throw new Error('Counter proxy returned a non-numeric count');
+      }
+      return count;
+    };
+
+    let namespace = 'koba-jon.github.io';
+    try {
+      const analytics = await loadJson('data/analytics.json');
+      if (analytics?.provider === 'countapi' && typeof analytics.namespace === 'string' && analytics.namespace.trim()) {
+        namespace = analytics.namespace.trim();
+      }
+    } catch (error) {
+      // Ignore and use default namespace.
+    }
+
+    const endpoints = ['https://api.countapi.xyz', 'https://countapi.xyz'];
+    const strategies = [
+      // Increment the counter first so each visit is reflected immediately.
+      { action: 'hit', key: 'page.index' },
+      // Backward-compatible fallback for older key names.
+      { action: 'hit', key: 'home' },
+      { action: 'get', key: 'page.index' },
+      { action: 'get', key: 'home' },
+    ];
+
+    for (const endpoint of endpoints) {
+      for (const strategy of strategies) {
+        try {
+          const count = await fetchCounter(endpoint, strategy.action, namespace, strategy.key);
+          cacheCount(count);
+          counterEl.textContent = formatCounterDisplay(count);
+          return;
+        } catch (error) {
+          // Try the next endpoint/strategy.
+        }
+      }
+    }
+
+    const proxyBases = [
+      'https://api.allorigins.win/raw?url=',
+      'https://corsproxy.io/?',
+    ];
+    for (const proxyBase of proxyBases) {
+      for (const endpoint of endpoints) {
+        for (const strategy of strategies) {
+          try {
+            const count = await fetchCounterViaProxy(proxyBase, endpoint, strategy.action, namespace, strategy.key);
+            cacheCount(count);
+            counterEl.textContent = formatCounterDisplay(count);
+            return;
+          } catch (error) {
+            // Try the next proxy/endpoint/strategy.
+          }
+        }
+      }
+    }
+
+    console.warn('Failed to load visitor counter from CountAPI, using cached global counter');
+    const cachedCount = getCachedCount();
+    counterEl.textContent = cachedCount === null ? '—' : formatCounterDisplay(cachedCount);
+  };
+
   try {
     const [profile, home, journal, intl, domestic, awards, projects] = await Promise.all([
       loadJson('data/profile.json'),
@@ -93,127 +215,6 @@
     };
 
     const formatCount = (value) => new Intl.NumberFormat('en-US').format(value);
-    const formatCounterDisplay = (value) => {
-      const counterDigits = 9;
-      const normalized = Number.parseInt(value, 10);
-      const safeValue = Number.isFinite(normalized) ? Math.max(0, normalized) : 0;
-      const padded = String(safeValue).padStart(counterDigits, '0').slice(-counterDigits);
-      return padded.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    };
-
-    const loadVisitorCounter = async () => {
-      const counterEl = document.getElementById('visitor-counter-digits');
-      if (!counterEl) return;
-
-      const cacheKey = 'homeVisitorCounterLastKnownGlobal';
-      const getCachedCount = () => {
-        const cached = Number.parseInt(localStorage.getItem(cacheKey) || '', 10);
-        return Number.isFinite(cached) ? cached : null;
-      };
-      const cacheCount = (count) => {
-        localStorage.setItem(cacheKey, String(count));
-      };
-
-      const parseCounterResponse = (payload) => {
-        const raw = payload && typeof payload === 'object' ? payload.value ?? payload.count : null;
-        const count = Number.parseInt(raw, 10);
-        return Number.isFinite(count) ? count : null;
-      };
-
-      const buildCounterUrl = (endpoint, action, namespace, key) => (
-        `${endpoint}/${action}/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`
-      );
-
-      const fetchCounter = async (endpoint, action, namespace, key) => {
-        const response = await fetch(buildCounterUrl(endpoint, action, namespace, key), {
-          method: 'GET',
-          mode: 'cors',
-          cache: 'no-store',
-        });
-        if (!response.ok) {
-          throw new Error(`Counter API error: ${response.status}`);
-        }
-        const payload = await response.json();
-        const count = parseCounterResponse(payload);
-        if (!Number.isFinite(count)) {
-          throw new Error('Counter API returned a non-numeric count');
-        }
-        return count;
-      };
-
-      const fetchCounterViaProxy = async (proxyBase, endpoint, action, namespace, key) => {
-        const targetUrl = buildCounterUrl(endpoint, action, namespace, key);
-        const response = await fetch(`${proxyBase}${encodeURIComponent(targetUrl)}`, {
-          method: 'GET',
-          cache: 'no-store',
-        });
-        if (!response.ok) {
-          throw new Error(`Counter proxy error: ${response.status}`);
-        }
-        const payload = await response.json();
-        const count = parseCounterResponse(payload);
-        if (!Number.isFinite(count)) {
-          throw new Error('Counter proxy returned a non-numeric count');
-        }
-        return count;
-      };
-
-      let namespace = 'koba-jon.github.io';
-      try {
-        const analytics = await loadJson('data/analytics.json');
-        if (analytics?.provider === 'countapi' && typeof analytics.namespace === 'string' && analytics.namespace.trim()) {
-          namespace = analytics.namespace.trim();
-        }
-      } catch (error) {
-        // Ignore and use default namespace.
-      }
-
-      const endpoints = ['https://api.countapi.xyz', 'https://countapi.xyz'];
-      const strategies = [
-        // Increment the counter first so each visit is reflected immediately.
-        { action: 'hit', key: 'page.index' },
-        // Backward-compatible fallback for older key names.
-        { action: 'hit', key: 'home' },
-        { action: 'get', key: 'page.index' },
-        { action: 'get', key: 'home' },
-      ];
-
-      for (const endpoint of endpoints) {
-        for (const strategy of strategies) {
-          try {
-            const count = await fetchCounter(endpoint, strategy.action, namespace, strategy.key);
-            cacheCount(count);
-            counterEl.textContent = formatCounterDisplay(count);
-            return;
-          } catch (error) {
-            // Try the next endpoint/strategy.
-          }
-        }
-      }
-
-      const proxyBases = [
-        'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?',
-      ];
-      for (const proxyBase of proxyBases) {
-        for (const endpoint of endpoints) {
-          for (const strategy of strategies) {
-            try {
-              const count = await fetchCounterViaProxy(proxyBase, endpoint, strategy.action, namespace, strategy.key);
-              cacheCount(count);
-              counterEl.textContent = formatCounterDisplay(count);
-              return;
-            } catch (error) {
-              // Try the next proxy/endpoint/strategy.
-            }
-          }
-        }
-      }
-
-      console.warn('Failed to load visitor counter from CountAPI, using cached global counter');
-      const cachedCount = getCachedCount();
-      counterEl.textContent = cachedCount === null ? '—' : formatCounterDisplay(cachedCount);
-    };
 
     document.getElementById('stat-journal').textContent = journal.length;
     document.getElementById('stat-intl').textContent = intl.length;
@@ -323,9 +324,9 @@
         featuredProjectList.innerHTML = featuredCards.join('');
       }
     }
-
-    await loadVisitorCounter();
   } catch (error) {
     console.warn(error);
+  } finally {
+    await loadVisitorCounter();
   }
 })();
