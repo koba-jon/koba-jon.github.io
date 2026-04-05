@@ -6,37 +6,6 @@
   gap: 10px 14px;
 }
 
-.page-metrics {
-  margin: 14px 0 10px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.page-metric-item {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--surface);
-  padding: 12px;
-  text-align: center;
-}
-
-.page-metric-number {
-  display: block;
-  font-family: var(--mono);
-  font-size: 1rem;
-  color: var(--accent);
-}
-
-.page-metric-label {
-  display: block;
-  margin-top: 4px;
-  font-size: 0.76rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
 .pub-export-btn {
   border: 1px solid var(--line);
   background: var(--surface);
@@ -145,10 +114,4 @@
 }
 #publication-details {
   margin-top: 36px;
-}
-
-@media (max-width: 900px) {
-  .page-metrics {
-    grid-template-columns: 1fr;
-  }
 }
