@@ -170,9 +170,12 @@
 
       const endpoints = ['https://api.countapi.xyz', 'https://countapi.xyz'];
       const strategies = [
+        // Increment the counter first so each visit is reflected immediately.
+        { action: 'hit', key: 'page.index' },
+        // Backward-compatible fallback for older key names.
+        { action: 'hit', key: 'home' },
         { action: 'get', key: 'page.index' },
         { action: 'get', key: 'home' },
-        { action: 'hit', key: 'home' },
       ];
 
       for (const endpoint of endpoints) {
