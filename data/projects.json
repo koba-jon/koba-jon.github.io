@@ -3,7 +3,11 @@
     {
       "id": "drept",
       "title": "DRepT",
-      "tag": "Research · Anomaly Detection · IJCNN2023",
+      "tag": [
+        "Research",
+        "Anomaly Detection",
+        "IJCNN2023"
+      ],
       "tag_type": "research",
       "image": "images/drept.png",
       "description": [
@@ -12,7 +16,11 @@
       ],
       "link": "https://github.com/koba-jon/DRepT",
       "title_ja": "DRepT",
-      "tag_ja": "研究・異常検知・IJCNN2023",
+      "tag_ja": [
+        "研究",
+        "異常検知",
+        "IJCNN2023"
+      ],
       "description_ja": [
         "DRepT は，透過マスクを用いた欠陥表現転写に基づく異常検知研究プロジェクトです．産業外観検査の精度向上に向け，現実的な欠陥特徴の生成と転写に焦点を当てています．",
         "本プロジェクトは，産業異常検知，擬似欠陥モデリング，実製造現場を想定した実践的手法という，研究面での強みを示す取り組みです．"
@@ -23,7 +31,11 @@
     {
       "id": "pytorch_cpp",
       "title": "PyTorch C++ Samples",
-      "tag": "Open Source · C++ · LibTorch",
+      "tag": [
+        "Open Source",
+        "C++",
+        "LibTorch"
+      ],
       "tag_type": "opensource",
       "feature": true,
       "image": "images/pytorch_cpp.png",
@@ -33,7 +45,11 @@
       ],
       "link": "https://github.com/koba-jon/pytorch_cpp",
       "title_ja": "PyTorch C++ Samples",
-      "tag_ja": "オープンソース・C++・LibTorch",
+      "tag_ja": [
+        "オープンソース",
+        "C++",
+        "LibTorch"
+      ],
       "description_ja": [
         "LibTorch を用いた C++ 深層学習実装の大規模オープンソースプロジェクトです．画像分類，物体検出，生成モデル，拡散系アーキテクチャなど幅広い手法を扱います．",
         "単なるモデル利用にとどまらず，実装力そのものを深く示すプロジェクトであり，C++ で深層学習システムを構築・整理してきた長期的な取り組みを反映しています．"
@@ -42,7 +58,11 @@
     {
       "id": "svm_cpp",
       "title": "SVM C++ Samples",
-      "tag": "Open Source · C++ · Machine Learning",
+      "tag": [
+        "Open Source",
+        "C++",
+        "Machine Learning"
+      ],
       "tag_type": "opensource",
       "image": "images/svm_cpp.png",
       "description": [
@@ -51,7 +71,11 @@
       ],
       "link": "https://github.com/koba-jon/svm_cpp",
       "title_ja": "SVM C++ Samples",
-      "tag_ja": "オープンソース・C++・機械学習",
+      "tag_ja": [
+        "オープンソース",
+        "C++",
+        "機械学習"
+      ],
       "description_ja": [
         "サポートベクターマシン（SVM）および関連手法に焦点を当てた C++ 実装プロジェクトです．古典的機械学習アルゴリズムをライブラリ利用だけでなく実装レベルで理解していることを示します．",
         "深層学習以外の領域として，最適化ベースの伝統的手法も工学的に整理して実装しており，技術的な幅広さを示すプロジェクトです．"
@@ -60,7 +84,11 @@
     {
       "id": "gmm_cpp",
       "title": "GMM C++ Samples",
-      "tag": "Open Source · C++ · Probabilistic Modeling",
+      "tag": [
+        "Open Source",
+        "C++",
+        "Probabilistic Modeling"
+      ],
       "tag_type": "opensource",
       "description": [
         "A C++ project for Gaussian Mixture Models and related probabilistic modeling techniques. It reflects strong interest in statistical machine learning, density modeling, and implementation of mathematically grounded methods.",
@@ -68,7 +96,11 @@
       ],
       "link": "https://github.com/koba-jon/gmm_cpp",
       "title_ja": "GMM C++ Samples",
-      "tag_ja": "オープンソース・C++・確率モデリング",
+      "tag_ja": [
+        "オープンソース",
+        "C++",
+        "確率モデリング"
+      ],
       "description_ja": [
         "ガウス混合モデル（GMM）と関連する確率モデリング手法の C++ 実装プロジェクトです．統計的機械学習や密度モデリング，数理的基盤を持つ手法の実装に対する関心を反映しています．",
         "異常生成，分布モデリング，データ内の構造的変動表現といった研究テーマとも親和性の高いプロジェクトです．"
@@ -77,7 +109,11 @@
     {
       "id": "llm_cpp",
       "title": "LLM C++ Samples",
-      "tag": "Open Source · C++ · Large Language Models",
+      "tag": [
+        "Open Source",
+        "C++",
+        "Large Language Models"
+      ],
       "tag_type": "opensource",
       "description": [
         "A C++ implementation project centered on large language model architectures and related components. It demonstrates interest in modern foundation models and the ability to explore them from the implementation side.",
@@ -85,7 +121,11 @@
       ],
       "link": "https://github.com/koba-jon/LLM_cpp",
       "title_ja": "LLM C++ Samples",
-      "tag_ja": "オープンソース・C++・大規模言語モデル",
+      "tag_ja": [
+        "オープンソース",
+        "C++",
+        "大規模言語モデル"
+      ],
       "description_ja": [
         "大規模言語モデルのアーキテクチャと関連コンポーネントに焦点を当てた C++ 実装プロジェクトです．最新の基盤モデルへの関心と，実装側から検証できる能力を示します．",
         "コンピュータビジョン以外の領域にも取り組み，言語モデルを含む複数の AI 分野で活動できることを示すプロジェクトです．"
@@ -94,7 +134,11 @@
     {
       "id": "lightgrad",
       "title": "LightGrad",
-      "tag": "Open Source · Deep Learning Framework · Lightweight Autograd",
+      "tag": [
+        "Open Source",
+        "Deep Learning Framework",
+        "Lightweight Autograd"
+      ],
       "tag_type": "opensource",
       "description": [
         "LightGrad is a lightweight project for understanding and implementing automatic differentiation and the core mechanisms behind deep learning frameworks.",
@@ -102,7 +146,11 @@
       ],
       "link": "https://github.com/koba-jon/lightgrad",
       "title_ja": "LightGrad",
-      "tag_ja": "オープンソース・深層学習フレームワーク・軽量自動微分",
+      "tag_ja": [
+        "オープンソース",
+        "深層学習フレームワーク",
+        "軽量自動微分"
+      ],
       "description_ja": [
         "LightGrad は，自動微分と深層学習フレームワークの中核機構を理解・実装するための軽量プロジェクトです．",
         "モデル構築だけでなく学習システム自体への低レイヤ理解を示し，教育・システム実装の観点からポートフォリオを強化する取り組みです．"

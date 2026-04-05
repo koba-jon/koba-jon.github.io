@@ -69,11 +69,31 @@
     };
 
     const formatCount = (value) => new Intl.NumberFormat('en-US').format(value);
+    const formatProjectTag = (tagValue) => {
+      if (Array.isArray(tagValue)) {
+        return tagValue.filter(Boolean).join(' · ');
+      }
+      return String(tagValue ?? '');
+    };
+    const parseProjectTagsFromValue = (tagValue) => {
+      if (Array.isArray(tagValue)) {
+        return tagValue
+          .map((tag) => String(tag).trim())
+          .filter(Boolean);
+      }
+
+      return String(tagValue ?? '')
+        .split(/[·,]/)
+        .map((tag) => tag.trim())
+        .filter(Boolean);
+    };
     const getLocalizedProject = (project) => {
       const language = getCurrentLanguage();
+      const rawTag = language === 'ja' ? (project.tag_ja || project.tag) : project.tag;
       return {
         title: language === 'ja' ? (project.title_ja || project.title) : project.title,
-        tag: language === 'ja' ? (project.tag_ja || project.tag) : project.tag,
+        tag: formatProjectTag(rawTag),
+        tags: parseProjectTagsFromValue(rawTag),
         description: language === 'ja'
           ? (Array.isArray(project.description_ja) && project.description_ja.length ? project.description_ja : (project.description || []))
           : (project.description || []),
@@ -82,10 +102,7 @@
     const normalizeText = (value) => String(value ?? '')
       .toLowerCase()
       .normalize('NFKC');
-    const parseProjectTags = (project) => String(getLocalizedProject(project).tag ?? '')
-      .split(/[·,]/)
-      .map((tag) => tag.trim())
-      .filter(Boolean);
+    const parseProjectTags = (project) => getLocalizedProject(project).tags;
     const getProjectSearchableText = (project) => normalizeText([
       getLocalizedProject(project).title,
       getLocalizedProject(project).tag,
