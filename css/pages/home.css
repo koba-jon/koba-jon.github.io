@@ -1,2 +1,46 @@
 .about-text { color: var(--ink-soft); max-width: 760px; }
 .about-text p + p { margin-top: 14px; }
+
+.visitor-counter-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.visitor-counter-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 8% 12%, rgba(200, 80, 42, 0.14), transparent 48%);
+  pointer-events: none;
+}
+
+.visitor-counter-subtitle {
+  margin: 0 0 14px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.visitor-counter {
+  position: relative;
+  z-index: 1;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: linear-gradient(145deg, #fff 0%, #fbf7f4 100%);
+}
+
+.visitor-counter-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+}
+
+.visitor-counter-digits {
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-weight: 500;
+}
