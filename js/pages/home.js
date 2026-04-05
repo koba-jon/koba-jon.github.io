@@ -114,21 +114,60 @@
         localStorage.setItem(cacheKey, String(count));
       };
 
-      try {
-        const response = await fetch('https://api.countapi.xyz/hit/koba-jon.github.io/home');
+      const parseCounterResponse = (payload) => {
+        const raw = payload && typeof payload === 'object' ? payload.value ?? payload.count : null;
+        const count = Number.parseInt(raw, 10);
+        return Number.isFinite(count) ? count : null;
+      };
+
+      const fetchCounter = async (endpoint, action, namespace, key) => {
+        const response = await fetch(`${endpoint}/${action}/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`, {
+          method: 'GET',
+          mode: 'cors',
+          cache: 'no-store',
+        });
         if (!response.ok) {
           throw new Error(`Counter API error: ${response.status}`);
         }
         const payload = await response.json();
-        const count = Number.parseInt(payload.value, 10);
-        if (!Number.isFinite(count)) throw new Error('Counter API returned a non-numeric count');
-        cacheCount(count);
-        counterEl.textContent = formatCounterDisplay(count);
-        return;
+        const count = parseCounterResponse(payload);
+        if (!Number.isFinite(count)) {
+          throw new Error('Counter API returned a non-numeric count');
+        }
+        return count;
+      };
+
+      let namespace = 'koba-jon.github.io';
+      try {
+        const analytics = await loadJson('data/analytics.json');
+        if (analytics?.provider === 'countapi' && typeof analytics.namespace === 'string' && analytics.namespace.trim()) {
+          namespace = analytics.namespace.trim();
+        }
       } catch (error) {
-        console.warn('Failed to load visitor counter from CountAPI, using cached global counter', error);
+        // Ignore and use default namespace.
       }
 
+      const endpoints = ['https://api.countapi.xyz', 'https://countapi.xyz'];
+      const strategies = [
+        { action: 'get', key: 'page.index' },
+        { action: 'get', key: 'home' },
+        { action: 'hit', key: 'home' },
+      ];
+
+      for (const endpoint of endpoints) {
+        for (const strategy of strategies) {
+          try {
+            const count = await fetchCounter(endpoint, strategy.action, namespace, strategy.key);
+            cacheCount(count);
+            counterEl.textContent = formatCounterDisplay(count);
+            return;
+          } catch (error) {
+            // Try the next endpoint/strategy.
+          }
+        }
+      }
+
+      console.warn('Failed to load visitor counter from CountAPI, using cached global counter');
       const cachedCount = getCachedCount();
       counterEl.textContent = cachedCount === null ? '—' : formatCounterDisplay(cachedCount);
     };
