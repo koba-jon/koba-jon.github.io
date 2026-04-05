@@ -40,10 +40,11 @@ def latest_commit_iso8601(path: Path) -> str:
 
 def main() -> None:
     entries = []
-    for md_file in sorted(BLOG_DIR.glob("*.md")):
+    for md_file in sorted(BLOG_DIR.rglob("*.md")):
+        rel_path = md_file.relative_to(ROOT).as_posix()
         entries.append(
             {
-                "path": f"blog/{md_file.name}",
+                "path": rel_path,
                 "updatedAt": latest_commit_iso8601(md_file),
             }
         )

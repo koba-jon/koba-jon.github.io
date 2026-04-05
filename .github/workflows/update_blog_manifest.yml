@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'blog/*.md'
+      - 'blog/**/*.md'
       - 'scripts/update_blog_manifest.py'
       - '.github/workflows/update_blog_manifest.yml'
   workflow_dispatch:
