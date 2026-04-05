@@ -28,78 +28,6 @@
     return { owner: 'koba-jon', repo: 'koba-jon.github.io' };
   };
 
-  const markdownToHtml = (markdown) => {
-    const lines = String(markdown || '').replace(/\r\n?/g, '\n').split('\n');
-    const html = [];
-    let inList = false;
-    let inCode = false;
-
-    const closeList = () => {
-      if (inList) {
-        html.push('</ul>');
-        inList = false;
-      }
-    };
-
-    const formatInline = (text) => {
-      let formatted = escapeHtml(text);
-      formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
-      formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-      formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-      formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-      return formatted;
-    };
-
-    lines.forEach((line) => {
-      if (line.trim().startsWith('```')) {
-        closeList();
-        if (!inCode) {
-          inCode = true;
-          html.push('<pre><code>');
-        } else {
-          inCode = false;
-          html.push('</code></pre>');
-        }
-        return;
-      }
-
-      if (inCode) {
-        html.push(`${escapeHtml(line)}\n`);
-        return;
-      }
-
-      if (!line.trim()) {
-        closeList();
-        return;
-      }
-
-      const headingMatch = line.match(/^(#{1,4})\s+(.*)$/);
-      if (headingMatch) {
-        closeList();
-        const level = Math.min(4, headingMatch[1].length);
-        html.push(`<h${level}>${formatInline(headingMatch[2])}</h${level}>`);
-        return;
-      }
-
-      const listMatch = line.match(/^\s*[-*]\s+(.*)$/);
-      if (listMatch) {
-        if (!inList) {
-          inList = true;
-          html.push('<ul>');
-        }
-        html.push(`<li>${formatInline(listMatch[1])}</li>`);
-        return;
-      }
-
-      closeList();
-      html.push(`<p>${formatInline(line)}</p>`);
-    });
-
-    closeList();
-    if (inCode) html.push('</code></pre>');
-    return html.join('');
-  };
-
   const filenameToTitle = (filename) => {
     const withoutExt = filename.replace(/\.md$/i, '');
     return withoutExt
@@ -193,28 +121,18 @@
     }
   };
 
-  const extractTitleAndBody = (markdown, fallbackTitle) => {
+  const extractTitle = (markdown, fallbackTitle) => {
     const lines = String(markdown || '').replace(/\r\n?/g, '\n').split('\n');
     let title = fallbackTitle;
-    let titleIndex = -1;
-
     for (let i = 0; i < lines.length; i += 1) {
       const match = lines[i].match(/^#\s+(.+)$/);
       if (match) {
         title = match[1].trim();
-        titleIndex = i;
         break;
       }
     }
 
-    const bodyLines = titleIndex >= 0
-      ? lines.filter((_, index) => index !== titleIndex)
-      : lines;
-
-    return {
-      title,
-      bodyMarkdown: bodyLines.join('\n').trim(),
-    };
+    return { title };
   };
 
   const formatUpdatedDate = (isoDate) => {
@@ -239,38 +157,20 @@
       return;
     }
 
-    postsContainer.innerHTML = posts.map((post, index) => {
-      const contentId = `blog-post-content-${index}`;
+    postsContainer.innerHTML = posts.map((post) => {
+      const postUrl = `blog/post.html?slug=${encodeURIComponent(post.slug)}`;
       return `
-        <article class="blog-post" data-expanded="false">
-          <button class="blog-post-header" type="button" aria-expanded="false" aria-controls="${contentId}">
+        <article class="blog-post">
+          <a class="blog-post-header" href="${postUrl}">
             <span class="blog-post-title-wrap">
               <span class="blog-post-title">${escapeHtml(post.title)}</span>
               <span class="blog-post-meta">Updated: ${escapeHtml(formatUpdatedDate(post.updatedAt))}</span>
             </span>
             <span class="blog-post-toggle" aria-hidden="true">+</span>
-          </button>
-          <div id="${contentId}" class="blog-post-content" hidden>
-            ${post.contentHtml}
-            <p class="blog-post-permalink-wrap">
-              <a class="blog-post-permalink" href="blog/${encodeURIComponent(post.slug)}.html">Permalink</a>
-            </p>
-          </div>
+          </a>
         </article>
       `;
     }).join('');
-
-    postsContainer.querySelectorAll('.blog-post-header').forEach((button) => {
-      button.addEventListener('click', () => {
-        const article = button.closest('.blog-post');
-        const content = article?.querySelector('.blog-post-content');
-        const expanded = button.getAttribute('aria-expanded') === 'true';
-
-        button.setAttribute('aria-expanded', String(!expanded));
-        if (article) article.dataset.expanded = String(!expanded);
-        if (content) content.hidden = expanded;
-      });
-    });
   };
 
   try {
@@ -279,12 +179,11 @@
       const response = await fetch(file.path);
       if (!response.ok) throw new Error(`Failed to load ${file.path}`);
       const markdown = await response.text();
-      const parsed = extractTitleAndBody(markdown, filenameToTitle(file.name));
+      const parsed = extractTitle(markdown, filenameToTitle(file.name));
       return {
         title: parsed.title,
         slug: pathToSlug(file.path),
         updatedAt: file.updatedAt,
-        contentHtml: markdownToHtml(parsed.bodyMarkdown),
       };
     }));
 
