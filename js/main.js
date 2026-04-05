@@ -1,12 +1,12 @@
 const SITE_PAGES = [
   { slug: 'index', file: 'index.html', label: 'Home' },
   { slug: 'about', file: 'about.html', label: 'About' },
+  { slug: 'blog', file: 'blog.html', label: 'Blog' },
   { slug: 'projects', file: 'projects.html', label: 'Projects' },
   { slug: 'publications', file: 'publications.html', label: 'Publications' },
   { slug: 'awards', file: 'awards.html', label: 'Awards' },
   { slug: 'education', file: 'education.html', label: 'Education' },
   { slug: 'certifications', file: 'certifications.html', label: 'Certifications' },
-  { slug: 'blog', file: 'blog.html', label: 'Blog' },
   { slug: 'contact', file: 'contact.html', label: 'Contact' },
 ];
 const SITE_BASE_URL = 'https://koba-jon.github.io/';
@@ -17,7 +17,7 @@ const LANGUAGE_STORAGE_KEY = 'site-language';
 const SUPPORTED_LANGUAGES = ['en', 'ja'];
 const UI_TEXT = {
   en: {
-    nav: { index: 'Home', about: 'About', projects: 'Projects', publications: 'Publications', awards: 'Awards', education: 'Education', certifications: 'Certifications', blog: 'Blog', contact: 'Contact' },
+    nav: { index: 'Home', about: 'About', blog: 'Blog', projects: 'Projects', publications: 'Publications', awards: 'Awards', education: 'Education', certifications: 'Certifications', contact: 'Contact' },
     themeToggleAria: 'Toggle dark mode',
     languageToggleAria: 'Switch language',
     languageToggleText: '日本語',
@@ -119,7 +119,7 @@ const UI_TEXT = {
     'blog.loadFailed': 'Failed to load blog posts. Please try again later.',
   },
   ja: {
-    nav: { index: 'ホーム', about: 'プロフィール', projects: 'プロジェクト', publications: '論文', awards: '受賞', education: '学歴', certifications: '資格', blog: 'ブログ', contact: '連絡先' },
+    nav: { index: 'ホーム', about: 'プロフィール', blog: 'ブログ', projects: 'プロジェクト', publications: '論文', awards: '受賞', education: '学歴', certifications: '資格', contact: '連絡先' },
     themeToggleAria: 'ダークモードを切り替え',
     languageToggleAria: '言語を切り替え',
     languageToggleText: 'English',
