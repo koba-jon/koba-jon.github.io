@@ -64,12 +64,12 @@
       </body>
       </html>
     `;
-    const blob = new Blob([htmlDoc], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8' });
+    const blob = new Blob([htmlDoc], { type: 'application/msword;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     const today = new Date().toISOString().slice(0, 10);
     link.href = url;
-    link.download = `paper-list-${today}.docx`;
+    link.download = `paper-list-${today}.doc`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
