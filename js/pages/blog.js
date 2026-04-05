@@ -53,7 +53,7 @@
   };
 
   const fetchMarkdownFilesFromManifest = async () => {
-    const manifestResponse = await fetch('blog/posts.json', { cache: 'no-store' });
+    const manifestResponse = await fetch('data/posts.json', { cache: 'no-store' });
     if (!manifestResponse.ok) {
       throw new Error(`Blog manifest returned ${manifestResponse.status}`);
     }
@@ -116,7 +116,7 @@
     try {
       return await fetchMarkdownFilesFromGitHubApi();
     } catch (githubApiError) {
-      console.warn('Falling back to blog/posts.json after GitHub API failure', githubApiError);
+      console.warn('Falling back to data/posts.json after GitHub API failure', githubApiError);
       return fetchMarkdownFilesFromManifest();
     }
   };
@@ -158,7 +158,7 @@
     }
 
     postsContainer.innerHTML = posts.map((post) => {
-      const postUrl = `blog/post.html?slug=${encodeURIComponent(post.slug)}`;
+      const postUrl = `post.html?slug=${encodeURIComponent(post.slug)}`;
       return `
         <article class="blog-post">
           <a class="blog-post-header" href="${postUrl}">

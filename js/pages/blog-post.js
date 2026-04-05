@@ -134,7 +134,7 @@
   }
 
   try {
-    const manifestResponse = await fetch('../blog/posts.json', { cache: 'no-store' });
+    const manifestResponse = await fetch('data/posts.json', { cache: 'no-store' });
     if (!manifestResponse.ok) throw new Error('Failed to load posts manifest');
 
     const manifest = await manifestResponse.json();
@@ -148,7 +148,7 @@
       return;
     }
 
-    const markdownResponse = await fetch(`../${postEntry.path}`);
+    const markdownResponse = await fetch(`${postEntry.path}`);
     if (!markdownResponse.ok) throw new Error(`Failed to load markdown: ${postEntry.path}`);
     const markdown = await markdownResponse.text();
 
@@ -163,7 +163,7 @@
       <h1 class="blog-post-single-title">${escapeHtml(parsed.title)}</h1>
       <p class="blog-post-meta blog-post-single-meta">Updated: ${escapeHtml(formatUpdatedDate(postEntry.updatedAt))}</p>
       <div class="blog-post-content">${markdownToHtml(parsed.bodyMarkdown)}</div>
-      <p class="blog-post-permalink-wrap"><a class="blog-post-permalink" href="../blog.html">← Back to Blog</a></p>
+      <p class="blog-post-permalink-wrap"><a class="blog-post-permalink" href="blog.html">← Back to Blog</a></p>
     `;
 
     document.title = `${parsed.title} | Blog | Hiroki Kobayashi`;

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate blog/posts.json from markdown files in blog/."""
+"""Generate data/posts.json from markdown files in blog/."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BLOG_DIR = ROOT / "blog"
-MANIFEST_PATH = BLOG_DIR / "posts.json"
+MANIFEST_PATH = ROOT / "data" / "posts.json"
 
 
 def latest_commit_iso8601(path: Path) -> str | None:
