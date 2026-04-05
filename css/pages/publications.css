@@ -112,3 +112,6 @@
 .pub-filter-reset-btn:active {
   transform: translateY(1px);
 }
+#publication-details {
+  margin-top: 36px;
+}
