@@ -251,8 +251,8 @@
       if (!affiliation) return;
 
       const language = getCurrentLanguage();
-      const position = escapeHtml(profile.position || '');
-      const company = escapeHtml(profile.company || '');
+      const position = escapeHtml(language === 'ja' ? (profile.position_ja || profile.position || '') : (profile.position || ''));
+      const company = escapeHtml(language === 'ja' ? (profile.company_ja || profile.company || '') : (profile.company || ''));
       const companyUrl = profile.company_url || '#';
 
       affiliation.innerHTML = `
@@ -272,51 +272,76 @@
     const allProjects = [...(projects.research ?? []), ...(projects.opensource ?? [])];
     const featuredProjects = allProjects.filter((project) => project.feature === true);
     const featuredProjectList = document.getElementById('featured-project-list');
-    if (featuredProjectList) {
-      if (!featuredProjects.length) {
-        featuredProjectList.innerHTML = `<p>${escapeHtml(t('home.noFeaturedProjects', getCurrentLanguage()))}</p>`;
-      } else {
-        const featuredCards = await Promise.all(featuredProjects.map(async (project) => {
-          const repoInfo = await fetchGitHubRepoInfo(project.link);
-          const imageHtml = project.image
-            ? `<div class="project-image-center"><img src="${project.image}" alt="${escapeHtml(project.title)}" class="project-img2"></div>`
-            : '';
-          const projectDescriptions = (project.description ?? [])
-            .map((line) => `<p class="project-desc">${escapeHtml(line)}</p>`)
-            .join('');
-          const summary = !projectDescriptions && repoInfo?.description
-            ? `<p class="project-desc">${escapeHtml(repoInfo.description)}</p>`
-            : '';
-          const statsHtml = repoInfo
-            ? `
-                <div class="repo-stats" aria-label="GitHub repository stats">
-                  <span class="repo-stat" title="Stars">★ ${formatCount(repoInfo.stars)}</span>
-                  <span class="repo-stat" title="Forks">⑂ ${formatCount(repoInfo.forks)}</span>
-                </div>
-              `
-            : '';
-          const tagClass = project.tag_type === 'research' ? 'project-tag-research' : 'project-tag';
-          return `
-            <article class="project-card">
-              ${imageHtml}
-              <div class="project-body">
-                <span class="${tagClass}">${escapeHtml(project.tag ?? '')}</span>
-                <h3 class="project-title">${escapeHtml(project.title)}</h3>
-                ${projectDescriptions || summary}
-                ${statsHtml}
-                <a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">${escapeHtml(t('home.viewOnGithub', getCurrentLanguage()))}</a>
-              </div>
-            </article>
-          `;
-        }));
-        featuredProjectList.innerHTML = featuredCards.join('');
-      }
+    const featuredCardsByProjectId = new Map();
+
+    if (featuredProjects.length) {
+      const featuredCards = await Promise.all(featuredProjects.map(async (project) => {
+        const repoInfo = await fetchGitHubRepoInfo(project.link);
+        return { project, repoInfo };
+      }));
+      featuredCards.forEach(({ project, repoInfo }) => {
+        featuredCardsByProjectId.set(project.id, repoInfo);
+      });
     }
+
+    const renderFeaturedProjects = () => {
+      if (!featuredProjectList) return;
+      const language = getCurrentLanguage();
+
+      if (!featuredProjects.length) {
+        featuredProjectList.innerHTML = `<p>${escapeHtml(t('home.noFeaturedProjects', language))}</p>`;
+        return;
+      }
+
+      const cardsHtml = featuredProjects.map((project) => {
+        const repoInfo = featuredCardsByProjectId.get(project.id) ?? null;
+        const title = language === 'ja' ? (project.title_ja || project.title || '') : (project.title || '');
+        const tag = language === 'ja' ? (project.tag_ja || project.tag || '') : (project.tag || '');
+        const descriptions = language === 'ja'
+          ? (Array.isArray(project.description_ja) ? project.description_ja : (Array.isArray(project.description) ? project.description : []))
+          : (Array.isArray(project.description) ? project.description : []);
+        const imageHtml = project.image
+          ? `<div class="project-image-center"><img src="${project.image}" alt="${escapeHtml(title)}" class="project-img2"></div>`
+          : '';
+        const projectDescriptions = descriptions
+          .map((line) => `<p class="project-desc">${escapeHtml(line)}</p>`)
+          .join('');
+        const summary = !projectDescriptions && repoInfo?.description
+          ? `<p class="project-desc">${escapeHtml(repoInfo.description)}</p>`
+          : '';
+        const statsHtml = repoInfo
+          ? `
+              <div class="repo-stats" aria-label="GitHub repository stats">
+                <span class="repo-stat" title="Stars">★ ${formatCount(repoInfo.stars)}</span>
+                <span class="repo-stat" title="Forks">⑂ ${formatCount(repoInfo.forks)}</span>
+              </div>
+            `
+          : '';
+        const tagClass = project.tag_type === 'research' ? 'project-tag-research' : 'project-tag';
+        return `
+          <article class="project-card">
+            ${imageHtml}
+            <div class="project-body">
+              <span class="${tagClass}">${escapeHtml(tag)}</span>
+              <h3 class="project-title">${escapeHtml(title)}</h3>
+              ${projectDescriptions || summary}
+              ${statsHtml}
+              <a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">${escapeHtml(t('home.viewOnGithub', language))}</a>
+            </div>
+          </article>
+        `;
+      });
+
+      featuredProjectList.innerHTML = cardsHtml.join('');
+    };
+
+    renderFeaturedProjects();
 
     renderAffiliation();
     window.addEventListener('site:languagechange', () => {
       renderOverview();
       renderAffiliation();
+      renderFeaturedProjects();
     });
   } catch (error) {
     console.warn(error);
