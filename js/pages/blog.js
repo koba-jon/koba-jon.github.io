@@ -120,7 +120,36 @@
     return commits?.[0]?.commit?.committer?.date || null;
   };
 
-  const fetchMarkdownFiles = async () => {
+  const fetchMarkdownFilesFromManifest = async () => {
+    const manifestResponse = await fetch('blog/posts.json', { cache: 'no-store' });
+    if (!manifestResponse.ok) {
+      throw new Error(`Blog manifest returned ${manifestResponse.status}`);
+    }
+
+    const manifest = await manifestResponse.json();
+    if (!Array.isArray(manifest)) {
+      throw new Error('Blog manifest must be an array');
+    }
+
+    return manifest
+      .filter((entry) => typeof entry?.path === 'string' && /\.md$/i.test(entry.path))
+      .map((entry) => {
+        const name = entry.path.split('/').pop() || '';
+        return {
+          name,
+          path: entry.path,
+          updatedAt: typeof entry.updatedAt === 'string' ? entry.updatedAt : null,
+        };
+      })
+      .sort((left, right) => {
+        const leftTime = left.updatedAt ? new Date(left.updatedAt).getTime() : 0;
+        const rightTime = right.updatedAt ? new Date(right.updatedAt).getTime() : 0;
+        if (leftTime !== rightTime) return rightTime - leftTime;
+        return right.name.localeCompare(left.name);
+      });
+  };
+
+  const fetchMarkdownFilesFromGitHubApi = async () => {
     const { owner, repo } = inferRepoInfo();
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/blog`;
     const apiResponse = await fetch(apiUrl, { headers: { Accept: 'application/vnd.github+json' } });
@@ -148,6 +177,15 @@
       if (leftTime !== rightTime) return rightTime - leftTime;
       return right.name.localeCompare(left.name);
     });
+  };
+
+  const fetchMarkdownFiles = async () => {
+    try {
+      return await fetchMarkdownFilesFromGitHubApi();
+    } catch (githubApiError) {
+      console.warn('Falling back to blog/posts.json after GitHub API failure', githubApiError);
+      return fetchMarkdownFilesFromManifest();
+    }
   };
 
   const extractTitleAndBody = (markdown, fallbackTitle) => {
