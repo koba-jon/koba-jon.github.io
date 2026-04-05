@@ -10,6 +10,7 @@ const SITE_PAGES = [
 ];
 const SITE_BASE_URL = 'https://koba-jon.github.io/';
 const DEFAULT_SOCIAL_IMAGE = 'images/profile.jpg';
+const ANALYTICS_CONFIG_PATH = 'data/analytics.json';
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (ch) => ({
@@ -141,7 +142,83 @@ async function initSiteChrome() {
     buildPersonSchema(profile),
     buildWebsiteSchema(profile, pageTitle || profile.name, currentPage),
   ]);
+  initLightAnalytics(currentPage);
   return { profile, currentPage };
+}
+
+async function loadAnalyticsConfig() {
+  try {
+    return await loadJson(ANALYTICS_CONFIG_PATH);
+  } catch (error) {
+    return null;
+  }
+}
+
+function hasDoNotTrackEnabled() {
+  return ['1', 'yes'].includes(String(navigator.doNotTrack || window.doNotTrack || '').toLowerCase());
+}
+
+function safeMetricKey(value) {
+  return String(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 120);
+}
+
+function sendCountApiHit(namespace, key) {
+  if (!namespace || !key) return;
+  const encodedNamespace = encodeURIComponent(namespace);
+  const encodedKey = encodeURIComponent(key);
+  fetch(`https://api.countapi.xyz/hit/${encodedNamespace}/${encodedKey}`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-store',
+    keepalive: true,
+  }).catch(() => {});
+}
+
+function shouldTrackNavigation(url, trackedPages) {
+  if (url.origin !== window.location.origin) return null;
+  const pathname = url.pathname.replace(/^\/+/, '');
+  const match = trackedPages.find((page) => pathname === `${page}.html`);
+  return match ? `nav.to-${safeMetricKey(match)}` : null;
+}
+
+function shouldTrackOutbound(url, currentPage, outboundPages) {
+  if (!outboundPages.includes(currentPage)) return null;
+  if (url.origin === window.location.origin) return null;
+  return `${safeMetricKey(currentPage)}.outbound`;
+}
+
+async function initLightAnalytics(currentPage) {
+  if (window.location.protocol === 'file:') return;
+  if (hasDoNotTrackEnabled()) return;
+
+  const config = await loadAnalyticsConfig();
+  if (!config || config.enabled !== true || config.provider !== 'countapi') return;
+
+  const namespace = config.namespace || window.location.hostname;
+  sendCountApiHit(namespace, `page.${safeMetricKey(currentPage || 'index')}`);
+
+  const trackNavigationTo = Array.isArray(config.trackNavigationTo) ? config.trackNavigationTo : [];
+  const trackOutboundFrom = Array.isArray(config.trackOutboundFrom) ? config.trackOutboundFrom : [];
+
+  document.addEventListener('click', (event) => {
+    const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null;
+    if (!anchor) return;
+
+    try {
+      const url = new URL(anchor.getAttribute('href'), window.location.href);
+      const navMetric = shouldTrackNavigation(url, trackNavigationTo);
+      if (navMetric) sendCountApiHit(namespace, navMetric);
+
+      const outboundMetric = shouldTrackOutbound(url, currentPage, trackOutboundFrom);
+      if (outboundMetric) sendCountApiHit(namespace, outboundMetric);
+    } catch (error) {
+      // no-op
+    }
+  });
 }
 
 function absolutePageUrl(path = '') {
