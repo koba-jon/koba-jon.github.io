@@ -33,8 +33,17 @@
   color: var(--ink-soft);
 }
 
+.pub-subsection-label {
+  margin: 18px 0 8px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
 .pub-filters {
-  margin: 14px 0 10px;
+  margin: 0 0 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
