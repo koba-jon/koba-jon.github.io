@@ -10,6 +10,7 @@
   --line: var(--border);
   --soft: #f6f3ef;
   --footer-ink: #786e68;
+  --hero-bg: #1a1714;
   --hero-fg: #f5f2ec;
   --hero-tagline: #b8aa9e;
   --hero-link-border: rgba(245, 242, 236, 0.2);
@@ -43,6 +44,7 @@
   --line: var(--border);
   --soft: #272320;
   --footer-ink: #ab9f94;
+  --hero-bg: #2b221c;
   --hero-fg: #f3eee8;
   --hero-tagline: #c2b4a8;
   --hero-link-border: rgba(243, 238, 232, 0.28);
@@ -73,7 +75,7 @@ a { color: inherit; }
 img { max-width: 100%; display: block; }
 
 .hero {
-  background: var(--ink);
+  background: var(--hero-bg);
   color: var(--hero-fg);
   position: relative;
   overflow: hidden;
