@@ -5,14 +5,14 @@
     "date": "Mar. 2026",
     "icon": "computer",
     "name_ja": "基本情報技術者試験",
-    "issuer_ja": "情報処理推進機構（IPA）"
+    "issuer_ja": "独立行政法人 情報処理推進機構（IPA）"
   },
   {
     "name": "Image Processing Engineer Examination (Basic)",
     "issuer": "Computer Graphic Arts Society",
     "date": "Dec. 2025",
     "icon": "camera",
-    "name_ja": "画像処理エンジニア検定（ベーシック）",
+    "name_ja": "画像処理エンジニア検定 ベーシック",
     "issuer_ja": "公益財団法人 画像情報教育振興協会（CG-ARTS）"
   },
   {
@@ -20,7 +20,7 @@
     "issuer": "Japan Deep Learning Association",
     "date": "Mar. 2020",
     "icon": "neural",
-    "name_ja": "JDLA G検定（ジェネラリスト）",
-    "issuer_ja": "一般社団法人 日本ディープラーニング協会"
+    "name_ja": "G検定",
+    "issuer_ja": "一般社団法人 日本ディープラーニング協会（JDLA）"
   }
 ]
