@@ -44,7 +44,11 @@
         });
 
         const result = await response.json();
-        if (!response.ok || result.success !== 'true') {
+        const isSuccess =
+          response.ok &&
+          (result.success === true || result.success === 'true');
+
+        if (!isSuccess) {
           throw new Error(result.message || 'Failed to send message.');
         }
 
