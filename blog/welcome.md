@@ -1,4 +1,4 @@
-# Welcome this homepage! test
+# Welcome this homepage!
 
 I am a computer vision researcher and engineer specializing in industrial anomaly detection, representation learning, and generative modeling. My work focuses on building practical and robust machine learning methods for visual inspection, especially in manufacturing environments where real defective data are limited.
 
