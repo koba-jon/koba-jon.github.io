@@ -315,7 +315,7 @@ function renderNav(currentSlug, lang) {
     <nav>
       <div class="nav-inner">
         ${SITE_PAGES.map(page => `
-          <a href="${resolveSitePath(page.slug === 'index' ? 'index.html' : page.file)}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${escapeHtml(t(`nav.${page.slug}`, lang))}</a>
+          <a href="${page.slug === 'index' ? '/' : resolveSitePath(page.file)}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${escapeHtml(t(`nav.${page.slug}`, lang))}</a>
         `).join('')}
         <button class="theme-toggle language-toggle" id="language-toggle" type="button" aria-label="${escapeHtml(t('languageToggleAria', lang))}">
           <span class="theme-toggle-text">${escapeHtml(t('languageToggleText', lang))}</span>
