@@ -27,6 +27,13 @@
   gap: 12px;
   cursor: pointer;
   text-align: left;
+  text-decoration: none;
+  color: inherit;
+}
+
+.blog-post-header:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .blog-post-header:hover {
