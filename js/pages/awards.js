@@ -7,6 +7,9 @@
     const title = award.link
       ? `<a href="${award.link}" target="_blank" rel="noopener noreferrer">${escapeHtml(award.name)}</a>`
       : escapeHtml(award.name);
+    const linkBadge = award.link
+      ? `<a class="award-link-badge" href="${award.link}" target="_blank" rel="noopener noreferrer" aria-label="Open award link for ${escapeHtml(award.name)}">↗ LINK</a>`
+      : '';
     return `
       <article class="award-card">
         <div class="award-icon">${icons[category] || '✦'}</div>
@@ -14,7 +17,10 @@
           <div class="award-name">${title}</div>
           <div class="award-org">${escapeHtml(award.org)}</div>
         </div>
-        <div class="award-date">${escapeHtml(award.date)}</div>
+        <div class="award-meta">
+          <div class="award-date">${escapeHtml(award.date)}</div>
+          ${linkBadge}
+        </div>
       </article>
     `;
   };
