@@ -166,7 +166,7 @@
   transition: .25s;
 }
 .project-card:hover, .edu-tl-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(26,23,20,.1); }
-.project-image-center { border-bottom: 1px solid var(--border); background: #faf7f2; }
+.project-image-center { border-bottom: 1px solid var(--border); background: var(--soft); }
 .project-img2 { width: 100%; object-fit: cover; }
 .project-body { padding: 24px; }
 .project-tag, .project-tag-research {
@@ -193,7 +193,7 @@
   font-size: 10px;
   letter-spacing: .08em;
   color: var(--ink-soft);
-  background: #f6f3ef;
+  background: var(--soft);
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 3px 10px;
@@ -331,20 +331,20 @@
   font-size: .98rem;
   padding: 10px 14px;
   border-radius: 12px;
-  background: #f6f7f9;
-  border: 1px solid rgba(20, 20, 20, .06);
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
 }
 .contact-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .contact-action-btn {
   appearance: none;
-  border: 1px solid rgba(20,20,20,.12);
-  background: #111;
-  color: #fff;
+  border: 1px solid var(--button-border);
+  background: var(--button-bg);
+  color: var(--button-fg);
   border-radius: 999px;
   padding: 10px 16px;
   cursor: pointer;
 }
-.copy-status { min-height: 1em; color: #6b7280; font-size: .95rem; }
+.copy-status { min-height: 1em; color: var(--ink-soft); font-size: .95rem; }
 .contact-link-card {
   display: flex;
   flex-direction: column;
@@ -352,11 +352,11 @@
   text-decoration: none;
   padding: 16px 18px;
   border-radius: 16px;
-  border: 1px solid rgba(20,20,20,.08);
-  background: #f9fafb;
+  border: 1px solid var(--chip-border);
+  background: var(--chip-bg);
 }
-.contact-link-label { font-size: .82rem; letter-spacing: .08em; color: #6b7280; }
-.contact-note-text { margin: 0; color: #4b5563; line-height: 1.8; max-width: 760px; }
+.contact-link-label { font-size: .82rem; letter-spacing: .08em; color: var(--ink-soft); }
+.contact-note-text { margin: 0; color: var(--ink-soft); line-height: 1.8; max-width: 760px; }
 
 .sidebar > * + * { margin-top: 36px; }
 .content--publications, .content--awards { max-width: 860px; }
