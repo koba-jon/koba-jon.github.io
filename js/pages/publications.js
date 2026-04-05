@@ -1,5 +1,5 @@
 (async function () {
-  const { loadJson, initSiteChrome, escapeHtml } = window.siteUtils;
+  const { loadJson, initSiteChrome, escapeHtml, setStructuredData, absolutePageUrl } = window.siteUtils;
   await initSiteChrome();
   const exportButton = document.getElementById('create-paper-list-btn');
   const keywordInput = document.getElementById('pub-search-keyword');
@@ -118,6 +118,22 @@
     return true;
   };
 
+  const splitAuthors = (authors) => String(authors ?? '')
+    .split(/,|，/)
+    .map((name) => name.trim())
+    .filter(Boolean)
+    .map((name) => ({ '@type': 'Person', name }));
+
+  const toScholarlyArticleSchema = (publication) => ({
+    '@type': 'ScholarlyArticle',
+    headline: publication.title,
+    name: publication.title,
+    author: splitAuthors(publication.authors),
+    datePublished: String(publication.year),
+    isPartOf: publication.venue ? { '@type': 'Periodical', name: publication.venue } : undefined,
+    inLanguage: publication.lang === 'ja' ? 'ja' : 'en',
+  });
+
   const renderPublicationList = (elementId, publications, emptyMessage) => {
     const target = document.getElementById(elementId);
     if (!target) return;
@@ -190,6 +206,24 @@
     applyFilters();
 
     exportButton?.addEventListener('click', () => createPaperListDoc(journal, intl, domestic));
+
+    const allPublications = [...journal, ...intl, ...domestic];
+    setStructuredData('publications-jsonld', {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Publications',
+      url: absolutePageUrl('publications.html'),
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: allPublications.length,
+        itemListElement: allPublications.map((publication, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          item: toScholarlyArticleSchema(publication),
+        })),
+      },
+      citation: metrics.citations ?? undefined,
+    });
 
     window.siteComponents.initTabs();
   } catch (error) {

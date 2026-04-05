@@ -8,6 +8,7 @@ const SITE_PAGES = [
   { slug: 'certifications', file: 'certifications.html', label: 'Certifications' },
   { slug: 'contact', file: 'contact.html', label: 'Contact' },
 ];
+const SITE_BASE_URL = 'https://koba-jon.github.io/';
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (ch) => ({
@@ -84,7 +85,62 @@ async function initSiteChrome() {
 
   document.documentElement.lang = 'en';
   document.title = `${pageTitle || profile.name} | ${profile.name}`;
+  setStructuredData('site-identity-jsonld', [
+    buildPersonSchema(profile),
+    buildWebsiteSchema(profile, pageTitle || profile.name, currentPage),
+  ]);
   return { profile, currentPage };
 }
 
-window.siteUtils = { escapeHtml, loadJson, initSiteChrome };
+function absolutePageUrl(path = '') {
+  return new URL(path, SITE_BASE_URL).toString();
+}
+
+function buildPersonSchema(profile) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: profile.name,
+    alternateName: profile.name_ja || undefined,
+    jobTitle: profile.title,
+    worksFor: profile.company
+      ? {
+        '@type': 'Organization',
+        name: profile.company,
+        url: profile.company_url || undefined,
+      }
+      : undefined,
+    sameAs: Object.values(profile.links || {}),
+    url: absolutePageUrl('index.html'),
+  };
+}
+
+function buildWebsiteSchema(profile, pageTitle, currentPage) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: `${profile.name} - ${pageTitle}`,
+    url: absolutePageUrl(`${currentPage || 'index'}.html`),
+    about: profile.research_areas || [],
+    inLanguage: 'en',
+  };
+}
+
+function setStructuredData(scriptId, payload) {
+  const existing = document.getElementById(scriptId);
+  if (existing) existing.remove();
+
+  const script = document.createElement('script');
+  script.id = scriptId;
+  script.type = 'application/ld+json';
+  script.text = JSON.stringify(payload, null, 2);
+  document.head.appendChild(script);
+}
+
+window.siteUtils = {
+  escapeHtml,
+  loadJson,
+  initSiteChrome,
+  setStructuredData,
+  absolutePageUrl,
+};

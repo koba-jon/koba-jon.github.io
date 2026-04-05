@@ -1,5 +1,5 @@
 (async function () {
-  const { loadJson, initSiteChrome, escapeHtml } = window.siteUtils;
+  const { loadJson, initSiteChrome, escapeHtml, setStructuredData, absolutePageUrl } = window.siteUtils;
   await initSiteChrome();
 
   try {
@@ -138,6 +138,29 @@
     const hasGithubStats = githubStatsCache.size > 0 && Array.from(githubStatsCache.values()).some(Boolean);
     document.getElementById('github-stars-total').textContent = hasGithubStats ? formatCount(githubTotals.stars) : '—';
     document.getElementById('github-forks-total').textContent = hasGithubStats ? formatCount(githubTotals.forks) : '—';
+
+    const allProjects = [...data.research, ...data.opensource];
+    setStructuredData('projects-jsonld', {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Projects',
+      url: absolutePageUrl('projects.html'),
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: allProjects.length,
+        itemListElement: allProjects.map((project, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          item: {
+            '@type': 'SoftwareSourceCode',
+            name: project.title,
+            description: (project.description || []).join(' '),
+            codeRepository: project.link,
+            url: project.link,
+          },
+        })),
+      },
+    });
   } catch (error) {
     console.warn(error);
   }
