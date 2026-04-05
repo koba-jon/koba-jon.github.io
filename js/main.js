@@ -228,8 +228,26 @@ function escapeHtml(value) {
   }[ch]));
 }
 
+function getSiteRootRelativePrefix() {
+  const pathname = window.location.pathname || '/';
+  const segments = pathname.split('/').filter(Boolean);
+  if (segments.length === 0) return '';
+
+  const lastSegment = segments[segments.length - 1];
+  const directoryDepth = lastSegment.includes('.') ? segments.length - 1 : segments.length;
+  return '../'.repeat(Math.max(0, directoryDepth));
+}
+
+function resolveSitePath(path) {
+  const normalizedPath = String(path || '').trim();
+  if (!normalizedPath) return normalizedPath;
+  if (/^(?:[a-z]+:)?\/\//i.test(normalizedPath)) return normalizedPath;
+  if (normalizedPath.startsWith('/')) return normalizedPath;
+  return `${getSiteRootRelativePrefix()}${normalizedPath}`;
+}
+
 async function loadJson(path) {
-  const response = await fetch(path);
+  const response = await fetch(resolveSitePath(path));
   if (!response.ok) throw new Error(`Failed to load ${path}`);
   return response.json();
 }
@@ -246,7 +264,7 @@ function renderHero(profile, pageTitle, pageTagline) {
   return `
   <header class="hero">
     <div class="hero-inner">
-      <img src="images/profile.jpg" alt="${escapeHtml(profile.name)}" class="hero-avatar">
+      <img src="${resolveSitePath('images/profile.jpg')}" alt="${escapeHtml(profile.name)}" class="hero-avatar">
 
       <div class="hero-text">
         <div class="hero-label">${escapeHtml(profile.title)}</div>
@@ -297,7 +315,7 @@ function renderNav(currentSlug, lang) {
     <nav>
       <div class="nav-inner">
         ${SITE_PAGES.map(page => `
-          <a href="${page.slug === 'index' ? '/' : page.file}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${escapeHtml(t(`nav.${page.slug}`, lang))}</a>
+          <a href="${resolveSitePath(page.slug === 'index' ? 'index.html' : page.file)}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${escapeHtml(t(`nav.${page.slug}`, lang))}</a>
         `).join('')}
         <button class="theme-toggle language-toggle" id="language-toggle" type="button" aria-label="${escapeHtml(t('languageToggleAria', lang))}">
           <span class="theme-toggle-text">${escapeHtml(t('languageToggleText', lang))}</span>
