@@ -16,44 +16,44 @@
   <main class="single-column">
     <div class="content content--publications">
       <section aria-labelledby="publication-overview-heading">
-        <h2 id="publication-overview-heading" class="section-label">Publication Overview</h2>
+        <h2 id="publication-overview-heading" class="section-label" data-i18n="publications.overviewTitle">Publication Overview</h2>
         <div class="pub-stats-bar">
-          <div class="pub-stat"><span class="pub-stat-num" id="stat-journal">—</span><span class="pub-stat-label">Journal Papers</span></div>
-          <div class="pub-stat"><span class="pub-stat-num" id="stat-intl">—</span><span class="pub-stat-label">Int'l Conferences</span></div>
-          <div class="pub-stat"><span class="pub-stat-num" id="stat-domestic">—</span><span class="pub-stat-label">Domestic Conferences</span></div>
-          <div class="pub-stat"><span class="pub-stat-num" id="stat-first">—</span><span class="pub-stat-label">First Author</span></div>
-          <div class="pub-stat"><span class="pub-stat-num" id="stat-citations">—</span><span class="pub-stat-label">Citations</span></div>
+          <div class="pub-stat"><span class="pub-stat-num" id="stat-journal">—</span><span class="pub-stat-label" data-i18n="publications.journalPapers">Journal Papers</span></div>
+          <div class="pub-stat"><span class="pub-stat-num" id="stat-intl">—</span><span class="pub-stat-label" data-i18n="publications.intlConferences">Int'l Conferences</span></div>
+          <div class="pub-stat"><span class="pub-stat-num" id="stat-domestic">—</span><span class="pub-stat-label" data-i18n="publications.domesticConferences">Domestic Conferences</span></div>
+          <div class="pub-stat"><span class="pub-stat-num" id="stat-first">—</span><span class="pub-stat-label" data-i18n="publications.firstAuthor">First Author</span></div>
+          <div class="pub-stat"><span class="pub-stat-num" id="stat-citations">—</span><span class="pub-stat-label" data-i18n="publications.citations">Citations</span></div>
         </div>
         <div class="pub-export">
-          <button id="create-paper-list-btn" class="pub-export-btn" type="button">Export DOC</button>
-          <button id="export-csv-btn" class="pub-export-btn" type="button">Export CSV</button>
-          <button id="export-pdf-btn" class="pub-export-btn" type="button">Export PDF</button>
-          <p class="pub-export-note">You can export the list of papers in DOC / CSV / PDF format.</p>
+          <button id="create-paper-list-btn" class="pub-export-btn" type="button" data-i18n="publications.exportDoc">Export DOC</button>
+          <button id="export-csv-btn" class="pub-export-btn" type="button" data-i18n="publications.exportCsv">Export CSV</button>
+          <button id="export-pdf-btn" class="pub-export-btn" type="button" data-i18n="publications.exportPdf">Export PDF</button>
+          <p class="pub-export-note" data-i18n="publications.exportNote">You can export the list of papers in DOC / CSV / PDF format.</p>
         </div>
 
-        <h2 id="publication-details" class="section-label">Publication Details</h2>
-        <div class="pub-filters" aria-label="Publication filters">
+        <h2 id="publication-details" class="section-label" data-i18n="publications.detailsTitle">Publication Details</h2>
+        <div class="pub-filters" aria-label="Publication filters" data-i18n-aria-label="publications.filtersAria">
           <div class="pub-filter-field pub-filter-field--keyword">
-            <label for="pub-search-keyword" class="pub-filter-label">Keyword</label>
-            <input id="pub-search-keyword" type="search" class="pub-filter-input" placeholder="Title / Authors / Venue">
+            <label for="pub-search-keyword" class="pub-filter-label" data-i18n="publications.keyword">Keyword</label>
+            <input id="pub-search-keyword" type="search" class="pub-filter-input" placeholder="Title / Authors / Venue" data-i18n-placeholder="publications.keywordPlaceholder">
           </div>
           <div class="pub-filter-field">
-            <label for="pub-filter-year" class="pub-filter-label">Year</label>
+            <label for="pub-filter-year" class="pub-filter-label" data-i18n="publications.year">Year</label>
             <select id="pub-filter-year" class="pub-filter-select">
-              <option value="">All years</option>
+              <option value="" data-i18n="publications.allYears">All years</option>
             </select>
           </div>
           <label class="pub-filter-check">
             <input id="pub-filter-first-author" type="checkbox">
-            <span>First-author only</span>
+            <span data-i18n="publications.firstAuthorOnly">First-author only</span>
           </label>
-          <button id="pub-filter-reset" class="pub-filter-reset-btn" type="button">Reset</button>
+          <button id="pub-filter-reset" class="pub-filter-reset-btn" type="button" data-i18n="publications.reset">Reset</button>
         </div>
 
-        <div class="pub-tabs" role="tablist" aria-label="Publication categories">
-          <button class="pub-tab active" type="button" role="tab" aria-selected="true" aria-controls="tab-journal" data-tab="journal">Journal Papers <span class="pub-tab-count" id="tab-count-journal">0</span></button>
-          <button class="pub-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-intl" data-tab="intl">International Conf. <span class="pub-tab-count" id="tab-count-intl">0</span></button>
-          <button class="pub-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-domestic" data-tab="domestic">Domestic Conf. <span class="pub-tab-count" id="tab-count-domestic">0</span></button>
+        <div class="pub-tabs" role="tablist" aria-label="Publication categories" data-i18n-aria-label="publications.categoriesAria">
+          <button class="pub-tab active" type="button" role="tab" aria-selected="true" aria-controls="tab-journal" data-tab="journal"><span data-i18n="publications.journalPapers">Journal Papers</span> <span class="pub-tab-count" id="tab-count-journal">0</span></button>
+          <button class="pub-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-intl" data-tab="intl"><span data-i18n="publications.internationalConfShort">International Conf.</span> <span class="pub-tab-count" id="tab-count-intl">0</span></button>
+          <button class="pub-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-domestic" data-tab="domestic"><span data-i18n="publications.domesticConfShort">Domestic Conf.</span> <span class="pub-tab-count" id="tab-count-domestic">0</span></button>
         </div>
         <div class="pub-list active" id="tab-journal" role="tabpanel"></div>
         <div class="pub-list" id="tab-intl" role="tabpanel" hidden></div>
