@@ -93,7 +93,13 @@
     };
 
     const formatCount = (value) => new Intl.NumberFormat('en-US').format(value);
-    const formatCounterDisplay = (value) => String(value).padStart(6, '0').slice(-6);
+    const formatCounterDisplay = (value) => {
+      const counterDigits = 9;
+      const normalized = Number.parseInt(value, 10);
+      const safeValue = Number.isFinite(normalized) ? Math.max(0, normalized) : 0;
+      const padded = String(safeValue).padStart(counterDigits, '0').slice(-counterDigits);
+      return padded.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    };
 
     const loadVisitorCounter = async () => {
       const counterEl = document.getElementById('visitor-counter-digits');

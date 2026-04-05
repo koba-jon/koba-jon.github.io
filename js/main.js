@@ -59,7 +59,7 @@ function renderNav(currentSlug) {
     <nav>
       <div class="nav-inner">
         ${SITE_PAGES.map(page => `
-          <a href="${page.file}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${page.label}</a>
+          <a href="${page.slug === 'index' ? '/' : page.file}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${page.label}</a>
         `).join('')}
       </div>
     </nav>
