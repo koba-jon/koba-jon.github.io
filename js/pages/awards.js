@@ -4,9 +4,7 @@
 
   const icons = { research: '🏆', review: '📝', scholarship: '🎓' };
   const buildCard = (award, category) => {
-    const title = award.link
-      ? `<a href="${award.link}" target="_blank" rel="noopener noreferrer">${escapeHtml(award.name)}</a>`
-      : escapeHtml(award.name);
+    const title = escapeHtml(award.name);
     const linkBadge = award.link
       ? `<a class="award-link-badge" href="${award.link}" target="_blank" rel="noopener noreferrer" aria-label="Open award link for ${escapeHtml(award.name)}">↗ LINK</a>`
       : '';
