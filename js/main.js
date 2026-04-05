@@ -240,6 +240,45 @@ function absolutePageUrl(path = '') {
   return new URL(path, SITE_BASE_URL).toString();
 }
 
+function parseGitHubRepoPath(url) {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname !== 'github.com') return null;
+    const [owner, repo] = parsed.pathname.replace(/^\/+/, '').split('/');
+    if (!owner || !repo) return null;
+    return `${owner}/${repo}`;
+  } catch (error) {
+    return null;
+  }
+}
+
+function parseCompactCount(value) {
+  if (typeof value !== 'string') return null;
+  const normalized = value.replace(/,/g, '').trim().toLowerCase();
+  const match = normalized.match(/^([0-9]*\.?[0-9]+)\s*([kmb])?$/);
+  if (!match) return null;
+
+  const base = Number.parseFloat(match[1]);
+  if (!Number.isFinite(base)) return null;
+  const multipliers = { k: 1_000, m: 1_000_000, b: 1_000_000_000 };
+  const suffix = match[2];
+  return Math.round(base * (suffix ? multipliers[suffix] : 1));
+}
+
+async function fetchShieldsRepoCount(repoPath, metric) {
+  try {
+    const response = await fetch(`https://img.shields.io/github/${metric}/${repoPath}.json`);
+    if (!response.ok) throw new Error(`Shields API error: ${response.status}`);
+    const payload = await response.json();
+    const raw = typeof payload.value === 'string' ? payload.value : '';
+    const cleaned = raw.replace(new RegExp(`^${metric}:\\s*`, 'i'), '');
+    return parseCompactCount(cleaned);
+  } catch (error) {
+    console.warn(`Failed to load GitHub ${metric} for ${repoPath} via Shields`, error);
+    return null;
+  }
+}
+
 function buildPersonSchema(profile) {
   return {
     '@context': 'https://schema.org',
@@ -287,4 +326,6 @@ window.siteUtils = {
   initSiteChrome,
   setStructuredData,
   absolutePageUrl,
+  parseGitHubRepoPath,
+  fetchShieldsRepoCount,
 };

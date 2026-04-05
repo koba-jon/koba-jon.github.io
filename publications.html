@@ -51,13 +51,13 @@
         </div>
 
         <div class="pub-tabs" role="tablist" aria-label="Publication categories">
-          <button class="pub-tab active" type="button" data-tab="journal">Journal Papers <span class="pub-tab-count" id="tab-count-journal">0</span></button>
-          <button class="pub-tab" type="button" data-tab="intl">International Conf. <span class="pub-tab-count" id="tab-count-intl">0</span></button>
-          <button class="pub-tab" type="button" data-tab="domestic">Domestic Conf. <span class="pub-tab-count" id="tab-count-domestic">0</span></button>
+          <button class="pub-tab active" type="button" role="tab" aria-selected="true" aria-controls="tab-journal" data-tab="journal">Journal Papers <span class="pub-tab-count" id="tab-count-journal">0</span></button>
+          <button class="pub-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-intl" data-tab="intl">International Conf. <span class="pub-tab-count" id="tab-count-intl">0</span></button>
+          <button class="pub-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-domestic" data-tab="domestic">Domestic Conf. <span class="pub-tab-count" id="tab-count-domestic">0</span></button>
         </div>
-        <div class="pub-list active" id="tab-journal"></div>
-        <div class="pub-list" id="tab-intl"></div>
-        <div class="pub-list" id="tab-domestic"></div>
+        <div class="pub-list active" id="tab-journal" role="tabpanel"></div>
+        <div class="pub-list" id="tab-intl" role="tabpanel" hidden></div>
+        <div class="pub-list" id="tab-domestic" role="tabpanel" hidden></div>
       </section>
     </div>
   </main>
