@@ -23,6 +23,20 @@
           <div class="stat-item"><span id="github-stars-total" class="stat-number">—</span><span class="stat-label">GitHub Stars</span></div>
           <div class="stat-item"><span id="github-forks-total" class="stat-number">—</span><span class="stat-label">GitHub Forks</span></div>
         </div>
+        <div class="project-filters" aria-label="Project filters">
+          <div class="project-filter-field project-filter-field--keyword">
+            <label for="project-search-keyword" class="project-filter-label">Keyword</label>
+            <input id="project-search-keyword" type="search" class="project-filter-input" placeholder="Title / Tag / Description">
+          </div>
+          <div class="project-filter-field">
+            <label for="project-filter-tag" class="project-filter-label">Tag</label>
+            <select id="project-filter-tag" class="project-filter-select">
+              <option value="">All tags</option>
+            </select>
+          </div>
+          <button id="project-filter-reset" class="project-filter-reset-btn" type="button">Reset</button>
+        </div>
+        <p class="project-filter-summary" id="project-filter-summary" aria-live="polite"></p>
         <div class="projects-block" id="research-projects">
           <h3 class="projects-section-title">Research Projects</h3>
           <div class="projects-grid"></div>
