@@ -12,6 +12,14 @@
   gap: 12px;
 }
 
+.contact-form-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .contact-form-label {
   font-size: 0.95rem;
   font-weight: 500;
