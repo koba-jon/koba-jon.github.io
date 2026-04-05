@@ -26,8 +26,8 @@
   ],
   "memberships_ja": [
     "IEEE",
-    "電子情報通信学会（IEICE）",
-    "精密工学会（JSPE）"
+    "電子情報通信学会",
+    "精密工学会"
   ],
   "background": [
     {
@@ -42,11 +42,11 @@
   "background_ja": [
     {
       "period": "2026年4月 – 現在",
-      "description": "エンジニア, 株式会社アラヤ"
+      "description": "エンジニア，株式会社アラヤ"
     },
     {
       "period": "2023年4月 – 2026年3月",
-      "description": "リサーチアシスタント, 中京大学"
+      "description": "リサーチアシスタント，中京大学"
     }
   ],
   "research_areas": [
@@ -66,7 +66,7 @@
     "Beyond research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source work built on PyTorch and LibTorch."
   ],
   "profile_summary_ja": [
-    "私は Araya Inc. の AI エンジニアで、コンピュータビジョン研究のバックグラウンドを持ち、産業向け異常検知・表現学習・生成モデリングを専門としています。",
+    "私は株式会社アラヤのエンジニアで、コンピュータビジョン研究のバックグラウンドを持ち、産業向け異常検知・表現学習・生成モデリングを専門としています。",
     "主な取り組みは、外観検査のための実用的で堅牢な機械学習手法の開発です。とくに不良サンプルが限られる製造現場では、ベンチマーク上の見栄えよりも強い汎化性能を重視しています。",
     "また、擬似欠陥生成、ドメイン特化事前学習、異常検知における特徴モデリング、そして学術研究と実運用可能な AI システムの橋渡しに強い関心があります。",
     "研究活動に加えて、Python と C++ の両方で深層学習実装を行い、PyTorch / LibTorch を基盤とした大規模なオープンソース開発にも継続的に取り組んでいます。"
