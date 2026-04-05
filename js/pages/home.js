@@ -93,6 +93,36 @@
     };
 
     const formatCount = (value) => new Intl.NumberFormat('en-US').format(value);
+    const formatCounterDisplay = (value) => String(value).padStart(6, '0').slice(-6);
+
+    const loadVisitorCounter = async () => {
+      const counterEl = document.getElementById('visitor-counter-digits');
+      if (!counterEl) return;
+
+      const storageKey = 'homeVisitorCounterFallback';
+      const fallbackIncrement = () => {
+        const current = Number.parseInt(localStorage.getItem(storageKey) || '0', 10);
+        const next = Number.isFinite(current) ? current + 1 : 1;
+        localStorage.setItem(storageKey, String(next));
+        return next;
+      };
+
+      try {
+        const response = await fetch('https://api.countapi.xyz/hit/koba-jon.github.io/home');
+        if (!response.ok) {
+          throw new Error(`Counter API error: ${response.status}`);
+        }
+        const payload = await response.json();
+        const count = Number.parseInt(payload.value, 10);
+        if (!Number.isFinite(count)) throw new Error('Counter API returned a non-numeric count');
+        counterEl.textContent = formatCounterDisplay(count);
+        return;
+      } catch (error) {
+        console.warn('Failed to load visitor counter from CountAPI, using local fallback counter', error);
+      }
+
+      counterEl.textContent = formatCounterDisplay(fallbackIncrement());
+    };
 
     document.getElementById('stat-journal').textContent = journal.length;
     document.getElementById('stat-intl').textContent = intl.length;
@@ -202,6 +232,8 @@
         featuredProjectList.innerHTML = featuredCards.join('');
       }
     }
+
+    await loadVisitorCounter();
   } catch (error) {
     console.warn(error);
   }
