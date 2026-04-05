@@ -1,5 +1,9 @@
 [
   {
+    "path": "blog/test.md",
+    "updatedAt": "2026-04-05T12:19:08Z"
+  },
+  {
     "path": "blog/welcome.md",
     "updatedAt": "2026-04-05T12:09:42Z"
   }
