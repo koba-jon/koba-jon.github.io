@@ -8,6 +8,51 @@
   const yearSelect = document.getElementById('pub-filter-year');
   const firstAuthorOnlyInput = document.getElementById('pub-filter-first-author');
   const resetButton = document.getElementById('pub-filter-reset');
+  const formatCount = (value) => new Intl.NumberFormat('en-US').format(value);
+
+  const updateMetricText = (elementId, value) => {
+    const target = document.getElementById(elementId);
+    if (!target) return;
+    target.textContent = Number.isFinite(value) ? formatCount(value) : '—';
+  };
+
+  const fetchCountApiValue = async (namespace, key) => {
+    try {
+      const response = await fetch(`https://api.countapi.xyz/get/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`);
+      if (!response.ok) throw new Error(`CountAPI error: ${response.status}`);
+      const payload = await response.json();
+      return Number.isFinite(payload?.value) ? payload.value : null;
+    } catch (error) {
+      console.warn(`Failed to load analytics metric: ${key}`, error);
+      return null;
+    }
+  };
+
+  const renderAnalyticsSnapshot = async (analytics) => {
+    const isCountApiEnabled = analytics
+      && analytics.enabled === true
+      && analytics.provider === 'countapi'
+      && typeof analytics.namespace === 'string'
+      && analytics.namespace.trim() !== '';
+
+    if (!isCountApiEnabled) {
+      updateMetricText('metric-page-publications', null);
+      updateMetricText('metric-nav-publications', null);
+      updateMetricText('metric-outbound-publications', null);
+      return;
+    }
+
+    const namespace = analytics.namespace.trim();
+    const [pageViews, navigations, outbound] = await Promise.all([
+      fetchCountApiValue(namespace, 'page.publications'),
+      fetchCountApiValue(namespace, 'nav.to-publications'),
+      fetchCountApiValue(namespace, 'publications.outbound'),
+    ]);
+
+    updateMetricText('metric-page-publications', pageViews);
+    updateMetricText('metric-nav-publications', navigations);
+    updateMetricText('metric-outbound-publications', outbound);
+  };
 
   const buildPubItem = (publication) => {
     const badges = [
@@ -244,11 +289,12 @@
   };
 
   try {
-    const [journal, intl, domestic, metrics] = await Promise.all([
+    const [journal, intl, domestic, metrics, analytics] = await Promise.all([
       loadJson('data/publications-journal.json'),
       loadJson('data/publications-international.json'),
       loadJson('data/publications-domestic.json'),
       loadJson('data/metrics.json'),
+      loadJson('data/analytics.json').catch(() => null),
     ]);
 
     const allFirstAuthors = [...journal, ...intl, ...domestic].filter((item) => item.first_author).length;
@@ -258,6 +304,7 @@
     document.getElementById('stat-domestic').textContent = domestic.length;
     document.getElementById('stat-first').textContent = allFirstAuthors;
     document.getElementById('stat-citations').textContent = metrics.citations ?? '—';
+    await renderAnalyticsSnapshot(analytics);
 
     const years = Array.from(new Set([...journal, ...intl, ...domestic].map((publication) => publication.year)))
       .sort((left, right) => Number(right) - Number(left));

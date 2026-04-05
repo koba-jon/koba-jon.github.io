@@ -3,7 +3,10 @@
   await initSiteChrome();
 
   try {
-    const data = await loadJson('data/projects.json');
+    const [data, analytics] = await Promise.all([
+      loadJson('data/projects.json'),
+      loadJson('data/analytics.json').catch(() => null),
+    ]);
     const githubStatsCache = new Map();
 
     const parseGitHubRepoPath = (url) => {
@@ -86,6 +89,50 @@
 
     const formatCount = (value) => new Intl.NumberFormat('en-US').format(value);
 
+    const updateMetricText = (elementId, value) => {
+      const target = document.getElementById(elementId);
+      if (!target) return;
+      target.textContent = Number.isFinite(value) ? formatCount(value) : '—';
+    };
+
+    const fetchCountApiValue = async (namespace, key) => {
+      try {
+        const response = await fetch(`https://api.countapi.xyz/get/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`);
+        if (!response.ok) throw new Error(`CountAPI error: ${response.status}`);
+        const payload = await response.json();
+        return Number.isFinite(payload?.value) ? payload.value : null;
+      } catch (error) {
+        console.warn(`Failed to load analytics metric: ${key}`, error);
+        return null;
+      }
+    };
+
+    const renderAnalyticsSnapshot = async () => {
+      const isCountApiEnabled = analytics
+        && analytics.enabled === true
+        && analytics.provider === 'countapi'
+        && typeof analytics.namespace === 'string'
+        && analytics.namespace.trim() !== '';
+
+      if (!isCountApiEnabled) {
+        updateMetricText('metric-page-projects', null);
+        updateMetricText('metric-nav-projects', null);
+        updateMetricText('metric-outbound-projects', null);
+        return;
+      }
+
+      const namespace = analytics.namespace.trim();
+      const [pageViews, navigations, outbound] = await Promise.all([
+        fetchCountApiValue(namespace, 'page.projects'),
+        fetchCountApiValue(namespace, 'nav.to-projects'),
+        fetchCountApiValue(namespace, 'projects.outbound'),
+      ]);
+
+      updateMetricText('metric-page-projects', pageViews);
+      updateMetricText('metric-nav-projects', navigations);
+      updateMetricText('metric-outbound-projects', outbound);
+    };
+
     const buildCard = async (project) => {
       const imageHtml = project.image
         ? `<div class="project-image-center"><img src="${project.image}" alt="${escapeHtml(project.title)}" class="project-img2"></div>`
@@ -138,6 +185,7 @@
     const hasGithubStats = githubStatsCache.size > 0 && Array.from(githubStatsCache.values()).some(Boolean);
     document.getElementById('github-stars-total').textContent = hasGithubStats ? formatCount(githubTotals.stars) : '—';
     document.getElementById('github-forks-total').textContent = hasGithubStats ? formatCount(githubTotals.forks) : '—';
+    await renderAnalyticsSnapshot();
 
     const allProjects = [...data.research, ...data.opensource];
     setStructuredData('projects-jsonld', {
