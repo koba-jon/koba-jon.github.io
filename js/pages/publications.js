@@ -26,7 +26,7 @@
     const isJapanese = publication.lang === 'ja';
     const comma = isJapanese ? '，' : ', ';
     const period = isJapanese ? '．' : '.';
-    return `　[${index + 1}] ${publication.authors}${comma}${publication.title}${comma}${publication.venue}${comma}${publication.year}${period}`;
+    return `	[${index + 1}] ${publication.authors}${comma}${publication.title}${comma}${publication.venue}${comma}${publication.year}${period}`;
   };
 
   const buildPaperListText = (journal, intl, domestic) => {
@@ -45,24 +45,31 @@
       .join('\n\n');
   };
 
+  const escapeHtmlForExport = (text) => String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
   const createPaperListDoc = (journal, intl, domestic) => {
-    const bodyText = buildPaperListText(journal, intl, domestic).replace(/\n/g, '<br>');
+    const bodyText = escapeHtmlForExport(buildPaperListText(journal, intl, domestic));
     const htmlDoc = `
       <html xmlns:o="urn:schemas-microsoft-com:office:office"
             xmlns:w="urn:schemas-microsoft-com:office:word"
             xmlns="http://www.w3.org/TR/REC-html40">
       <head><meta charset="utf-8"><title>Paper List</title></head>
-      <body style="font-family:'Yu Mincho','Hiragino Mincho ProN','MS Mincho',serif;line-height:1.8;">
+      <body style="font-family:'Yu Mincho','Hiragino Mincho ProN','MS Mincho',serif;line-height:1.8;white-space:pre-wrap;">
         ${bodyText}
       </body>
       </html>
     `;
-    const blob = new Blob([htmlDoc], { type: 'application/msword;charset=utf-8' });
+    const blob = new Blob([htmlDoc], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     const today = new Date().toISOString().slice(0, 10);
     link.href = url;
-    link.download = `paper-list-${today}.doc`;
+    link.download = `paper-list-${today}.docx`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
