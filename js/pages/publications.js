@@ -39,28 +39,38 @@
     if (publication.venue) return publication.venue;
 
     const title = publication.journal || publication.conference || publication.booktitle || '';
+    const separator = publication.lang === 'ja' ? '，' : ', ';
     const details = [
       publication.volume ? `Vol.${publication.volume}` : '',
       publication.number ? `No.${publication.number}` : '',
       publication.pages ? `pp.${publication.pages}` : '',
-    ].filter(Boolean).join(', ');
+    ].filter(Boolean).join(separator);
 
-    if (title && details) return `${title}, ${details}`;
+    if (title && details) return `${title}${separator}${details}`;
     return title || details;
   };
 
   const buildBibTex = (publication, category) => {
     const entryType = inferBibTexType(category);
     const key = `${slugifyBibtexToken(firstAuthorLastName(publication.authors))}${publication.year}${slugifyBibtexToken(publication.title) || 'paper'}`;
-    const venueField = category === 'journal' ? 'journal' : 'booktitle';
-    return [
+    const lines = [
       `@${entryType}{${key},`,
       `  title = {${bibtexEscape(publication.title)}},`,
       `  author = {${bibtexEscape(publication.authors)}},`,
-      `  ${venueField} = {${bibtexEscape(formatVenue(publication))}},`,
-      `  year = {${bibtexEscape(publication.year)}}`,
-      '}',
-    ].join('\n');
+    ];
+
+    if (category === 'journal') {
+      lines.push(`  journal = {${bibtexEscape(publication.journal || publication.venue || '')}},`);
+      if (publication.volume) lines.push(`  volume = {${bibtexEscape(publication.volume)}},`);
+      if (publication.number) lines.push(`  number = {${bibtexEscape(publication.number)}},`);
+      if (publication.pages) lines.push(`  pages = {${bibtexEscape(String(publication.pages).replace(/-/g, '--'))}},`);
+    } else {
+      lines.push(`  booktitle = {${bibtexEscape(formatVenue(publication))}},`);
+    }
+
+    lines.push(`  year = {${bibtexEscape(publication.year)}}`);
+    lines.push('}');
+    return lines.join('\n');
   };
 
   const buildPubItem = (publication, category) => {
