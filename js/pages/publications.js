@@ -34,6 +34,21 @@
     .slice(0, 24)
     .toLowerCase();
 
+
+  const formatVenue = (publication) => {
+    if (publication.venue) return publication.venue;
+
+    const title = publication.journal || publication.conference || publication.booktitle || '';
+    const details = [
+      publication.volume ? `Vol.${publication.volume}` : '',
+      publication.number ? `No.${publication.number}` : '',
+      publication.pages ? `pp.${publication.pages}` : '',
+    ].filter(Boolean).join(', ');
+
+    if (title && details) return `${title}, ${details}`;
+    return title || details;
+  };
+
   const buildBibTex = (publication, category) => {
     const entryType = inferBibTexType(category);
     const key = `${slugifyBibtexToken(firstAuthorLastName(publication.authors))}${publication.year}${slugifyBibtexToken(publication.title) || 'paper'}`;
@@ -42,7 +57,7 @@
       `@${entryType}{${key},`,
       `  title = {${bibtexEscape(publication.title)}},`,
       `  author = {${bibtexEscape(publication.authors)}},`,
-      `  ${venueField} = {${bibtexEscape(publication.venue)}},`,
+      `  ${venueField} = {${bibtexEscape(formatVenue(publication))}},`,
       `  year = {${bibtexEscape(publication.year)}}`,
       '}',
     ].join('\n');
@@ -62,7 +77,7 @@
         <div>
           <div class="pub-title">${escapeHtml(publication.title)}${badges}</div>
           <div class="pub-authors">${escapeHtml(publication.authors)}</div>
-          <div class="pub-venue">${escapeHtml(publication.venue)}</div>
+          <div class="pub-venue">${escapeHtml(formatVenue(publication))}</div>
           <div class="pub-actions">
             <button class="pub-copy-bibtex-btn" type="button" data-bibtex="${escapeHtml(bibtex)}">Copy BibTeX</button>
           </div>
@@ -75,7 +90,7 @@
     const isJapanese = publication.lang === 'ja';
     const comma = isJapanese ? '，' : ', ';
     const period = isJapanese ? '．' : '.';
-    return `	[${index + 1}] ${publication.authors}${comma}${publication.title}${comma}${publication.venue}${comma}${publication.year}${period}`;
+    return `	[${index + 1}] ${publication.authors}${comma}${publication.title}${comma}${formatVenue(publication)}${comma}${publication.year}${period}`;
   };
 
   const buildPaperListHtml = (journal, intl, domestic) => {
@@ -143,7 +158,7 @@
 
   const createPaperListCsv = (journal, intl, domestic) => {
     const rows = [
-      ['category', 'index', 'year', 'title', 'authors', 'venue', 'first_author', 'award', 'acceptance_rate', 'language'],
+      ['category', 'index', 'year', 'title', 'authors', 'venue', 'journal', 'volume', 'number', 'pages', 'first_author', 'award', 'acceptance_rate', 'language'],
     ];
     const categories = [
       { label: 'Journal Papers', items: journal },
@@ -159,7 +174,11 @@
           publication.year,
           publication.title,
           publication.authors,
-          publication.venue,
+          formatVenue(publication),
+          publication.journal ?? '',
+          publication.volume ?? '',
+          publication.number ?? '',
+          publication.pages ?? '',
           publication.first_author ? 'true' : 'false',
           publication.award ?? '',
           publication.acceptance_rate ?? '',
@@ -235,7 +254,7 @@
     const searchable = normalizeText([
       publication.title,
       publication.authors,
-      publication.venue,
+      formatVenue(publication),
       publication.year,
     ].join(' '));
 
@@ -266,7 +285,7 @@
     name: publication.title,
     author: splitAuthors(publication.authors),
     datePublished: String(publication.year),
-    isPartOf: publication.venue ? { '@type': 'Periodical', name: publication.venue } : undefined,
+    isPartOf: formatVenue(publication) ? { '@type': 'Periodical', name: formatVenue(publication) } : undefined,
     inLanguage: publication.lang === 'ja' ? 'ja' : 'en',
   });
 
