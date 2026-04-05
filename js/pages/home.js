@@ -65,11 +65,12 @@
     }
 
     const strategies = [
-      // Increment the counter first so each visit is reflected immediately.
-      { action: 'hit', key: 'page.index' },
-      // Backward-compatible fallback for older key names.
-      { action: 'hit', key: 'home' },
+      // NOTE:
+      // Pageview increments are already handled in js/main.js via initLightAnalytics().
+      // Use "get" only here to display the current value and avoid double-counting
+      // a single page visit on the Home page.
       { action: 'get', key: 'page.index' },
+      // Backward-compatible fallback for older key names.
       { action: 'get', key: 'home' },
     ];
     const targets = [
