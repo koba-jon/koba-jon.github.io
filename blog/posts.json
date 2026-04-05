@@ -1,6 +1,10 @@
 [
   {
     "path": "blog/welcome.md",
-    "updatedAt": "2026-04-05T11:58:40Z"
+    "updatedAt": "2026-04-05T12:04:05Z"
+  },
+  {
+    "path": "blog/test.md",
+    "updatedAt": "2026-04-05T12:04:05Z"
   }
 ]
