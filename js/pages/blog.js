@@ -151,21 +151,22 @@
 
   const fetchMarkdownFilesFromGitHubApi = async () => {
     const { owner, repo } = inferRepoInfo();
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/blog`;
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/main?recursive=1`;
     const apiResponse = await fetch(apiUrl, { headers: { Accept: 'application/vnd.github+json' } });
     if (!apiResponse.ok) {
       throw new Error(`GitHub API returned ${apiResponse.status}`);
     }
 
-    const entries = await apiResponse.json();
-    const markdownEntries = entries
-      .filter((entry) => entry?.type === 'file' && /\.md$/i.test(entry.name));
+    const responseJson = await apiResponse.json();
+    const treeEntries = Array.isArray(responseJson?.tree) ? responseJson.tree : [];
+    const markdownEntries = treeEntries
+      .filter((entry) => entry?.type === 'blob' && typeof entry.path === 'string' && /^blog\/.+\.md$/i.test(entry.path));
 
     const markdownFiles = await Promise.all(markdownEntries.map(async (entry) => {
-      const path = `blog/${entry.name}`;
+      const path = entry.path;
       const updatedAt = await fetchLatestCommitDate(owner, repo, path);
       return {
-        name: entry.name,
+        name: path.split('/').pop() || path,
         path,
         updatedAt,
       };
