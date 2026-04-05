@@ -3,5 +3,10 @@
     "I am a computer vision researcher and AI engineer specializing in industrial anomaly detection, representation learning, and generative modeling. My work focuses on building practical and robust machine learning methods for visual inspection, especially in manufacturing environments where real defective data are limited.",
     "My research explores pseudo-defect generation, domain-specific pre-training, and feature modeling for anomaly detection, with the goal of improving both accuracy and generalization in real-world applications. I am particularly interested in bridging the gap between academic research and deployable AI systems.",
     "In addition to research, I actively develop deep learning implementations in both Python and C++, including large-scale open-source projects based on PyTorch and LibTorch."
+  ],
+  "overview_ja": [
+    "私は、産業向け異常検知・表現学習・生成モデルを専門とするコンピュータビジョン研究者／AIエンジニアです。とくに、実際の不良データが限られる製造現場での外観検査を対象に、実運用に耐える堅牢な機械学習手法の構築に取り組んでいます。",
+    "研究では、擬似欠陥生成、ドメイン特化事前学習、異常検知のための特徴モデリングを軸に、実環境で求められる精度と汎化性能の両立を目指しています。学術研究とデプロイ可能なAIシステムのギャップを埋めることに強い関心があります。",
+    "研究活動に加えて、Python と C++ の両方で深層学習実装を行っており、PyTorch / LibTorch を基盤とした大規模なオープンソース開発にも継続的に取り組んでいます。"
   ]
 }

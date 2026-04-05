@@ -12,6 +12,67 @@ const SITE_BASE_URL = 'https://koba-jon.github.io/';
 const DEFAULT_SOCIAL_IMAGE = 'images/profile.jpg';
 const ANALYTICS_CONFIG_PATH = 'data/analytics.json';
 const THEME_STORAGE_KEY = 'site-theme';
+const LANGUAGE_STORAGE_KEY = 'site-language';
+const SUPPORTED_LANGUAGES = ['en', 'ja'];
+const UI_TEXT = {
+  en: {
+    nav: { index: 'Home', about: 'About', projects: 'Projects', publications: 'Publications', awards: 'Awards', education: 'Education', certifications: 'Certifications', contact: 'Contact' },
+    themeToggleAria: 'Toggle dark mode',
+    languageToggleAria: 'Switch language',
+    languageToggleText: '日本語',
+    themeDark: 'Dark',
+    themeLight: 'Light',
+    'projects.noResearch': 'No research projects match the current filters.',
+    'projects.noOpenSource': 'No open-source projects match the current filters.',
+    'projects.showingAll': 'Showing all {total} projects.',
+    'projects.showingFiltered': 'Showing {filtered} of {total} projects.',
+    'projects.viewOnGithub': 'View on GitHub →',
+    'education.lab': 'Lab',
+    'education.supervisor': 'Supervisor',
+    'education.dissertation': 'Dissertation',
+  },
+  ja: {
+    nav: { index: 'ホーム', about: 'プロフィール', projects: 'プロジェクト', publications: '論文', awards: '受賞', education: '学歴', certifications: '資格', contact: '連絡先' },
+    themeToggleAria: 'ダークモードを切り替え',
+    languageToggleAria: '言語を切り替え',
+    languageToggleText: 'English',
+    themeDark: 'ダーク',
+    themeLight: 'ライト',
+    'home.overview': '概要',
+    'home.selectedPublications': '主要論文',
+    'home.featuredProject': '注目プロジェクト',
+    'home.journalPapers': '学術論文',
+    'home.intlConf': '国際会議',
+    'home.domesticConf': '国内会議',
+    'home.awards': '受賞',
+    'home.affiliation': '所属',
+    'home.visitorCounter': '訪問カウンター',
+    'home.thanks': 'ご訪問ありがとうございます。',
+    'home.totalVisits': '累計訪問数',
+    'home.quickLinks': 'クイックリンク',
+    'home.position': '職位',
+    'home.company': '所属先',
+    'home.noSelectedPublications': '主要論文はまだ設定されていません。',
+    'home.noFeaturedProjects': '注目プロジェクトはまだ設定されていません。',
+    'home.viewOnGithub': 'GitHubで見る →',
+    'about.profileSummary': 'プロフィール概要',
+    'about.downloadCv': 'CVをダウンロード',
+    'about.affiliation': '所属',
+    'about.memberships': '所属学会',
+    'about.background': '経歴',
+    'about.researchAreas': '研究分野',
+    'about.current': '現在',
+    'about.since': '着任',
+    'projects.noResearch': '現在のフィルターに一致する研究プロジェクトはありません。',
+    'projects.noOpenSource': '現在のフィルターに一致するオープンソースプロジェクトはありません。',
+    'projects.showingAll': '全 {total} 件のプロジェクトを表示中。',
+    'projects.showingFiltered': '{total} 件中 {filtered} 件を表示中。',
+    'projects.viewOnGithub': 'GitHubで見る →',
+    'education.lab': '研究室',
+    'education.supervisor': '指導教員',
+    'education.dissertation': '学位論文',
+  },
+};
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (ch) => ({
@@ -55,14 +116,33 @@ function renderHero(profile, pageTitle, pageTagline) {
   `;
 }
 
-function renderNav(currentSlug) {
+function getCurrentLanguage() {
+  const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+  if (SUPPORTED_LANGUAGES.includes(savedLanguage)) return savedLanguage;
+  const browserLanguage = (navigator.language || '').toLowerCase();
+  return browserLanguage.startsWith('ja') ? 'ja' : 'en';
+}
+
+function t(key, lang = getCurrentLanguage()) {
+  const locale = UI_TEXT[lang] ? lang : 'en';
+  return UI_TEXT[locale][key] || UI_TEXT.en[key] || key;
+}
+
+function formatMessage(template, values = {}) {
+  return String(template).replace(/\{(\w+)\}/g, (_, key) => (key in values ? String(values[key]) : `{${key}}`));
+}
+
+function renderNav(currentSlug, lang) {
   return `
     <nav>
       <div class="nav-inner">
         ${SITE_PAGES.map(page => `
-          <a href="${page.slug === 'index' ? '/' : page.file}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${page.label}</a>
+          <a href="${page.slug === 'index' ? '/' : page.file}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${escapeHtml(t(`nav.${page.slug}`, lang))}</a>
         `).join('')}
-        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+        <button class="theme-toggle language-toggle" id="language-toggle" type="button" aria-label="${escapeHtml(t('languageToggleAria', lang))}">
+          <span class="theme-toggle-text">${escapeHtml(t('languageToggleText', lang))}</span>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="${escapeHtml(t('themeToggleAria', lang))}" aria-pressed="false">
           <span class="theme-toggle-icon" aria-hidden="true">◐</span>
           <span class="theme-toggle-text">Dark</span>
         </button>
@@ -140,9 +220,56 @@ function applyTheme(theme) {
 
   const isDark = theme === 'dark';
   toggle.setAttribute('aria-pressed', String(isDark));
-  const label = isDark ? 'Light' : 'Dark';
+  const lang = getCurrentLanguage();
+  const label = isDark ? t('themeLight', lang) : t('themeDark', lang);
   const text = toggle.querySelector('.theme-toggle-text');
   if (text) text.textContent = label;
+}
+
+
+function translateStaticContent(lang) {
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    const key = element.dataset.i18n;
+    element.textContent = t(key, lang);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+    const key = element.dataset.i18nPlaceholder;
+    element.setAttribute('placeholder', t(key, lang));
+  });
+}
+
+function applyLanguage(lang) {
+  const body = document.body;
+  localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+  document.documentElement.lang = lang;
+
+  const pageTitle = (lang === 'ja' ? body.dataset.pageTitleJa : body.dataset.pageTitle) || body.dataset.pageTitle || '';
+  const profileName = body.dataset.profileName || '';
+  if (pageTitle) document.title = profileName ? `${pageTitle} | ${profileName}` : pageTitle;
+
+  translateStaticContent(lang);
+  const languageToggle = document.getElementById('language-toggle');
+  if (languageToggle) {
+    languageToggle.setAttribute('aria-label', t('languageToggleAria', lang));
+    const text = languageToggle.querySelector('.theme-toggle-text');
+    if (text) text.textContent = t('languageToggleText', lang);
+  }
+
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) themeToggle.setAttribute('aria-label', t('themeToggleAria', lang));
+  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+
+  window.dispatchEvent(new CustomEvent('site:languagechange', { detail: { lang } }));
+}
+
+function initLanguageToggle() {
+  const toggle = document.getElementById('language-toggle');
+  if (!toggle) return;
+  toggle.addEventListener('click', () => {
+    const current = getCurrentLanguage();
+    const next = current === 'ja' ? 'en' : 'ja';
+    applyLanguage(next);
+  });
 }
 
 function initThemeToggle() {
@@ -174,22 +301,26 @@ async function initSiteChrome() {
   const footer = document.getElementById('site-footer');
 
   if (header) header.innerHTML = renderHero(profile, pageTitle || profile.name, pageTagline || profile.name);
-  if (nav) nav.innerHTML = renderNav(currentPage);
+  const language = getCurrentLanguage();
+  if (nav) nav.innerHTML = renderNav(currentPage, language);
   if (footer) footer.innerHTML = renderFooter(profile);
+  body.dataset.profileName = profile.name;
+  initLanguageToggle();
   initThemeToggle();
 
-  document.documentElement.lang = 'en';
-  document.title = `${pageTitle || profile.name} | ${profile.name}`;
+  applyLanguage(language);
   const resolvedDescription = pageDescription
     || profile.profile_summary?.[0]
     || `${profile.name} - ${profile.title}`;
-  setSeoMeta(profile, currentPage, pageTitle || profile.name, resolvedDescription, pageImage);
+  const localizedTitle = (language === 'ja' ? body.dataset.pageTitleJa : pageTitle) || pageTitle || profile.name;
+  const localizedDescription = (language === 'ja' ? body.dataset.pageDescriptionJa : pageDescription) || pageDescription;
+  setSeoMeta(profile, currentPage, localizedTitle || profile.name, localizedDescription || resolvedDescription, pageImage);
   setStructuredData('site-identity-jsonld', [
     buildPersonSchema(profile),
-    buildWebsiteSchema(profile, pageTitle || profile.name, currentPage),
+    buildWebsiteSchema(profile, localizedTitle || profile.name, currentPage, language),
   ]);
   initLightAnalytics(currentPage);
-  return { profile, currentPage };
+  return { profile, currentPage, language, t, applyLanguage };
 }
 
 async function loadAnalyticsConfig() {
@@ -344,14 +475,14 @@ function buildPersonSchema(profile) {
   };
 }
 
-function buildWebsiteSchema(profile, pageTitle, currentPage) {
+function buildWebsiteSchema(profile, pageTitle, currentPage, language = 'en') {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: `${profile.name} - ${pageTitle}`,
     url: absolutePageUrl(`${currentPage || 'index'}.html`),
     about: profile.research_areas || [],
-    inLanguage: 'en',
+    inLanguage: language,
   };
 }
 
@@ -374,4 +505,7 @@ window.siteUtils = {
   absolutePageUrl,
   parseGitHubRepoPath,
   fetchShieldsRepoCount,
+  getCurrentLanguage,
+  t,
+  formatMessage,
 };
