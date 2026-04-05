@@ -67,9 +67,11 @@ def main() -> None:
     entries = []
     for md_file in sorted(BLOG_DIR.rglob("*.md")):
         rel_path = md_file.relative_to(ROOT).as_posix()
-        updated_at = latest_commit_iso8601(md_file)
+        # Keep previously recorded timestamps stable so adding a new post
+        # does not rewrite `updatedAt` for existing posts.
+        updated_at = existing_manifest.get(rel_path)
         if not updated_at:
-            updated_at = existing_manifest.get(rel_path)
+            updated_at = latest_commit_iso8601(md_file)
         if not updated_at:
             updated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
