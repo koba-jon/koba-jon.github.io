@@ -25,6 +25,24 @@
           <div class="pub-stat"><span class="pub-stat-num" id="stat-citations">—</span><span class="pub-stat-label">Citations</span></div>
         </div>
 
+        <div class="pub-filters" aria-label="Publication filters">
+          <div class="pub-filter-field pub-filter-field--keyword">
+            <label for="pub-search-keyword" class="pub-filter-label">Keyword</label>
+            <input id="pub-search-keyword" type="search" class="pub-filter-input" placeholder="Title / Authors / Venue">
+          </div>
+          <div class="pub-filter-field">
+            <label for="pub-filter-year" class="pub-filter-label">Year</label>
+            <select id="pub-filter-year" class="pub-filter-select">
+              <option value="">All years</option>
+            </select>
+          </div>
+          <label class="pub-filter-check">
+            <input id="pub-filter-first-author" type="checkbox">
+            <span>First-author only</span>
+          </label>
+          <button id="pub-filter-reset" class="pub-filter-reset-btn" type="button">Reset</button>
+        </div>
+
         <div class="pub-tabs" role="tablist" aria-label="Publication categories">
           <button class="pub-tab active" type="button" data-tab="journal">Journal Papers <span class="pub-tab-count" id="tab-count-journal">0</span></button>
           <button class="pub-tab" type="button" data-tab="intl">International Conf. <span class="pub-tab-count" id="tab-count-intl">0</span></button>

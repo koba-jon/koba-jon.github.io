@@ -2,6 +2,10 @@
   const { loadJson, initSiteChrome, escapeHtml } = window.siteUtils;
   await initSiteChrome();
   const exportButton = document.getElementById('create-paper-list-btn');
+  const keywordInput = document.getElementById('pub-search-keyword');
+  const yearSelect = document.getElementById('pub-filter-year');
+  const firstAuthorOnlyInput = document.getElementById('pub-filter-first-author');
+  const resetButton = document.getElementById('pub-filter-reset');
 
   const buildPubItem = (publication) => {
     const badges = [
@@ -87,6 +91,49 @@
     URL.revokeObjectURL(url);
   };
 
+  const normalizeText = (value) => String(value ?? '')
+    .toLowerCase()
+    .normalize('NFKC');
+
+  const publicationMatches = (publication, filters) => {
+    const searchable = normalizeText([
+      publication.title,
+      publication.authors,
+      publication.venue,
+      publication.year,
+    ].join(' '));
+
+    if (filters.keyword && !searchable.includes(filters.keyword)) {
+      return false;
+    }
+
+    if (filters.year && String(publication.year) !== filters.year) {
+      return false;
+    }
+
+    if (filters.firstAuthorOnly && !publication.first_author) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const renderPublicationList = (elementId, publications, emptyMessage) => {
+    const target = document.getElementById(elementId);
+    if (!target) return;
+    target.innerHTML = publications.length
+      ? publications.map(buildPubItem).join('')
+      : `<p>${escapeHtml(emptyMessage)}</p>`;
+  };
+
+  const updateTabCount = (elementId, filteredCount, totalCount) => {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    element.textContent = filteredCount === totalCount
+      ? `${totalCount}`
+      : `${filteredCount} / ${totalCount}`;
+  };
+
   try {
     const [journal, intl, domestic, metrics] = await Promise.all([
       loadJson('data/publications-journal.json'),
@@ -103,13 +150,44 @@
     document.getElementById('stat-first').textContent = allFirstAuthors;
     document.getElementById('stat-citations').textContent = metrics.citations ?? '—';
 
-    document.getElementById('tab-count-journal').textContent = journal.length;
-    document.getElementById('tab-count-intl').textContent = intl.length;
-    document.getElementById('tab-count-domestic').textContent = domestic.length;
+    const years = Array.from(new Set([...journal, ...intl, ...domestic].map((publication) => publication.year)))
+      .sort((left, right) => Number(right) - Number(left));
+    yearSelect.innerHTML = [
+      '<option value="">All years</option>',
+      ...years.map((year) => `<option value="${escapeHtml(year)}">${escapeHtml(year)}</option>`),
+    ].join('');
 
-    document.getElementById('tab-journal').innerHTML = journal.map(buildPubItem).join('') || '<p>No journal papers listed yet.</p>';
-    document.getElementById('tab-intl').innerHTML = intl.map(buildPubItem).join('');
-    document.getElementById('tab-domestic').innerHTML = domestic.map(buildPubItem).join('') || '<p>No domestic conference papers listed yet.</p>';
+    const applyFilters = () => {
+      const filters = {
+        keyword: normalizeText(keywordInput.value.trim()),
+        year: yearSelect.value,
+        firstAuthorOnly: firstAuthorOnlyInput.checked,
+      };
+
+      const filteredJournal = journal.filter((publication) => publicationMatches(publication, filters));
+      const filteredIntl = intl.filter((publication) => publicationMatches(publication, filters));
+      const filteredDomestic = domestic.filter((publication) => publicationMatches(publication, filters));
+
+      renderPublicationList('tab-journal', filteredJournal, 'No journal papers match the current filters.');
+      renderPublicationList('tab-intl', filteredIntl, 'No international conference papers match the current filters.');
+      renderPublicationList('tab-domestic', filteredDomestic, 'No domestic conference papers match the current filters.');
+
+      updateTabCount('tab-count-journal', filteredJournal.length, journal.length);
+      updateTabCount('tab-count-intl', filteredIntl.length, intl.length);
+      updateTabCount('tab-count-domestic', filteredDomestic.length, domestic.length);
+    };
+
+    keywordInput?.addEventListener('input', applyFilters);
+    yearSelect?.addEventListener('change', applyFilters);
+    firstAuthorOnlyInput?.addEventListener('change', applyFilters);
+    resetButton?.addEventListener('click', () => {
+      keywordInput.value = '';
+      yearSelect.value = '';
+      firstAuthorOnlyInput.checked = false;
+      applyFilters();
+    });
+
+    applyFilters();
 
     exportButton?.addEventListener('click', () => createPaperListDoc(journal, intl, domestic));
 
