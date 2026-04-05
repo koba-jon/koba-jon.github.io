@@ -29,12 +29,16 @@
       return Number.isFinite(count) ? count : null;
     };
 
-    const buildCounterUrl = (endpoint, action, namespace, key) => (
+    const buildLegacyUrl = (endpoint, action, namespace, key) => (
       `${endpoint}/${action}/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`
     );
+    const buildMirrorUrl = (action, namespace, key) => {
+      const compositeKey = encodeURIComponent(`${namespace}.${key}`);
+      return `https://countapi.mileshilliard.com/api/v1/${action}/${compositeKey}`;
+    };
 
-    const fetchCounter = async (endpoint, action, namespace, key) => {
-      const response = await fetch(buildCounterUrl(endpoint, action, namespace, key), {
+    const fetchCounter = async (targetUrl) => {
+      const response = await fetch(targetUrl, {
         method: 'GET',
         mode: 'cors',
         cache: 'no-store',
@@ -50,23 +54,6 @@
       return count;
     };
 
-    const fetchCounterViaProxy = async (proxyBase, endpoint, action, namespace, key) => {
-      const targetUrl = buildCounterUrl(endpoint, action, namespace, key);
-      const response = await fetch(`${proxyBase}${encodeURIComponent(targetUrl)}`, {
-        method: 'GET',
-        cache: 'no-store',
-      });
-      if (!response.ok) {
-        throw new Error(`Counter proxy error: ${response.status}`);
-      }
-      const payload = await response.json();
-      const count = parseCounterResponse(payload);
-      if (!Number.isFinite(count)) {
-        throw new Error('Counter proxy returned a non-numeric count');
-      }
-      return count;
-    };
-
     let namespace = 'koba-jon.github.io';
     try {
       const analytics = await loadJson('data/analytics.json');
@@ -77,7 +64,6 @@
       // Ignore and use default namespace.
     }
 
-    const endpoints = ['https://api.countapi.xyz', 'https://countapi.xyz'];
     const strategies = [
       // Increment the counter first so each visit is reflected immediately.
       { action: 'hit', key: 'page.index' },
@@ -86,17 +72,22 @@
       { action: 'get', key: 'page.index' },
       { action: 'get', key: 'home' },
     ];
+    const targets = [
+      ...strategies.flatMap((strategy) => ([
+        buildLegacyUrl('https://api.countapi.xyz', strategy.action, namespace, strategy.key),
+        buildLegacyUrl('https://countapi.xyz', strategy.action, namespace, strategy.key),
+        buildMirrorUrl(strategy.action, namespace, strategy.key),
+      ])),
+    ];
 
-    for (const endpoint of endpoints) {
-      for (const strategy of strategies) {
-        try {
-          const count = await fetchCounter(endpoint, strategy.action, namespace, strategy.key);
-          cacheCount(count);
-          counterEl.textContent = formatCounterDisplay(count);
-          return;
-        } catch (error) {
-          // Try the next endpoint/strategy.
-        }
+    for (const targetUrl of targets) {
+      try {
+        const count = await fetchCounter(targetUrl);
+        cacheCount(count);
+        counterEl.textContent = formatCounterDisplay(count);
+        return;
+      } catch (error) {
+        // Try the next endpoint/strategy.
       }
     }
 
@@ -105,16 +96,21 @@
       'https://corsproxy.io/?',
     ];
     for (const proxyBase of proxyBases) {
-      for (const endpoint of endpoints) {
-        for (const strategy of strategies) {
-          try {
-            const count = await fetchCounterViaProxy(proxyBase, endpoint, strategy.action, namespace, strategy.key);
-            cacheCount(count);
-            counterEl.textContent = formatCounterDisplay(count);
-            return;
-          } catch (error) {
-            // Try the next proxy/endpoint/strategy.
-          }
+      for (const targetUrl of targets) {
+        try {
+          const response = await fetch(`${proxyBase}${encodeURIComponent(targetUrl)}`, {
+            method: 'GET',
+            cache: 'no-store',
+          });
+          if (!response.ok) throw new Error(`Counter proxy error: ${response.status}`);
+          const payload = await response.json();
+          const count = parseCounterResponse(payload);
+          if (!Number.isFinite(count)) throw new Error('Counter proxy returned a non-numeric count');
+          cacheCount(count);
+          counterEl.textContent = formatCounterDisplay(count);
+          return;
+        } catch (error) {
+          // Try the next proxy/target.
         }
       }
     }

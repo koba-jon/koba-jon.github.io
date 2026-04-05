@@ -166,16 +166,31 @@ function safeMetricKey(value) {
     .slice(0, 120);
 }
 
-function sendCountApiHit(namespace, key) {
+async function sendCountApiHit(namespace, key) {
   if (!namespace || !key) return;
+
   const encodedNamespace = encodeURIComponent(namespace);
   const encodedKey = encodeURIComponent(key);
-  fetch(`https://api.countapi.xyz/hit/${encodedNamespace}/${encodedKey}`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-store',
-    keepalive: true,
-  }).catch(() => {});
+  const compositeKey = encodeURIComponent(`${namespace}.${key}`);
+  const endpoints = [
+    `https://api.countapi.xyz/hit/${encodedNamespace}/${encodedKey}`,
+    `https://countapi.xyz/hit/${encodedNamespace}/${encodedKey}`,
+    `https://countapi.mileshilliard.com/api/v1/hit/${compositeKey}`,
+  ];
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-store',
+        keepalive: true,
+      });
+      if (response.ok) return;
+    } catch (error) {
+      // Fallback to the next endpoint.
+    }
+  }
 }
 
 function shouldTrackNavigation(url, trackedPages) {
