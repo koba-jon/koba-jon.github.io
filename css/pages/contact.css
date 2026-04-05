@@ -28,11 +28,12 @@
 .contact-form-input,
 .contact-form-textarea {
   width: 100%;
-  border: 1px solid #c8ccd0;
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px 12px;
   font: inherit;
-  background: #fff;
+  background: var(--surface);
+  color: var(--ink);
 }
 
 .contact-form-textarea {

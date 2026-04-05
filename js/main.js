@@ -11,6 +11,7 @@ const SITE_PAGES = [
 const SITE_BASE_URL = 'https://koba-jon.github.io/';
 const DEFAULT_SOCIAL_IMAGE = 'images/profile.jpg';
 const ANALYTICS_CONFIG_PATH = 'data/analytics.json';
+const THEME_STORAGE_KEY = 'site-theme';
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (ch) => ({
@@ -61,6 +62,10 @@ function renderNav(currentSlug) {
         ${SITE_PAGES.map(page => `
           <a href="${page.slug === 'index' ? '/' : page.file}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${page.label}</a>
         `).join('')}
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true">◐</span>
+          <span class="theme-toggle-text">Dark</span>
+        </button>
       </div>
     </nav>
   `;
@@ -116,6 +121,45 @@ function setSeoMeta(profile, currentPage, pageTitle, pageDescription, pageImageP
   upsertMetaTag('twitter:image', socialImage);
 }
 
+function getSystemTheme() {
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+}
+
+function getPreferredTheme() {
+  const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+  return getSystemTheme();
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+
+  const isDark = theme === 'dark';
+  toggle.setAttribute('aria-pressed', String(isDark));
+  const label = isDark ? 'Light' : 'Dark';
+  const text = toggle.querySelector('.theme-toggle-text');
+  if (text) text.textContent = label;
+}
+
+function initThemeToggle() {
+  const initialTheme = getPreferredTheme();
+  applyTheme(initialTheme);
+
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+
+  toggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    applyTheme(nextTheme);
+  });
+}
+
 async function initSiteChrome() {
   const body = document.body;
   const pageTitle = body.dataset.pageTitle || '';
@@ -132,6 +176,7 @@ async function initSiteChrome() {
   if (header) header.innerHTML = renderHero(profile, pageTitle || profile.name, pageTagline || profile.name);
   if (nav) nav.innerHTML = renderNav(currentPage);
   if (footer) footer.innerHTML = renderFooter(profile);
+  initThemeToggle();
 
   document.documentElement.lang = 'en';
   document.title = `${pageTitle || profile.name} | ${profile.name}`;
