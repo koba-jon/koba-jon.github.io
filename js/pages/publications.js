@@ -29,7 +29,7 @@
     return `	[${index + 1}] ${publication.authors}${comma}${publication.title}${comma}${publication.venue}${comma}${publication.year}${period}`;
   };
 
-  const buildPaperListText = (journal, intl, domestic) => {
+  const buildPaperListHtml = (journal, intl, domestic) => {
     const sections = [
       { label: 'Journal Papers', items: journal },
       { label: 'International Conferences', items: intl },
@@ -38,11 +38,22 @@
 
     return sections
       .map((section, sectionIndex) => {
-        const header = `(${sectionIndex + 1}) ${section.label}: ${section.items.length}`;
-        const lines = section.items.map(toPaperListEntry).join('\n');
-        return `${header}\n${lines}`;
+        const header = escapeHtmlForExport(`(${sectionIndex + 1}) ${section.label}: ${section.items.length}`);
+        const items = section.items
+          .map((publication, index) => {
+            const entry = escapeHtmlForExport(toPaperListEntry(publication, index).replace(/^\t/, ''));
+            return `<p style="margin:0 0 0.35em 2em;text-indent:-1em;">${entry}</p>`;
+          })
+          .join('');
+
+        return `
+          <section style="margin-bottom:1.4em;">
+            <p style="margin:0 0 0.55em 0;font-weight:bold;">${header}</p>
+            ${items}
+          </section>
+        `;
       })
-      .join('\n\n');
+      .join('');
   };
 
   const escapeHtmlForExport = (text) => String(text)
@@ -53,14 +64,14 @@
     .replace(/'/g, '&#39;');
 
   const createPaperListDoc = (journal, intl, domestic) => {
-    const bodyText = escapeHtmlForExport(buildPaperListText(journal, intl, domestic));
+    const bodyHtml = buildPaperListHtml(journal, intl, domestic);
     const htmlDoc = `
       <html xmlns:o="urn:schemas-microsoft-com:office:office"
             xmlns:w="urn:schemas-microsoft-com:office:word"
             xmlns="http://www.w3.org/TR/REC-html40">
       <head><meta charset="utf-8"><title>Paper List</title></head>
-      <body style="font-family:'Yu Mincho','Hiragino Mincho ProN','MS Mincho',serif;line-height:1.8;white-space:pre-wrap;">
-        ${bodyText}
+      <body style="font-family:'Yu Mincho','Hiragino Mincho ProN','MS Mincho',serif;line-height:1.8;">
+        ${bodyHtml}
       </body>
       </html>
     `;
