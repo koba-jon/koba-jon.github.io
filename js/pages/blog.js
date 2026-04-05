@@ -150,9 +150,44 @@
     });
   };
 
-  const extractTitleFromMarkdown = (markdown, fallbackTitle) => {
-    const heading = String(markdown || '').match(/^#\s+(.+)$/m);
-    return heading ? heading[1].trim() : fallbackTitle;
+  const extractTitleAndBody = (markdown, fallbackTitle) => {
+    const lines = String(markdown || '').replace(/\r\n?/g, '\n').split('\n');
+    let title = fallbackTitle;
+    let titleIndex = -1;
+
+    for (let i = 0; i < lines.length; i += 1) {
+      const match = lines[i].match(/^#\s+(.+)$/);
+      if (match) {
+        title = match[1].trim();
+        titleIndex = i;
+        break;
+      }
+    }
+
+    const bodyLines = titleIndex >= 0
+      ? lines.filter((_, index) => index !== titleIndex)
+      : lines;
+
+    return {
+      title,
+      bodyMarkdown: bodyLines.join('\n').trim(),
+    };
+  };
+
+  const formatUpdatedDate = (isoDate) => {
+    if (!isoDate) return getCurrentLanguage() === 'ja' ? '不明' : 'Unknown';
+    const date = new Date(isoDate);
+    if (Number.isNaN(date.getTime())) return getCurrentLanguage() === 'ja' ? '不明' : 'Unknown';
+
+    const locale = getCurrentLanguage() === 'ja' ? 'ja-JP' : 'en-US';
+    return new Intl.DateTimeFormat(locale, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZoneName: 'short',
+    }).format(date);
   };
 
   const renderPosts = (posts) => {
@@ -161,13 +196,33 @@
       return;
     }
 
-    postsContainer.innerHTML = posts.map((post) => `
-      <article class="blog-post">
-        <h3 class="blog-post-title">${escapeHtml(post.title)}</h3>
-        <p class="blog-post-meta">${escapeHtml(post.name)}</p>
-        <div class="blog-post-content">${post.contentHtml}</div>
-      </article>
-    `).join('');
+    postsContainer.innerHTML = posts.map((post, index) => {
+      const contentId = `blog-post-content-${index}`;
+      return `
+        <article class="blog-post" data-expanded="false">
+          <button class="blog-post-header" type="button" aria-expanded="false" aria-controls="${contentId}">
+            <span class="blog-post-title-wrap">
+              <span class="blog-post-title">${escapeHtml(post.title)}</span>
+              <span class="blog-post-meta">Updated: ${escapeHtml(formatUpdatedDate(post.updatedAt))}</span>
+            </span>
+            <span class="blog-post-toggle" aria-hidden="true">+</span>
+          </button>
+          <div id="${contentId}" class="blog-post-content" hidden>${post.contentHtml}</div>
+        </article>
+      `;
+    }).join('');
+
+    postsContainer.querySelectorAll('.blog-post-header').forEach((button) => {
+      button.addEventListener('click', () => {
+        const article = button.closest('.blog-post');
+        const content = article?.querySelector('.blog-post-content');
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+
+        button.setAttribute('aria-expanded', String(!expanded));
+        if (article) article.dataset.expanded = String(!expanded);
+        if (content) content.hidden = expanded;
+      });
+    });
   };
 
   try {
@@ -176,10 +231,11 @@
       const response = await fetch(file.path);
       if (!response.ok) throw new Error(`Failed to load ${file.path}`);
       const markdown = await response.text();
+      const parsed = extractTitleAndBody(markdown, filenameToTitle(file.name));
       return {
-        name: file.name,
-        title: extractTitleFromMarkdown(markdown, filenameToTitle(file.name)),
-        contentHtml: markdownToHtml(markdown),
+        title: parsed.title,
+        updatedAt: file.updatedAt,
+        contentHtml: markdownToHtml(parsed.bodyMarkdown),
       };
     }));
 
