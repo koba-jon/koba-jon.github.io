@@ -218,6 +218,18 @@
       `;
     }
 
+    const formatVenue = (publication) => {
+      if (publication.venue) return publication.venue;
+      const title = publication.journal || publication.conference || publication.booktitle || '';
+      const details = [
+        publication.volume ? `Vol.${publication.volume}` : '',
+        publication.number ? `No.${publication.number}` : '',
+        publication.pages ? `pp.${publication.pages}` : '',
+      ].filter(Boolean).join(', ');
+      if (title && details) return `${title}, ${details}`;
+      return title || details;
+    };
+
     const buildPubItem = (publication) => {
       const badges = [
         publication.first_author ? '<span class="pub-badge">First Author</span>' : '',
@@ -231,7 +243,7 @@
           <div>
             <div class="pub-title">${escapeHtml(publication.title)}${badges}</div>
             <div class="pub-authors">${escapeHtml(publication.authors)}</div>
-            <div class="pub-venue">${escapeHtml(publication.venue)}</div>
+            <div class="pub-venue">${escapeHtml(formatVenue(publication))}</div>
           </div>
         </div>
       `;
