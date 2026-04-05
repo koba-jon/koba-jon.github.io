@@ -1,5 +1,5 @@
 (async function () {
-  const { loadJson, initSiteChrome, escapeHtml } = window.siteUtils;
+  const { loadJson, initSiteChrome, escapeHtml, getCurrentLanguage } = window.siteUtils;
   await initSiteChrome();
 
   const icons = {
@@ -10,16 +10,25 @@
 
   try {
     const items = await loadJson('data/certifications.json');
-    document.getElementById('cert-grid').innerHTML = items.map((item) => `
+    const renderCertifications = () => {
+      const language = getCurrentLanguage();
+      document.getElementById('cert-grid').innerHTML = items.map((item) => {
+        const name = language === 'ja' ? (item.name_ja || item.name) : item.name;
+        const issuer = language === 'ja' ? (item.issuer_ja || item.issuer) : item.issuer;
+        return `
       <article class="cert-card">
         <div class="cert-icon">${icons[item.icon] || icons.computer}</div>
         <div class="cert-body">
-          <div class="cert-name">${escapeHtml(item.name)}</div>
-          <div class="cert-issuer">${escapeHtml(item.issuer)}</div>
+          <div class="cert-name">${escapeHtml(name)}</div>
+          <div class="cert-issuer">${escapeHtml(issuer)}</div>
         </div>
         <div class="cert-date-badge">${escapeHtml(item.date)}</div>
       </article>
-    `).join('');
+    `;
+      }).join('');
+    };
+    renderCertifications();
+    window.addEventListener('site:languagechange', renderCertifications);
   } catch (error) {
     console.warn(error);
   }

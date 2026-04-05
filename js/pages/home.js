@@ -5,6 +5,8 @@
     escapeHtml,
     parseGitHubRepoPath,
     fetchShieldsRepoCount,
+    getCurrentLanguage,
+    t,
   } = window.siteUtils;
   await initSiteChrome();
 
@@ -188,35 +190,21 @@
       Object.values(awards).reduce((s, arr) => s + arr.length, 0);
 
     const overview = document.getElementById('overview-text');
-    const overviewParagraphs = Array.isArray(home.overview) ? home.overview : [];
-    overview.innerHTML = overviewParagraphs
-      .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
-      .join('');
+    const renderOverview = () => {
+      const language = getCurrentLanguage();
+      const overviewParagraphs = language === 'ja' && Array.isArray(home.overview_ja)
+        ? home.overview_ja
+        : (Array.isArray(home.overview) ? home.overview : []);
+      overview.innerHTML = overviewParagraphs
+        .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+        .join('');
+    };
+    renderOverview();
 
     document.getElementById('tag-cloud').innerHTML = profile.research_areas
       .slice(0, 6)
       .map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`)
       .join('');
-
-    const affiliationBody = document.getElementById('affiliation-body');
-    if (affiliationBody) {
-      const position = escapeHtml(profile.position || '');
-      const company = escapeHtml(profile.company || '');
-      const companyUrl = profile.company_url || '#';
-
-      affiliationBody.innerHTML = `
-        <div class="info-row">
-          <span class="info-key">Position</span>
-          <span class="info-val">${position}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Company</span>
-          <span class="info-val">
-            <a href="${companyUrl}" class="link-accent" target="_blank" rel="noopener noreferrer">${company}</a>
-          </span>
-        </div>
-      `;
-    }
 
     const formatVenue = (publication) => {
       if (publication.venue) return publication.venue;
@@ -255,15 +243,38 @@
     if (selectedPublicationsList) {
       selectedPublicationsList.innerHTML = selectedPublications.length
         ? selectedPublications.map(buildPubItem).join('')
-        : '<p>No selected publications configured yet.</p>';
+        : `<p>${escapeHtml(t('home.noSelectedPublications', getCurrentLanguage()))}</p>`;
     }
+
+    const renderAffiliation = () => {
+      const affiliation = document.getElementById('affiliation-body');
+      if (!affiliation) return;
+
+      const language = getCurrentLanguage();
+      const position = escapeHtml(profile.position || '');
+      const company = escapeHtml(profile.company || '');
+      const companyUrl = profile.company_url || '#';
+
+      affiliation.innerHTML = `
+        <div class="info-row">
+          <span class="info-key">${escapeHtml(t('home.position', language))}</span>
+          <span class="info-val">${position}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">${escapeHtml(t('home.company', language))}</span>
+          <span class="info-val">
+            <a href="${companyUrl}" class="link-accent" target="_blank" rel="noopener noreferrer">${company}</a>
+          </span>
+        </div>
+      `;
+    };
 
     const allProjects = [...(projects.research ?? []), ...(projects.opensource ?? [])];
     const featuredProjects = allProjects.filter((project) => project.feature === true);
     const featuredProjectList = document.getElementById('featured-project-list');
     if (featuredProjectList) {
       if (!featuredProjects.length) {
-        featuredProjectList.innerHTML = '<p>No featured project configured yet.</p>';
+        featuredProjectList.innerHTML = `<p>${escapeHtml(t('home.noFeaturedProjects', getCurrentLanguage()))}</p>`;
       } else {
         const featuredCards = await Promise.all(featuredProjects.map(async (project) => {
           const repoInfo = await fetchGitHubRepoInfo(project.link);
@@ -293,7 +304,7 @@
                 <h3 class="project-title">${escapeHtml(project.title)}</h3>
                 ${projectDescriptions || summary}
                 ${statsHtml}
-                <a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+                <a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">${escapeHtml(t('home.viewOnGithub', getCurrentLanguage()))}</a>
               </div>
             </article>
           `;
@@ -301,6 +312,12 @@
         featuredProjectList.innerHTML = featuredCards.join('');
       }
     }
+
+    renderAffiliation();
+    window.addEventListener('site:languagechange', () => {
+      renderOverview();
+      renderAffiliation();
+    });
   } catch (error) {
     console.warn(error);
   } finally {

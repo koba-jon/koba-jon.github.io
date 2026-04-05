@@ -5,7 +5,12 @@
     "school": "Graduate School of Engineering, Chukyo University",
     "lab": "Advanced Sensing & Machine Intelligence Group (Hashimoto and Akizuki Laboratory)",
     "supervisor": "Prof. Manabu Hashimoto",
-    "dissertation": "欠陥特徴の利用可能性に応じた大規模画像データセットの構築と外観検査モデルの学習法に関する研究"
+    "dissertation": "欠陥特徴の利用可能性に応じた大規模画像データセットの構築と外観検査モデルの学習法に関する研究",
+    "degree_ja": "博士（工学）",
+    "school_ja": "中京大学大学院 工学研究科",
+    "lab_ja": "先進センシング・マシンインテリジェンス研究室（橋本・秋月研究室）",
+    "supervisor_ja": "橋本 学 教授",
+    "dissertation_ja": "欠陥特徴の利用可能性に応じた大規模画像データセットの構築と外観検査モデルの学習法に関する研究"
   },
   {
     "period": "Apr. 2021 – Mar. 2023",
@@ -13,7 +18,12 @@
     "school": "Graduate School of Engineering, Chukyo University",
     "lab": "Advanced Sensing & Machine Intelligence Group (Hashimoto and Akizuki Laboratory)",
     "supervisor": "Prof. Manabu Hashimoto",
-    "dissertation": "ランダム画像群からの正常画像生成ネットワークに基づく教師なし欠陥検出に関する研究"
+    "dissertation": "ランダム画像群からの正常画像生成ネットワークに基づく教師なし欠陥検出に関する研究",
+    "degree_ja": "修士（工学）",
+    "school_ja": "中京大学大学院 工学研究科",
+    "lab_ja": "先進センシング・マシンインテリジェンス研究室（橋本・秋月研究室）",
+    "supervisor_ja": "橋本 学 教授",
+    "dissertation_ja": "ランダム画像群からの正常画像生成ネットワークに基づく教師なし欠陥検出に関する研究"
   },
   {
     "period": "Apr. 2017 – Mar. 2021",
@@ -21,11 +31,18 @@
     "school": "School of Engineering, Chukyo University",
     "lab": "Advanced Sensing & Machine Intelligence Group (Hashimoto and Akizuki Laboratory)",
     "supervisor": "Prof. Manabu Hashimoto",
-    "dissertation": "異状発生直前・直後のペア画像を用いた高リアリティ画像生成に基づくキズ検出"
+    "dissertation": "異状発生直前・直後のペア画像を用いた高リアリティ画像生成に基づくキズ検出",
+    "degree_ja": "学士（工学）",
+    "school_ja": "中京大学 工学部",
+    "lab_ja": "先進センシング・マシンインテリジェンス研究室（橋本・秋月研究室）",
+    "supervisor_ja": "橋本 学 教授",
+    "dissertation_ja": "異状発生直前・直後のペア画像を用いた高リアリティ画像生成に基づくキズ検出"
   },
   {
     "period": "Apr. 2014 – Mar. 2017",
     "degree": "High School Diploma",
-    "school": "Science and Mathematics Course, Gifu Prefectural Kamo Senior High School"
+    "school": "Science and Mathematics Course, Gifu Prefectural Kamo Senior High School",
+    "degree_ja": "高等学校卒業",
+    "school_ja": "岐阜県立加茂高等学校 理数科"
   }
 ]

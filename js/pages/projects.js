@@ -7,6 +7,9 @@
     absolutePageUrl,
     parseGitHubRepoPath,
     fetchShieldsRepoCount,
+    getCurrentLanguage,
+    t,
+    formatMessage,
   } = window.siteUtils;
   await initSiteChrome();
   const keywordInput = document.getElementById('project-search-keyword');
@@ -66,17 +69,27 @@
     };
 
     const formatCount = (value) => new Intl.NumberFormat('en-US').format(value);
+    const getLocalizedProject = (project) => {
+      const language = getCurrentLanguage();
+      return {
+        title: language === 'ja' ? (project.title_ja || project.title) : project.title,
+        tag: language === 'ja' ? (project.tag_ja || project.tag) : project.tag,
+        description: language === 'ja'
+          ? (Array.isArray(project.description_ja) && project.description_ja.length ? project.description_ja : (project.description || []))
+          : (project.description || []),
+      };
+    };
     const normalizeText = (value) => String(value ?? '')
       .toLowerCase()
       .normalize('NFKC');
-    const parseProjectTags = (project) => String(project.tag ?? '')
+    const parseProjectTags = (project) => String(getLocalizedProject(project).tag ?? '')
       .split(/[·,]/)
       .map((tag) => tag.trim())
       .filter(Boolean);
     const getProjectSearchableText = (project) => normalizeText([
-      project.title,
-      project.tag,
-      ...(project.description || []),
+      getLocalizedProject(project).title,
+      getLocalizedProject(project).tag,
+      ...getLocalizedProject(project).description,
     ].join(' '));
     const normalizeTagValue = (tag) => normalizeText(tag);
     const projectMatches = (project, filters) => {
@@ -92,11 +105,12 @@
       return tags.includes(filters.tag);
     };
     const buildCard = async (project) => {
+      const localized = getLocalizedProject(project);
       const imageHtml = project.image
-        ? `<div class="project-image-center"><img src="${project.image}" alt="${escapeHtml(project.title)}" class="project-img2"></div>`
+        ? `<div class="project-image-center"><img src="${project.image}" alt="${escapeHtml(localized.title)}" class="project-img2"></div>`
         : '';
       const tagClass = project.tag_type === 'research' ? 'project-tag-research' : 'project-tag';
-      const descriptions = project.description
+      const descriptions = localized.description
         .map((line) => `<p class="project-desc">${escapeHtml(line)}</p>`)
         .join('');
       const githubStats = await fetchGithubStats(project.link);
@@ -113,11 +127,11 @@
         <article class="project-card">
           ${imageHtml}
           <div class="project-body">
-            <span class="${tagClass}">${escapeHtml(project.tag)}</span>
-            <h2 class="project-title">${escapeHtml(project.title)}</h2>
+            <span class="${tagClass}">${escapeHtml(localized.tag)}</span>
+            <h2 class="project-title">${escapeHtml(localized.title)}</h2>
             ${descriptions}
             ${statsHtml}
-            <a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+            <a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">${escapeHtml(t('projects.viewOnGithub', getCurrentLanguage()))}</a>
           </div>
         </article>
       `;
@@ -180,7 +194,7 @@
           .flatMap((project) => parseProjectTags(project))
           .map((tag) => tag.trim())
           .filter(Boolean),
-      )).sort((left, right) => left.localeCompare(right, 'en', { sensitivity: 'base' }));
+      )).sort((left, right) => left.localeCompare(right, getCurrentLanguage() === 'ja' ? 'ja' : 'en', { sensitivity: 'base' }));
 
       tagSelect.innerHTML = [
         '<option value="">All tags</option>',
@@ -200,12 +214,12 @@
       if (researchGrid) {
         researchGrid.innerHTML = researchCards.length
           ? researchCards.join('')
-          : '<p>No research projects match the current filters.</p>';
+          : `<p>${escapeHtml(t('projects.noResearch', getCurrentLanguage()))}</p>`;
       }
       if (opensourceGrid) {
         opensourceGrid.innerHTML = opensourceCards.length
           ? opensourceCards.join('')
-          : '<p>No open-source projects match the current filters.</p>';
+          : `<p>${escapeHtml(t('projects.noOpenSource', getCurrentLanguage()))}</p>`;
       }
 
       const githubTotals = Array.from(githubStatsCache.values()).reduce(
@@ -225,9 +239,10 @@
       if (summaryElement) {
         const filteredTotal = filteredResearch.length + filteredOpenSource.length;
         const total = allProjects.length;
+        const language = getCurrentLanguage();
         summaryElement.textContent = filteredTotal === total
-          ? `Showing all ${total} projects.`
-          : `Showing ${filteredTotal} of ${total} projects.`;
+          ? formatMessage(t('projects.showingAll', language), { total })
+          : formatMessage(t('projects.showingFiltered', language), { filtered: filteredTotal, total });
       }
     };
 
@@ -259,6 +274,11 @@
     resetButton?.addEventListener('click', async () => {
       await applyFilters({ keyword: '', tag: '' });
       keywordInput?.focus();
+    });
+
+    window.addEventListener('site:languagechange', async () => {
+      populateTagOptions();
+      await handleFilterInput();
     });
   } catch (error) {
     console.warn(error);
