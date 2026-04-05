@@ -22,6 +22,31 @@ const UI_TEXT = {
     languageToggleText: '日本語',
     themeDark: 'Dark',
     themeLight: 'Light',
+    'home.overview': 'Overview',
+    'home.selectedPublications': 'Selected Publications',
+    'home.featuredProject': 'Featured Project',
+    'home.journalPapers': 'Journal Papers',
+    'home.intlConf': "Int'l Conf.",
+    'home.domesticConf': 'Domestic Conf.',
+    'home.awards': 'Awards',
+    'home.affiliation': 'Affiliation',
+    'home.visitorCounter': 'Visitor Counter',
+    'home.thanks': 'Thank you for visiting this page.',
+    'home.totalVisits': 'Total visits',
+    'home.quickLinks': 'Quick Links',
+    'home.position': 'Position',
+    'home.company': 'Company',
+    'home.noSelectedPublications': 'No selected publications are configured yet.',
+    'home.noFeaturedProjects': 'No featured projects are configured yet.',
+    'home.viewOnGithub': 'View on GitHub →',
+    'about.profileSummary': 'Profile Summary',
+    'about.downloadCv': 'Download CV',
+    'about.affiliation': 'Affiliation',
+    'about.memberships': 'Professional Memberships',
+    'about.background': 'Background',
+    'about.researchAreas': 'Research Areas',
+    'about.current': 'Current',
+    'about.since': 'Since',
     'projects.noResearch': 'No research projects match the current filters.',
     'projects.noOpenSource': 'No open-source projects match the current filters.',
     'projects.showingAll': 'Showing all {total} projects.',
@@ -125,10 +150,13 @@ function getCurrentLanguage() {
 
 function t(key, lang = getCurrentLanguage()) {
   const locale = UI_TEXT[lang] ? lang : 'en';
+  const fallbackLocale = locale === 'en' ? 'ja' : 'en';
   const resolveKey = (dictionary, dottedKey) => dottedKey
     .split('.')
     .reduce((value, segment) => (value && typeof value === 'object' ? value[segment] : undefined), dictionary);
-  return resolveKey(UI_TEXT[locale], key) || resolveKey(UI_TEXT.en, key) || key;
+  return resolveKey(UI_TEXT[locale], key)
+    || resolveKey(UI_TEXT[fallbackLocale], key)
+    || key;
 }
 
 function formatMessage(template, values = {}) {
