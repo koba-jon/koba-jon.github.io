@@ -1,7 +1,9 @@
 (async function () {
   const { loadJson, initSiteChrome, escapeHtml, setStructuredData, absolutePageUrl } = window.siteUtils;
   await initSiteChrome();
-  const exportButton = document.getElementById('create-paper-list-btn');
+  const exportDocButton = document.getElementById('create-paper-list-btn');
+  const exportCsvButton = document.getElementById('export-csv-btn');
+  const exportPdfButton = document.getElementById('export-pdf-btn');
   const keywordInput = document.getElementById('pub-search-keyword');
   const yearSelect = document.getElementById('pub-filter-year');
   const firstAuthorOnlyInput = document.getElementById('pub-filter-first-author');
@@ -89,6 +91,92 @@
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+  };
+
+  const csvEscape = (value) => {
+    const text = String(value ?? '');
+    return `"${text.replace(/"/g, '""')}"`;
+  };
+
+  const createPaperListCsv = (journal, intl, domestic) => {
+    const rows = [
+      ['category', 'index', 'year', 'title', 'authors', 'venue', 'first_author', 'award', 'acceptance_rate', 'language'],
+    ];
+    const categories = [
+      { label: 'Journal Papers', items: journal },
+      { label: 'International Conferences', items: intl },
+      { label: 'Domestic Conferences', items: domestic },
+    ];
+
+    categories.forEach((category) => {
+      category.items.forEach((publication, index) => {
+        rows.push([
+          category.label,
+          index + 1,
+          publication.year,
+          publication.title,
+          publication.authors,
+          publication.venue,
+          publication.first_author ? 'true' : 'false',
+          publication.award ?? '',
+          publication.acceptance_rate ?? '',
+          publication.lang ?? '',
+        ]);
+      });
+    });
+
+    const csv = rows
+      .map((row) => row.map(csvEscape).join(','))
+      .join('\n');
+    const csvWithBom = `\uFEFF${csv}`;
+    const blob = new Blob([csvWithBom], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const today = new Date().toISOString().slice(0, 10);
+    link.href = url;
+    link.download = `paper-list-${today}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const createPaperListPdf = (journal, intl, domestic) => {
+    const bodyHtml = buildPaperListHtml(journal, intl, domestic);
+    const printWindow = window.open('', '_blank', 'noopener,noreferrer');
+    if (!printWindow) {
+      window.alert('Unable to open a new window for PDF export. Please allow pop-ups and try again.');
+      return;
+    }
+
+    const htmlDoc = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <title>Paper List PDF</title>
+        <style>
+          body {
+            margin: 24px;
+            font-family: "Yu Mincho", "Hiragino Mincho ProN", "MS Mincho", serif;
+            line-height: 1.8;
+            color: #111;
+          }
+        </style>
+      </head>
+      <body>
+        ${bodyHtml}
+        <script>
+          window.addEventListener('load', () => {
+            window.print();
+          });
+        </script>
+      </body>
+      </html>
+    `;
+    printWindow.document.open();
+    printWindow.document.write(htmlDoc);
+    printWindow.document.close();
   };
 
   const normalizeText = (value) => String(value ?? '')
@@ -205,7 +293,9 @@
 
     applyFilters();
 
-    exportButton?.addEventListener('click', () => createPaperListDoc(journal, intl, domestic));
+    exportDocButton?.addEventListener('click', () => createPaperListDoc(journal, intl, domestic));
+    exportCsvButton?.addEventListener('click', () => createPaperListCsv(journal, intl, domestic));
+    exportPdfButton?.addEventListener('click', () => createPaperListPdf(journal, intl, domestic));
 
     const allPublications = [...journal, ...intl, ...domestic];
     setStructuredData('publications-jsonld', {
