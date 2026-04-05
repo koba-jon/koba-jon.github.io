@@ -61,8 +61,9 @@
       const position = language === 'ja' && profile.position_ja ? profile.position_ja : profile.position;
       const company = language === 'ja' && profile.company_ja ? profile.company_ja : profile.company;
       const since = language === 'ja' ? '2026年4月' : 'April 2026';
+      const separator = language === 'ja' ? '，' : ', ';
       document.getElementById('current-role').innerHTML = `
-      <div class="info-row"><span class="info-key">${escapeHtml(t('about.current', language))}</span><span class="info-val">${escapeHtml(position)}, ${escapeHtml(company)}</span></div>
+      <div class="info-row"><span class="info-key">${escapeHtml(t('about.current', language))}</span><span class="info-val">${escapeHtml(position)}${separator}${escapeHtml(company)}</span></div>
       <div class="info-row"><span class="info-key">${escapeHtml(t('about.since', language))}</span><span class="info-val">${escapeHtml(since)}</span></div>
     `;
     };

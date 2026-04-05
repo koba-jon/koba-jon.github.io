@@ -327,7 +327,9 @@ function initThemeToggle() {
 async function initSiteChrome() {
   const body = document.body;
   const pageTitle = body.dataset.pageTitle || '';
+  const pageTitleJa = body.dataset.pageTitleJa || '';
   const pageTagline = body.dataset.pageTagline || '';
+  const pageTaglineJa = body.dataset.pageTaglineJa || '';
   const pageDescription = body.dataset.pageDescription || '';
   const currentPage = body.dataset.page || 'index';
   const pageImage = body.dataset.pageImage || '';
@@ -337,8 +339,23 @@ async function initSiteChrome() {
   const nav = document.getElementById('site-nav');
   const footer = document.getElementById('site-footer');
 
-  if (header) header.innerHTML = renderHero(profile, pageTitle || profile.name, pageTagline || profile.name);
   const language = getCurrentLanguage();
+  const renderLocalizedHeader = (lang) => {
+    if (!header) return;
+    const localizedTitle = lang === 'ja'
+      ? (pageTitleJa || pageTitle || profile.name_ja || profile.name)
+      : (pageTitle || profile.name);
+    const localizedTagline = lang === 'ja'
+      ? (pageTaglineJa || pageTagline || profile.tagline_ja || profile.tagline || profile.name_ja || profile.name)
+      : (pageTagline || profile.tagline || profile.name);
+    const localizedProfileTitle = lang === 'ja'
+      ? (profile.title_ja || profile.title)
+      : profile.title;
+    const localizedProfile = { ...profile, title: localizedProfileTitle };
+    header.innerHTML = renderHero(localizedProfile, localizedTitle, localizedTagline);
+  };
+  renderLocalizedHeader(language);
+
   if (nav) nav.innerHTML = renderNav(currentPage, language);
   if (footer) footer.innerHTML = renderFooter(profile);
   body.dataset.profileName = profile.name;
@@ -346,6 +363,10 @@ async function initSiteChrome() {
   initThemeToggle();
 
   applyLanguage(language);
+  window.addEventListener('site:languagechange', (event) => {
+    const nextLanguage = event.detail?.lang || getCurrentLanguage();
+    renderLocalizedHeader(nextLanguage);
+  });
   const resolvedDescription = pageDescription
     || profile.profile_summary?.[0]
     || `${profile.name} - ${profile.title}`;
