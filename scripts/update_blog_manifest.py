@@ -13,7 +13,7 @@ BLOG_DIR = ROOT / "blog"
 MANIFEST_PATH = BLOG_DIR / "posts.json"
 
 
-def latest_commit_iso8601(path: Path) -> str:
+def latest_commit_iso8601(path: Path) -> str | None:
     rel = path.relative_to(ROOT)
     result = subprocess.run(
         [
@@ -31,21 +31,52 @@ def latest_commit_iso8601(path: Path) -> str:
     )
 
     iso = result.stdout.strip()
-    if iso:
-        parsed = datetime.fromisoformat(iso.replace("Z", "+00:00"))
-        return parsed.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+    if not iso:
+        return None
 
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    parsed = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+    return parsed.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def load_existing_manifest() -> dict[str, str]:
+    if not MANIFEST_PATH.exists():
+        return {}
+
+    try:
+        data = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+
+    if not isinstance(data, list):
+        return {}
+
+    existing: dict[str, str] = {}
+    for entry in data:
+        if not isinstance(entry, dict):
+            continue
+        path = entry.get("path")
+        updated_at = entry.get("updatedAt")
+        if isinstance(path, str) and isinstance(updated_at, str):
+            existing[path] = updated_at
+
+    return existing
 
 
 def main() -> None:
+    existing_manifest = load_existing_manifest()
     entries = []
     for md_file in sorted(BLOG_DIR.rglob("*.md")):
         rel_path = md_file.relative_to(ROOT).as_posix()
+        updated_at = latest_commit_iso8601(md_file)
+        if not updated_at:
+            updated_at = existing_manifest.get(rel_path)
+        if not updated_at:
+            updated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
         entries.append(
             {
                 "path": rel_path,
-                "updatedAt": latest_commit_iso8601(md_file),
+                "updatedAt": updated_at,
             }
         )
 
