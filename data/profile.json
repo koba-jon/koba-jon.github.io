@@ -4,7 +4,9 @@
   "title": "Computer Vision Researcher & Engineer",
   "tagline": "PhD in Engineering · Araya Inc.",
   "position": "Engineer",
+  "position_ja": "エンジニア",
   "company": "Araya Inc.",
+  "company_ja": "株式会社アラヤ",
   "company_url": "https://www.araya.org/",
   "contact_recipients": [
     "kobayashi_hiroki [at] araya.org",
@@ -22,6 +24,11 @@
     "The Institute of Electronics, Information and Communication Engineers (IEICE)",
     "The Japan Society for Precision Engineering (JSPE)"
   ],
+  "memberships_ja": [
+    "IEEE",
+    "電子情報通信学会（IEICE）",
+    "精密工学会（JSPE）"
+  ],
   "background": [
     {
       "period": "Apr. 2026 – Present",
@@ -30,6 +37,16 @@
     {
       "period": "Apr. 2023 – Mar. 2026",
       "description": "Research Assistant, Chukyo University"
+    }
+  ],
+  "background_ja": [
+    {
+      "period": "2026年4月 – 現在",
+      "description": "エンジニア, 株式会社アラヤ"
+    },
+    {
+      "period": "2023年4月 – 2026年3月",
+      "description": "リサーチアシスタント, 中京大学"
     }
   ],
   "research_areas": [
