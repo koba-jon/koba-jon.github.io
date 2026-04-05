@@ -7,10 +7,12 @@ import json
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 BLOG_DIR = ROOT / "blog"
 MANIFEST_PATH = BLOG_DIR / "posts.json"
+REDIRECT_MARKER = "<!-- AUTO-GENERATED BLOG REDIRECT -->"
 
 
 def latest_commit_iso8601(path: Path) -> str:
@@ -61,6 +63,48 @@ def main() -> None:
         json.dumps(entries, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+
+    generated_redirect_paths = set()
+    for item in entries:
+        slug = Path(item["path"]).relative_to("blog").with_suffix("").as_posix()
+        encoded_slug = quote(slug, safe="/-_~.")
+        redirect_path = BLOG_DIR / f"{slug}.html"
+        generated_redirect_paths.add(redirect_path.resolve())
+        redirect_path.parent.mkdir(parents=True, exist_ok=True)
+        redirect_path.write_text(
+            "\n".join(
+                [
+                    "<!DOCTYPE html>",
+                    "<html lang=\"en\">",
+                    "<head>",
+                    "  <meta charset=\"UTF-8\">",
+                    f"  {REDIRECT_MARKER}",
+                    "  <meta http-equiv=\"refresh\" content=\"0; url=post.html?slug="
+                    f"{encoded_slug}\">",
+                    "  <title>Redirecting…</title>",
+                    "</head>",
+                    "<body>",
+                    "  <p>Redirecting to the blog post… "
+                    f"<a href=\"post.html?slug={encoded_slug}\">Continue</a></p>",
+                    "</body>",
+                    "</html>",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+
+    for html_file in BLOG_DIR.rglob("*.html"):
+        if html_file.name == "post.html":
+            continue
+        if html_file.resolve() in generated_redirect_paths:
+            continue
+        try:
+            content = html_file.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        if REDIRECT_MARKER in content:
+            html_file.unlink()
 
 
 if __name__ == "__main__":

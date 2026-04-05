@@ -253,7 +253,7 @@
           <div id="${contentId}" class="blog-post-content" hidden>
             ${post.contentHtml}
             <p class="blog-post-permalink-wrap">
-              <a class="blog-post-permalink" href="blog/post.html?slug=${encodeURIComponent(post.slug)}">Permalink</a>
+              <a class="blog-post-permalink" href="blog/${encodeURIComponent(post.slug)}.html">Permalink</a>
             </p>
           </div>
         </article>
