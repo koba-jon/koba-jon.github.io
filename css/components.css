@@ -265,7 +265,30 @@
 .award-name a { text-decoration: none; }
 .award-name a:hover { color: var(--accent); }
 .award-org { font-size: 13px; color: var(--ink-soft); }
+.award-meta {
+  justify-self: end;
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
 .award-date { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+.award-link-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--accent-pale);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-decoration: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.award-link-badge:hover {
+  background: color-mix(in srgb, var(--accent-pale) 65%, #fff);
+}
 
 .cert-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .cert-card {
@@ -350,7 +373,11 @@
   .pub-item { grid-template-columns: 1fr; gap: 6px; }
   .awards-count-bar, .pub-stats-bar, .stats-bar { grid-template-columns: repeat(2, 1fr); }
   .award-card { grid-template-columns: 40px 1fr; }
-  .award-date { grid-column: 2; }
+  .award-meta {
+    grid-column: 2;
+    justify-self: start;
+    justify-items: start;
+  }
   .edu-timeline { padding-left: 1.5rem; }
   .edu-tl-dot { left: -1.5rem; }
   .edu-tl-row { grid-template-columns: 1fr; gap: 2px; }
