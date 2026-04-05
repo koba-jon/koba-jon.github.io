@@ -4,8 +4,19 @@
 
   try {
     const profile = await loadJson('data/profile.json');
-    const realEmail = profile.email_display.replace(' [at] ', '@');
-    const submitEndpoint = `https://formsubmit.co/ajax/${encodeURIComponent(realEmail)}`;
+    const recipients = (Array.isArray(profile.contact_recipients)
+      ? profile.contact_recipients
+      : [])
+      .map((email) => email.replace(' [at] ', '@').trim())
+      .filter(Boolean);
+
+    if (recipients.length === 0) {
+      throw new Error('No contact recipients configured.');
+    }
+
+    const primaryRecipient = recipients[0];
+    const ccRecipients = recipients.slice(1);
+    const submitEndpoint = `https://formsubmit.co/ajax/${encodeURIComponent(primaryRecipient)}`;
     const startedAt = Date.now();
     const storageKeys = {
       cooldownUntil: 'contactFormCooldownUntil',
@@ -70,6 +81,7 @@
             _subject: `[Homepage] ${subject}`,
             _honey: 'website',
             _captcha: 'false',
+            ...(ccRecipients.length ? { _cc: ccRecipients.join(',') } : {}),
             _template: 'table',
           }),
         });

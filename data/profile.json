@@ -6,7 +6,10 @@
   "position": "Engineer",
   "company": "Araya Inc.",
   "company_url": "https://www.araya.org/",
-  "email_display": "kobayashi_hiroki [at] araya.org",
+  "contact_recipients": [
+    "kobayashi_hiroki [at] araya.org",
+    "koba37b8011 [at] gmail.com"
+  ],
   "links": {
     "github": "https://github.com/koba-jon",
     "qiita": "https://qiita.com/koba-jon",
