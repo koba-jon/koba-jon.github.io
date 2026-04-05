@@ -151,9 +151,15 @@ function getCurrentLanguage() {
 function t(key, lang = getCurrentLanguage()) {
   const locale = UI_TEXT[lang] ? lang : 'en';
   const fallbackLocale = locale === 'en' ? 'ja' : 'en';
-  const resolveKey = (dictionary, dottedKey) => dottedKey
-    .split('.')
-    .reduce((value, segment) => (value && typeof value === 'object' ? value[segment] : undefined), dictionary);
+  const resolveKey = (dictionary, dottedKey) => {
+    if (!dictionary || typeof dictionary !== 'object') return undefined;
+    if (Object.prototype.hasOwnProperty.call(dictionary, dottedKey)) {
+      return dictionary[dottedKey];
+    }
+    return dottedKey
+      .split('.')
+      .reduce((value, segment) => (value && typeof value === 'object' ? value[segment] : undefined), dictionary);
+  };
   return resolveKey(UI_TEXT[locale], key)
     || resolveKey(UI_TEXT[fallbackLocale], key)
     || key;
