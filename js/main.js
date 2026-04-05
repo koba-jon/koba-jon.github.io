@@ -92,11 +92,11 @@ function upsertLinkTag(rel, href) {
   element.setAttribute('href', href);
 }
 
-function setSeoMeta(profile, currentPage, pageTitle, pageDescription) {
+function setSeoMeta(profile, currentPage, pageTitle, pageDescription, pageImagePath = '') {
   const pagePath = `${currentPage || 'index'}.html`;
   const canonicalUrl = absolutePageUrl(pagePath);
   const siteName = `${profile.name}`;
-  const socialImage = absolutePageUrl(DEFAULT_SOCIAL_IMAGE);
+  const socialImage = absolutePageUrl(pageImagePath || DEFAULT_SOCIAL_IMAGE);
   const seoTitle = `${pageTitle} | ${profile.name}`;
 
   upsertMetaTag('description', pageDescription);
@@ -122,6 +122,7 @@ async function initSiteChrome() {
   const pageTagline = body.dataset.pageTagline || '';
   const pageDescription = body.dataset.pageDescription || '';
   const currentPage = body.dataset.page || 'index';
+  const pageImage = body.dataset.pageImage || '';
   const profile = await loadJson('data/profile.json');
 
   const header = document.getElementById('site-header');
@@ -137,7 +138,7 @@ async function initSiteChrome() {
   const resolvedDescription = pageDescription
     || profile.profile_summary?.[0]
     || `${profile.name} - ${profile.title}`;
-  setSeoMeta(profile, currentPage, pageTitle || profile.name, resolvedDescription);
+  setSeoMeta(profile, currentPage, pageTitle || profile.name, resolvedDescription, pageImage);
   setStructuredData('site-identity-jsonld', [
     buildPersonSchema(profile),
     buildWebsiteSchema(profile, pageTitle || profile.name, currentPage),

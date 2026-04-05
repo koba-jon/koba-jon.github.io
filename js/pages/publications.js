@@ -13,12 +13,48 @@
     year: 'year',
     firstAuthorOnly: 'first',
   };
-  const buildPubItem = (publication) => {
+  const bibtexEscape = (value) => String(value ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/{/g, '\\{')
+    .replace(/}/g, '\\}');
+
+  const inferBibTexType = (category) => (category === 'journal' ? 'article' : 'inproceedings');
+
+  const firstAuthorLastName = (authors) => {
+    const firstAuthor = String(authors ?? '').split(/,|，/)[0]?.trim() ?? 'unknown';
+    const tokens = firstAuthor.split(/\s+/).filter(Boolean);
+    return tokens.length > 1 ? tokens[tokens.length - 1] : tokens[0] || 'unknown';
+  };
+
+  const slugifyBibtexToken = (value) => String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '')
+    .slice(0, 24)
+    .toLowerCase();
+
+  const buildBibTex = (publication, category) => {
+    const entryType = inferBibTexType(category);
+    const key = `${slugifyBibtexToken(firstAuthorLastName(publication.authors))}${publication.year}${slugifyBibtexToken(publication.title) || 'paper'}`;
+    const venueField = category === 'journal' ? 'journal' : 'booktitle';
+    return [
+      `@${entryType}{${key},`,
+      `  title = {${bibtexEscape(publication.title)}},`,
+      `  author = {${bibtexEscape(publication.authors)}},`,
+      `  ${venueField} = {${bibtexEscape(publication.venue)}},`,
+      `  year = {${bibtexEscape(publication.year)}}`,
+      '}',
+    ].join('\n');
+  };
+
+  const buildPubItem = (publication, category) => {
     const badges = [
       publication.first_author ? '<span class="pub-badge">First Author</span>' : '',
       publication.award ? `<span class="pub-badge award-badge">${escapeHtml(publication.award)}</span>` : '',
       publication.acceptance_rate ? `<span class="pub-badge acceptance-rate-badge">Acceptance Rate: ${escapeHtml(publication.acceptance_rate)}%</span>` : '',
     ].join('');
+    const bibtex = buildBibTex(publication, category);
 
     return `
       <div class="pub-item">
@@ -27,6 +63,9 @@
           <div class="pub-title">${escapeHtml(publication.title)}${badges}</div>
           <div class="pub-authors">${escapeHtml(publication.authors)}</div>
           <div class="pub-venue">${escapeHtml(publication.venue)}</div>
+          <div class="pub-actions">
+            <button class="pub-copy-bibtex-btn" type="button" data-bibtex="${escapeHtml(bibtex)}">Copy BibTeX</button>
+          </div>
         </div>
       </div>
     `;
@@ -231,11 +270,11 @@
     inLanguage: publication.lang === 'ja' ? 'ja' : 'en',
   });
 
-  const renderPublicationList = (elementId, publications, emptyMessage) => {
+  const renderPublicationList = (elementId, publications, emptyMessage, category) => {
     const target = document.getElementById(elementId);
     if (!target) return;
     target.innerHTML = publications.length
-      ? publications.map(buildPubItem).join('')
+      ? publications.map((publication) => buildPubItem(publication, category)).join('')
       : `<p>${escapeHtml(emptyMessage)}</p>`;
   };
 
@@ -314,9 +353,9 @@
       const filteredIntl = intl.filter((publication) => publicationMatches(publication, filters));
       const filteredDomestic = domestic.filter((publication) => publicationMatches(publication, filters));
 
-      renderPublicationList('tab-journal', filteredJournal, 'No journal papers match the current filters.');
-      renderPublicationList('tab-intl', filteredIntl, 'No international conference papers match the current filters.');
-      renderPublicationList('tab-domestic', filteredDomestic, 'No domestic conference papers match the current filters.');
+      renderPublicationList('tab-journal', filteredJournal, 'No journal papers match the current filters.', 'journal');
+      renderPublicationList('tab-intl', filteredIntl, 'No international conference papers match the current filters.', 'intl');
+      renderPublicationList('tab-domestic', filteredDomestic, 'No domestic conference papers match the current filters.', 'domestic');
 
       updateTabCount('tab-count-journal', filteredJournal.length, journal.length);
       updateTabCount('tab-count-intl', filteredIntl.length, intl.length);
@@ -339,6 +378,24 @@
     });
 
     applyFilters();
+
+    document.addEventListener('click', async (event) => {
+      const button = event.target instanceof Element ? event.target.closest('.pub-copy-bibtex-btn') : null;
+      if (!button) return;
+      const bibtex = button.dataset.bibtex || '';
+      if (!bibtex) return;
+      const originalText = button.textContent;
+      try {
+        await navigator.clipboard.writeText(bibtex);
+        button.textContent = 'Copied!';
+      } catch (error) {
+        window.prompt('Copy BibTeX:', bibtex);
+        button.textContent = 'Copied?';
+      }
+      window.setTimeout(() => {
+        button.textContent = originalText || 'Copy BibTeX';
+      }, 1200);
+    });
 
     exportDocButton?.addEventListener('click', () => createPaperListDoc(journal, intl, domestic));
     exportCsvButton?.addEventListener('click', () => createPaperListCsv(journal, intl, domestic));
