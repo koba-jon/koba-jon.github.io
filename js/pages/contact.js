@@ -2,8 +2,20 @@
   const { loadJson, initSiteChrome, t, getCurrentLanguage, formatMessage } = window.siteUtils;
   await initSiteChrome();
 
+  const scopeElement = document.querySelector('[data-i18n="contact.scopeDescription"]');
+  const applyInquiryScope = (contactContent) => {
+    if (!scopeElement) return;
+    const lang = getCurrentLanguage();
+    const fallback = contactContent?.inquiryScope?.en || '';
+    scopeElement.textContent = contactContent?.inquiryScope?.[lang] || fallback;
+  };
+
   try {
-    const profile = await loadJson('data/profile.json');
+    const [profile, contactContent] = await Promise.all([
+      loadJson('data/profile.json'),
+      loadJson('data/contact.json'),
+    ]);
+    applyInquiryScope(contactContent);
     const recipients = (Array.isArray(profile.contact_recipients)
       ? profile.contact_recipients
       : [])
@@ -108,5 +120,11 @@
     });
   } catch (error) {
     console.warn(error);
+    applyInquiryScope({
+      inquiryScope: {
+        en: t('contact.scopeDescription', 'en'),
+        ja: t('contact.scopeDescription', 'ja'),
+      },
+    });
   }
 })();
