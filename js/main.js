@@ -473,12 +473,14 @@ async function initSiteChrome() {
   const body = document.body;
   const pageTitle = body.dataset.pageTitle || '';
   const pageTitleJa = body.dataset.pageTitleJa || '';
-  const pageTagline = body.dataset.pageTagline || '';
-  const pageTaglineJa = body.dataset.pageTaglineJa || '';
   const pageDescription = body.dataset.pageDescription || '';
   const currentPage = body.dataset.page || 'index';
   const pageImage = body.dataset.pageImage || '';
   const profile = await loadJson('data/profile.json');
+  const defaultPageTagline = currentPage === 'index' ? profile.tagline : profile.name;
+  const defaultPageTaglineJa = currentPage === 'index' ? (profile.tagline_ja || profile.tagline) : (profile.name_ja || profile.name);
+  const pageTagline = body.dataset.pageTagline || defaultPageTagline || '';
+  const pageTaglineJa = body.dataset.pageTaglineJa || defaultPageTaglineJa || '';
 
   const header = document.getElementById('site-header');
   const nav = document.getElementById('site-nav');
