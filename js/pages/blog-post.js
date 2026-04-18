@@ -270,20 +270,17 @@
   const buildShellCodeHtml = (rawCode) => String(rawCode || '')
     .split('\n')
     .map((line) => {
-      const match = line.match(/^(\s*)\$(\s?.*)$/);
+      const match = line.match(/^(\s*)\$(.*)$/);
       if (!match) return escapeHtml(line);
       const indent = escapeHtml(match[1] || '');
-      const command = escapeHtml(match[2] || '');
-      return `${indent}<span class="code-shell-prompt" aria-hidden="true">$</span><span class="code-shell-command">${command}</span>`;
+      const commandWithOriginalPrompt = escapeHtml(`$${match[2] || ''}`);
+      return `${indent}<span class="code-shell-prompt" aria-hidden="true">$</span><span class="code-shell-command">${commandWithOriginalPrompt}</span>`;
     })
     .join('\n');
 
   const getCopyText = (language, rawCode) => {
     if (!isShellLanguage(language)) return rawCode;
-    return String(rawCode || '')
-      .split('\n')
-      .map((line) => line.replace(/^(\s*)\$\s?/, '$1'))
-      .join('\n');
+    return rawCode;
   };
 
   const setupCodeBlockCopyButtons = (root) => {
