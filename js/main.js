@@ -15,6 +15,8 @@ const ANALYTICS_CONFIG_PATH = 'data/analytics.json';
 const THEME_STORAGE_KEY = 'site-theme';
 const LANGUAGE_STORAGE_KEY = 'site-language';
 const SUPPORTED_LANGUAGES = ['en', 'ja'];
+const JAPANESE_URL_PARAM_KEY = 'lang';
+const JAPANESE_URL_PARAM_VALUE = 'ja';
 const UI_TEXT = {
   en: {
     nav: { index: 'Home', about: 'About', blog: 'Blog', projects: 'Projects', publications: 'Publications', awards: 'Awards', education: 'Education', certifications: 'Certifications', contact: 'Contact' },
@@ -283,10 +285,32 @@ function renderHero(profile, pageTitle, pageTagline) {
 }
 
 function getCurrentLanguage() {
+  const urlLanguage = getLanguageFromUrl();
+  if (urlLanguage) return urlLanguage;
   const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
   if (SUPPORTED_LANGUAGES.includes(savedLanguage)) return savedLanguage;
   const browserLanguage = (navigator.language || '').toLowerCase();
   return browserLanguage.startsWith('ja') ? 'ja' : 'en';
+}
+
+function getLanguageFromUrl(url = window.location.href) {
+  try {
+    const parsed = new URL(url, window.location.origin);
+    const langParam = parsed.searchParams.get(JAPANESE_URL_PARAM_KEY);
+    return langParam === JAPANESE_URL_PARAM_VALUE ? 'ja' : 'en';
+  } catch (error) {
+    return null;
+  }
+}
+
+function withLanguageUrl(pathOrUrl, lang = getCurrentLanguage()) {
+  const parsed = new URL(pathOrUrl, window.location.href);
+  if (lang === 'ja') {
+    parsed.searchParams.set(JAPANESE_URL_PARAM_KEY, JAPANESE_URL_PARAM_VALUE);
+  } else {
+    parsed.searchParams.delete(JAPANESE_URL_PARAM_KEY);
+  }
+  return `${parsed.pathname}${parsed.search}${parsed.hash}`;
 }
 
 function t(key, lang = getCurrentLanguage()) {
@@ -315,7 +339,7 @@ function renderNav(currentSlug, lang) {
     <nav>
       <div class="nav-inner">
         ${SITE_PAGES.map(page => `
-          <a href="${page.slug === 'index' ? '/' : resolveSitePath(page.file)}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${escapeHtml(t(`nav.${page.slug}`, lang))}</a>
+          <a href="${withLanguageUrl(page.slug === 'index' ? '/' : resolveSitePath(page.file), lang)}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${escapeHtml(t(`nav.${page.slug}`, lang))}</a>
         `).join('')}
         <button class="theme-toggle language-toggle" id="language-toggle" type="button" aria-label="${escapeHtml(t('languageToggleAria', lang))}">
           <span class="theme-toggle-text">${escapeHtml(t('languageToggleText', lang))}</span>
@@ -357,7 +381,7 @@ function upsertLinkTag(rel, href) {
 
 function setSeoMeta(profile, currentPage, pageTitle, pageDescription, pageImagePath = '') {
   const pagePath = `${currentPage || 'index'}.html`;
-  const canonicalUrl = absolutePageUrl(pagePath);
+  const canonicalUrl = absolutePageUrl(pagePath, getCurrentLanguage());
   const siteName = `${profile.name}`;
   const socialImage = absolutePageUrl(pageImagePath || DEFAULT_SOCIAL_IMAGE);
   const seoTitle = `${pageTitle} | ${profile.name}`;
@@ -424,6 +448,8 @@ function applyLanguage(lang) {
   const body = document.body;
   localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
   document.documentElement.lang = lang;
+  const localizedUrl = withLanguageUrl(window.location.href, lang);
+  window.history.replaceState({}, '', localizedUrl);
 
   const pageTitle = (lang === 'ja' ? body.dataset.pageTitleJa : body.dataset.pageTitle) || body.dataset.pageTitle || '';
   const profileName = body.dataset.profileName || '';
@@ -618,8 +644,14 @@ async function initLightAnalytics(currentPage) {
   });
 }
 
-function absolutePageUrl(path = '') {
-  return new URL(path, SITE_BASE_URL).toString();
+function absolutePageUrl(path = '', lang = 'en') {
+  const url = new URL(path, SITE_BASE_URL);
+  if (lang === 'ja') {
+    url.searchParams.set(JAPANESE_URL_PARAM_KEY, JAPANESE_URL_PARAM_VALUE);
+  } else {
+    url.searchParams.delete(JAPANESE_URL_PARAM_KEY);
+  }
+  return url.toString();
 }
 
 function parseGitHubRepoPath(url) {
@@ -676,7 +708,7 @@ function buildPersonSchema(profile) {
       }
       : undefined,
     sameAs: Object.values(profile.links || {}),
-    url: absolutePageUrl('index.html'),
+    url: absolutePageUrl('index.html', getCurrentLanguage()),
   };
 }
 
@@ -685,7 +717,7 @@ function buildWebsiteSchema(profile, pageTitle, currentPage, language = 'en') {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: `${profile.name} - ${pageTitle}`,
-    url: absolutePageUrl(`${currentPage || 'index'}.html`),
+    url: absolutePageUrl(`${currentPage || 'index'}.html`, language),
     about: profile.research_areas || [],
     inLanguage: language,
   };
