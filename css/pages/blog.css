@@ -172,15 +172,21 @@
 
 .blog-post-content table {
   width: max-content;
-  min-width: 100%;
+  min-width: max-content;
   max-width: 100%;
   display: table;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   table-layout: auto;
   border-collapse: collapse;
-  margin: 10px 0 14px;
+  margin: 0;
   border: 0;
+}
+
+.blog-post-content .table-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 10px 0 14px;
 }
 
 .blog-post-content th,
@@ -314,5 +320,15 @@ body[data-page='blog'] {
 
 .blog-post-content table {
   width: max-content !important;
-  min-width: 100%;
+  min-width: max-content;
+}
+
+.blog-post-content .math-block {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.blog-post-content .math-block mjx-container[display='true'] {
+  min-width: max-content;
 }
