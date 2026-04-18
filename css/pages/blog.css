@@ -84,6 +84,7 @@
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  line-height: 1.55;
 }
 
 .blog-post-content :is(p, ul, ol) {
