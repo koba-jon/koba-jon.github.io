@@ -96,9 +96,18 @@
       return /<\/?[A-Za-z][^>]*>/.test(trimmed);
     };
 
+    let paragraphBuffer = [];
+
+    const flushParagraph = () => {
+      if (!paragraphBuffer.length) return;
+      html.push(`<p>${formatInline(paragraphBuffer.join('\n'))}</p>`);
+      paragraphBuffer = [];
+    };
+
     lines.forEach((line) => {
       const fenceMatch = line.trim().match(/^```(?:([A-Za-z0-9_+-]+)?(?::(.+))?)?\s*$/);
       if (fenceMatch) {
+        flushParagraph();
         closeAllLists();
         const language = (fenceMatch[1] || '').toLowerCase();
         const filename = (fenceMatch[2] || '').trim();
@@ -132,21 +141,25 @@
       }
 
       if (inCode) {
+        flushParagraph();
         html.push(`${escapeHtml(line)}\n`);
         return;
       }
 
       if (inMath) {
+        flushParagraph();
         html.push(`${line}\n`);
         return;
       }
 
       if (!line.trim()) {
+        flushParagraph();
         closeAllLists();
         return;
       }
 
       if (isRawHtmlLine(line)) {
+        flushParagraph();
         closeAllLists();
         html.push(line.trim());
         return;
@@ -154,6 +167,7 @@
 
       const headingMatch = line.match(/^(#{1,4})\s+(.*)$/);
       if (headingMatch) {
+        flushParagraph();
         closeAllLists();
         const level = Math.min(4, headingMatch[1].length);
         html.push(`<h${level}>${formatInline(headingMatch[2])}</h${level}>`);
@@ -162,6 +176,7 @@
 
       const listMatch = line.match(/^(\s*)[-*]\s+(.*)$/);
       if (listMatch) {
+        flushParagraph();
         const indentLevel = Math.floor((listMatch[1] || '').replace(/\t/g, '  ').length / 2);
         const targetDepth = indentLevel + 1;
 
@@ -190,9 +205,10 @@
       }
 
       closeAllLists();
-      html.push(`<p>${formatInline(line)}</p>`);
+      paragraphBuffer.push(line);
     });
 
+    flushParagraph();
     closeAllLists();
     if (inCode) html.push('</code></pre></div>');
     if (inMath) html.push('\\]</div>');
