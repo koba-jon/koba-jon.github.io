@@ -126,6 +126,30 @@
   overflow-x: auto;
 }
 
+.blog-post-content .code-block {
+  margin: 10px 0 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--soft);
+  overflow: hidden;
+}
+
+.blog-post-content .code-block-filename {
+  margin: 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.blog-post-content .code-block pre {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
 .blog-post-content pre code {
   border: 0;
   border-radius: 0;
