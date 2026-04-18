@@ -87,7 +87,16 @@
   line-height: 1.55;
 }
 
-.blog-post-content :is(p, ul, ol) {
+.blog-post-content p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.blog-post-content p + p {
+  margin-top: 0.45em;
+}
+
+.blog-post-content :is(ul, ol) {
   margin: 0 0 6px;
   overflow-wrap: anywhere;
 }
