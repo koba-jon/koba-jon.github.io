@@ -4,6 +4,8 @@ I have written a lot of PyTorch C++ sample programs, so I’d like to share them
 
 Repository: https://github.com/koba-jon/pytorch_cpp
 
+<br>
+
 ## 1. Repository Overview
 
 This repository reimplements major deep learning models using the PyTorch C++ API (LibTorch), aiming for research and production environments that do **not** depend on Python.
@@ -12,8 +14,9 @@ It is a practical collection of implementations for people who want to complete 
 
 ![PyTorch C++ repository overview](../images/pytorch_cpp.png)
 
-## 2. Implemented Models
+<br>
 
+## 2. Implemented Models
 
 ### 📊 Multiclass Classification
   
@@ -389,6 +392,7 @@ It is a practical collection of implementations for people who want to complete 
   </tr>
 </table>
 
+<br>
 
 ## 3. For Those Who Want to Run It Right Away
 
