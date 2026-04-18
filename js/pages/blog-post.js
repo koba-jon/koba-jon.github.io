@@ -252,9 +252,10 @@
     .split('\n')
     .map((line) => {
       if (!line.trim()) return '';
-      const match = line.match(/^(\s*)(?:\$\s?)?(.*)$/);
+      const match = line.match(/^(\s*)(.*)$/);
       const indent = escapeHtml(match?.[1] || '');
-      const commandBody = escapeHtml(match?.[2] || '');
+      const commandBodyRaw = match?.[2] || '';
+      const commandBody = escapeHtml(commandBodyRaw);
       return `${indent}<span class="code-shell-prompt" aria-hidden="true">$</span> <span class="code-shell-command">${commandBody}</span>`;
     })
     .join('\n');
