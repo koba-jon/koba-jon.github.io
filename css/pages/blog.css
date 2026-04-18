@@ -154,6 +154,10 @@
   vertical-align: top;
 }
 
+.blog-post-content td[rowspan] {
+  vertical-align: middle;
+}
+
 .blog-post-content thead th {
   background: var(--soft);
 }
