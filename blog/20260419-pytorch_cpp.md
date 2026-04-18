@@ -446,7 +446,7 @@ sh scripts/train.sh
 #### (5) Test
 
 ```bash
-sh scripts/test.sh
+$ sh scripts/test.sh
 ```
 
 Did it run successfully?
