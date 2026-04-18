@@ -63,6 +63,8 @@
       return formatted;
     };
 
+    const isHtmlBlockLine = (line) => /^<\/?[A-Za-z][^>]*>$/.test(line.trim());
+
     lines.forEach((line) => {
       if (line.trim().startsWith('```')) {
         closeAllLists();
@@ -83,6 +85,12 @@
 
       if (!line.trim()) {
         closeAllLists();
+        return;
+      }
+
+      if (isHtmlBlockLine(line)) {
+        closeAllLists();
+        html.push(line.trim());
         return;
       }
 
