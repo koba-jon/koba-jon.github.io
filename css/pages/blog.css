@@ -85,6 +85,7 @@
 
 .blog-post-content :is(p, ul, ol) {
   margin: 0 0 10px;
+  overflow-wrap: anywhere;
 }
 
 .blog-post-content :is(ul, ol) {
@@ -110,6 +111,7 @@
   border-radius: 6px;
   padding: 1px 4px;
   font-family: var(--mono);
+  overflow-wrap: anywhere;
 }
 
 .blog-post-content pre {
@@ -141,6 +143,10 @@
 
 .blog-post-content table {
   width: 100%;
+  max-width: 100%;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   margin: 10px 0 14px;
   border: 1px solid var(--border);
