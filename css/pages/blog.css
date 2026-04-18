@@ -139,6 +139,25 @@
   color: var(--accent);
 }
 
+.blog-post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 14px;
+  border: 1px solid var(--border);
+}
+
+.blog-post-content th,
+.blog-post-content td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.blog-post-content thead th {
+  background: var(--soft);
+}
+
 .blog-empty {
   margin: 0;
   color: var(--ink-soft);
