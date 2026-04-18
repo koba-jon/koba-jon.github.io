@@ -155,7 +155,7 @@
   table-layout: fixed;
   border-collapse: collapse;
   margin: 10px 0 14px;
-  border: 1px solid var(--border);
+  border: 0;
 }
 
 .blog-post-content th,
