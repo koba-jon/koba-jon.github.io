@@ -36,6 +36,7 @@
     const html = [];
     const listStack = [];
     let inCode = false;
+    let codeLineCount = 0;
     let inMath = false;
 
     const closeListsToDepth = (targetDepth = 0) => {
@@ -129,6 +130,7 @@
 
         if (!inCode) {
           inCode = true;
+          codeLineCount = 0;
           const languageClass = language ? ` class="language-${escapeHtml(language)}"` : '';
           const languageAttribute = language ? ` data-language="${escapeHtml(language)}"` : '';
           html.push(`<div class="code-block"${languageAttribute}>`);
@@ -145,6 +147,8 @@
 
       if (inCode) {
         flushParagraph();
+        if (codeLineCount === 0 && !line.trim()) return;
+        codeLineCount += 1;
         html.push(`${escapeHtml(line)}\n`);
         return;
       }
