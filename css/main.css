@@ -200,6 +200,7 @@ main {
   align-items: start;
 }
 main.single-column { grid-template-columns: 1fr; }
+main > * { min-width: 0; }
 
 section { margin-bottom: 52px; }
 .section-label {

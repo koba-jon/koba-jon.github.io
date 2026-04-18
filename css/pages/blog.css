@@ -275,5 +275,18 @@
 }
 
 body[data-page='blog'] {
-  overflow-x: clip;
+  overflow-x: hidden;
+}
+
+.blog-post-content table,
+.blog-post-content img,
+.blog-post-content svg,
+.blog-post-content video,
+.blog-post-content iframe,
+.blog-post-content canvas {
+  max-width: 100% !important;
+}
+
+.blog-post-content table {
+  width: 100% !important;
 }
