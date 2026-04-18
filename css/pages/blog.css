@@ -83,6 +83,7 @@
   padding: 0 20px 20px;
   max-width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .blog-post-content :is(p, ul, ol) {
@@ -167,6 +168,11 @@
   word-break: break-word;
 }
 
+.blog-post-content :is(img, svg, video, iframe, canvas) {
+  max-width: 100%;
+  height: auto;
+}
+
 .blog-post-content td[rowspan] {
   vertical-align: middle;
 }
@@ -246,7 +252,7 @@
 
 @media (max-width: 600px) {
   body[data-page='blog'] {
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   .blog-post-header {
@@ -266,4 +272,8 @@
   .blog-post-single-title {
     overflow-wrap: anywhere;
   }
+}
+
+body[data-page='blog'] {
+  overflow-x: clip;
 }
