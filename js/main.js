@@ -339,7 +339,7 @@ function renderNav(currentSlug, lang) {
     <nav>
       <div class="nav-inner">
         ${SITE_PAGES.map(page => `
-          <a href="${withLanguageUrl(page.slug === 'index' ? '/' : resolveSitePath(page.file), lang)}" class="nav-link${page.slug === currentSlug ? ' current' : ''}">${escapeHtml(t(`nav.${page.slug}`, lang))}</a>
+          <a href="${withLanguageUrl(page.slug === 'index' ? '/' : resolveSitePath(page.file), lang)}" class="nav-link${page.slug === currentSlug ? ' current' : ''}" data-nav-slug="${page.slug}">${escapeHtml(t(`nav.${page.slug}`, lang))}</a>
         `).join('')}
         <button class="theme-toggle language-toggle" id="language-toggle" type="button" aria-label="${escapeHtml(t('languageToggleAria', lang))}">
           <span class="theme-toggle-text">${escapeHtml(t('languageToggleText', lang))}</span>
@@ -456,6 +456,14 @@ function applyLanguage(lang) {
   if (pageTitle) document.title = profileName ? `${pageTitle} | ${profileName}` : pageTitle;
 
   translateStaticContent(lang);
+  document.querySelectorAll('#site-nav .nav-link[data-nav-slug]').forEach((link) => {
+    const slug = link.dataset.navSlug;
+    if (!slug) return;
+    link.textContent = t(`nav.${slug}`, lang);
+    const page = SITE_PAGES.find((item) => item.slug === slug);
+    if (!page) return;
+    link.setAttribute('href', withLanguageUrl(page.slug === 'index' ? '/' : resolveSitePath(page.file), lang));
+  });
   const languageToggle = document.getElementById('language-toggle');
   if (languageToggle) {
     languageToggle.setAttribute('aria-label', t('languageToggleAria', lang));
