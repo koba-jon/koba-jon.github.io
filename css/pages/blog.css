@@ -87,8 +87,13 @@
   margin: 0 0 10px;
 }
 
+.blog-post-content :is(ul, ol) {
+  padding-left: 1.1rem;
+}
+
 .blog-post-content ul ul {
-  margin: 8px 0 8px 18px;
+  margin: 8px 0;
+  padding-left: 0.9rem;
 }
 
 .blog-post-content h1,
