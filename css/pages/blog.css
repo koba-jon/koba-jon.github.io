@@ -147,12 +147,13 @@
 }
 
 .blog-post-content table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   max-width: 100%;
-  display: block;
+  display: table;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  table-layout: fixed;
+  table-layout: auto;
   border-collapse: collapse;
   margin: 10px 0 14px;
   border: 0;
@@ -288,5 +289,6 @@ body[data-page='blog'] {
 }
 
 .blog-post-content table {
-  width: 100% !important;
+  width: max-content !important;
+  min-width: 100%;
 }
