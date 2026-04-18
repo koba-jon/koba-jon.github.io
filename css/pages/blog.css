@@ -81,6 +81,8 @@
 
 .blog-post-content {
   padding: 0 20px 20px;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .blog-post-content :is(p, ul, ol) {
@@ -139,6 +141,8 @@
 
 .blog-post-content a {
   color: var(--accent);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .blog-post-content table {
@@ -147,6 +151,7 @@
   display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  table-layout: fixed;
   border-collapse: collapse;
   margin: 10px 0 14px;
   border: 1px solid var(--border);
@@ -217,6 +222,14 @@
   max-width: 100%;
 }
 
+.blog-posts,
+.blog-post,
+.blog-post-single,
+.blog-post-content {
+  width: 100%;
+  min-width: 0;
+}
+
 .blog-post-content img {
   max-width: 100%;
   height: auto;
@@ -232,6 +245,10 @@
 }
 
 @media (max-width: 600px) {
+  body[data-page='blog'] {
+    overflow-x: hidden;
+  }
+
   .blog-post-header {
     padding: 14px 14px;
     align-items: flex-start;
