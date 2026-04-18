@@ -158,6 +158,8 @@
   padding: 8px 10px;
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .blog-post-content td[rowspan] {
@@ -201,6 +203,24 @@
   margin: 0 0 18px;
 }
 
+
+.blog-post-single {
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.blog-post-content {
+  min-width: 0;
+}
+
+.blog-post-content > * {
+  max-width: 100%;
+}
+
+.blog-post-content img {
+  max-width: 100%;
+  height: auto;
+}
 
 .blog-post-title-wrap {
   min-width: 0;
