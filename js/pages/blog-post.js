@@ -224,6 +224,18 @@
   };
 
   const slug = new URLSearchParams(window.location.search).get('slug');
+  const wrapTablesWithScroller = (root) => {
+    if (!root) return;
+    const tables = root.querySelectorAll('table');
+    tables.forEach((table) => {
+      if (table.parentElement?.classList.contains('table-scroll')) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'table-scroll';
+      table.parentNode?.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    });
+  };
+
   if (!slug || /\.\./.test(slug)) {
     renderMessage(getCurrentLanguage() === 'ja' ? '記事URLが不正です。' : 'Invalid blog post URL.');
     return;
@@ -261,6 +273,7 @@
       <div class="blog-post-content">${markdownToHtml(parsed.bodyMarkdown)}</div>
       <p class="blog-post-permalink-wrap"><a class="blog-post-permalink" href="blog.html">← Back to Blog</a></p>
     `;
+    wrapTablesWithScroller(container);
 
     if (window.MathJax?.typesetPromise) {
       await window.MathJax.typesetPromise([container]);
