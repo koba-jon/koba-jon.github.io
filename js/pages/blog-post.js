@@ -251,11 +251,11 @@
   const buildShellCodeHtml = (rawCode) => String(rawCode || '')
     .split('\n')
     .map((line) => {
-      const match = line.match(/^(\s*)\$(.*)$/);
-      if (!match) return escapeHtml(line);
-      const indent = escapeHtml(match[1] || '');
-      const commandWithOriginalPrompt = escapeHtml(`$${match[2] || ''}`);
-      return `${indent}<span class="code-shell-prompt" aria-hidden="true">$</span><span class="code-shell-command">${commandWithOriginalPrompt}</span>`;
+      if (!line.trim()) return '';
+      const match = line.match(/^(\s*)(?:\$\s?)?(.*)$/);
+      const indent = escapeHtml(match?.[1] || '');
+      const commandBody = escapeHtml(match?.[2] || '');
+      return `${indent}<span class="code-shell-prompt" aria-hidden="true">$</span> <span class="code-shell-command">${commandBody}</span>`;
     })
     .join('\n');
 
