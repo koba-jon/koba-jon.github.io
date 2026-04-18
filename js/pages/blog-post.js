@@ -260,6 +260,70 @@
   };
 
   const slug = new URLSearchParams(window.location.search).get('slug');
+
+  const isShellLanguage = (language) => ['bash', 'sh', 'shell', 'zsh'].includes(String(language || '').toLowerCase());
+
+  const buildShellCodeHtml = (rawCode) => String(rawCode || '')
+    .split('\n')
+    .map((line) => {
+      const match = line.match(/^(\s*)\$(\s?.*)$/);
+      if (!match) return escapeHtml(line);
+      const indent = escapeHtml(match[1] || '');
+      const command = escapeHtml(match[2] || '');
+      return `${indent}<span class="code-shell-prompt" aria-hidden="true">$</span><span class="code-shell-command">${command}</span>`;
+    })
+    .join('\n');
+
+  const getCopyText = (language, rawCode) => {
+    if (!isShellLanguage(language)) return rawCode;
+    return String(rawCode || '')
+      .split('\n')
+      .map((line) => line.replace(/^(\s*)\$\s?/, '$1'))
+      .join('\n');
+  };
+
+  const setupCodeBlockCopyButtons = (root) => {
+    if (!root) return;
+
+    const isJa = getCurrentLanguage() === 'ja';
+    const copyLabel = isJa ? 'コピー' : 'Copy';
+    const copiedLabel = isJa ? 'コピーしました' : 'Copied!';
+    const failedLabel = isJa ? '失敗' : 'Failed';
+
+    root.querySelectorAll('.code-block').forEach((block) => {
+      const code = block.querySelector('pre > code');
+      if (!code) return;
+
+      const language = (block.dataset.language || '').toLowerCase();
+      const rawCode = code.textContent || '';
+
+      if (isShellLanguage(language)) {
+        code.innerHTML = buildShellCodeHtml(rawCode);
+      }
+
+      const copyButton = document.createElement('button');
+      copyButton.type = 'button';
+      copyButton.className = 'code-block-copy-button';
+      copyButton.textContent = copyLabel;
+
+      copyButton.addEventListener('click', async () => {
+        const copyText = getCopyText(language, rawCode);
+        try {
+          await navigator.clipboard.writeText(copyText);
+          copyButton.textContent = copiedLabel;
+        } catch (error) {
+          console.error('Failed to copy code block', error);
+          copyButton.textContent = failedLabel;
+        }
+        window.setTimeout(() => {
+          copyButton.textContent = copyLabel;
+        }, 1200);
+      });
+
+      block.appendChild(copyButton);
+    });
+  };
+
   const wrapTablesWithScroller = (root) => {
     if (!root) return;
     const tables = root.querySelectorAll('table');
@@ -310,6 +374,7 @@
       <p class="blog-post-permalink-wrap"><a class="blog-post-permalink" href="blog.html">← Back to Blog</a></p>
     `;
     wrapTablesWithScroller(container);
+    setupCodeBlockCopyButtons(container);
 
     if (window.MathJax?.typesetPromise) {
       await window.MathJax.typesetPromise([container]);

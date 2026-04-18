@@ -128,6 +128,7 @@
 }
 
 .blog-post-content .code-block {
+  position: relative;
   margin: 10px 0 14px;
   border-radius: 10px;
   border: 1px solid var(--border);
@@ -135,9 +136,35 @@
   overflow: hidden;
 }
 
+.blog-post-content .code-block-copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.blog-post-content .code-block-copy-button:hover {
+  background: var(--soft);
+}
+
+.blog-post-content .code-shell-prompt {
+  user-select: none;
+  -webkit-user-select: none;
+  color: var(--ink-faint);
+}
+
 .blog-post-content .code-block-filename {
   margin: 0;
-  padding: 8px 12px;
+  padding: 8px 86px 8px 12px;
   border-bottom: 1px solid var(--border);
   font-family: var(--mono);
   font-size: 0.85rem;
@@ -149,6 +176,7 @@
   border: 0;
   border-radius: 0;
   background: transparent;
+  padding-top: 34px;
 }
 
 .blog-post-content pre code {
