@@ -98,10 +98,12 @@
 
     let paragraphBuffer = [];
     let blankLineStreak = 0;
+    let pendingSingleBlankLine = false;
 
     const flushParagraph = () => {
       if (!paragraphBuffer.length) return;
-      html.push(`<p>${formatInline(paragraphBuffer.join('\n'))}</p>`);
+      const withLineBreaks = formatInline(paragraphBuffer.join('\n')).replace(/\n/g, '<br>');
+      html.push(`<p>${withLineBreaks}</p>`);
       paragraphBuffer = [];
     };
 
@@ -155,7 +157,12 @@
 
       if (!line.trim()) {
         blankLineStreak += 1;
+        if (blankLineStreak === 1) {
+          pendingSingleBlankLine = true;
+          return;
+        }
         if (blankLineStreak >= 2) {
+          pendingSingleBlankLine = false;
           flushParagraph();
           closeAllLists();
           blankLineStreak = 0;
@@ -165,6 +172,7 @@
       blankLineStreak = 0;
 
       if (isRawHtmlLine(line)) {
+        pendingSingleBlankLine = false;
         flushParagraph();
         closeAllLists();
         html.push(line.trim());
@@ -173,6 +181,7 @@
 
       const headingMatch = line.match(/^(#{1,4})\s+(.*)$/);
       if (headingMatch) {
+        pendingSingleBlankLine = false;
         flushParagraph();
         closeAllLists();
         const level = Math.min(4, headingMatch[1].length);
@@ -182,6 +191,7 @@
 
       const listMatch = line.match(/^(\s*)[-*]\s+(.*)$/);
       if (listMatch) {
+        pendingSingleBlankLine = false;
         flushParagraph();
         const indentLevel = Math.floor((listMatch[1] || '').replace(/\t/g, '  ').length / 2);
         const targetDepth = indentLevel + 1;
@@ -211,6 +221,10 @@
       }
 
       closeAllLists();
+      if (pendingSingleBlankLine) {
+        paragraphBuffer.push('');
+        pendingSingleBlankLine = false;
+      }
       paragraphBuffer.push(line);
     });
 
