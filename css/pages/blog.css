@@ -194,3 +194,33 @@
 .blog-post-single-meta {
   margin: 0 0 18px;
 }
+
+
+.blog-post-title-wrap {
+  min-width: 0;
+}
+
+.blog-post-title,
+.blog-post-meta {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .blog-post-header {
+    padding: 14px 14px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .blog-post-content {
+    padding: 0 14px 14px;
+  }
+
+  .blog-post-single {
+    padding: 16px;
+  }
+
+  .blog-post-single-title {
+    overflow-wrap: anywhere;
+  }
+}
