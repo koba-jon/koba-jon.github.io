@@ -97,10 +97,11 @@
     };
 
     lines.forEach((line) => {
-      const fenceMatch = line.trim().match(/^```(\w+)?\s*$/);
+      const fenceMatch = line.trim().match(/^```(?:([A-Za-z0-9_+-]+)?(?::(.+))?)?\s*$/);
       if (fenceMatch) {
         closeAllLists();
         const language = (fenceMatch[1] || '').toLowerCase();
+        const filename = (fenceMatch[2] || '').trim();
 
         if (inMath) {
           inMath = false;
@@ -116,10 +117,16 @@
 
         if (!inCode) {
           inCode = true;
-          html.push('<pre><code>');
+          const languageClass = language ? ` class="language-${escapeHtml(language)}"` : '';
+          const languageAttribute = language ? ` data-language="${escapeHtml(language)}"` : '';
+          html.push(`<div class="code-block"${languageAttribute}>`);
+          if (filename) {
+            html.push(`<div class="code-block-filename">${escapeHtml(filename)}</div>`);
+          }
+          html.push(`<pre><code${languageClass}>`);
         } else {
           inCode = false;
-          html.push('</code></pre>');
+          html.push('</code></pre></div>');
         }
         return;
       }
@@ -187,7 +194,7 @@
     });
 
     closeAllLists();
-    if (inCode) html.push('</code></pre>');
+    if (inCode) html.push('</code></pre></div>');
     if (inMath) html.push('\\]</div>');
     return html.join('');
   };
