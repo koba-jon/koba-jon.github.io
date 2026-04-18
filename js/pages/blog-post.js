@@ -97,6 +97,7 @@
     };
 
     let paragraphBuffer = [];
+    let blankLineStreak = 0;
 
     const flushParagraph = () => {
       if (!paragraphBuffer.length) return;
@@ -153,10 +154,15 @@
       }
 
       if (!line.trim()) {
-        flushParagraph();
-        closeAllLists();
+        blankLineStreak += 1;
+        if (blankLineStreak >= 2) {
+          flushParagraph();
+          closeAllLists();
+          blankLineStreak = 0;
+        }
         return;
       }
+      blankLineStreak = 0;
 
       if (isRawHtmlLine(line)) {
         flushParagraph();
