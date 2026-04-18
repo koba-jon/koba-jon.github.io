@@ -99,9 +99,9 @@ https://qiita.com/koba-jon/items/2b15865f5b4c0c9fbbf7
 ### 1) Clone
 
 ```bash
-git clone https://github.com/koba-jon/pytorch_cpp.git
-cd pytorch_cpp
-sudo apt install g++-8
+$ git clone https://github.com/koba-jon/pytorch_cpp.git
+$ cd pytorch_cpp
+$ sudo apt install g++-8
 ```
 
 ### 2) Run
@@ -109,38 +109,38 @@ sudo apt install g++-8
 #### (1) Move to a target directory (example: AE1d)
 
 ```bash
-cd Dimensionality_Reduction/AE1d
+$ cd Dimensionality_Reduction/AE1d
 ```
 
 #### (2) Build
 
 ```bash
-mkdir build
-cd build
-cmake ..
-make -j4
-cd ..
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make -j4
+$ cd ..
 ```
 
 #### (3) Configure dataset (example dataset: Normal Distribution Dataset)
 
 ```bash
-cd datasets
-git clone https://github.com/koba-jon/normal_distribution_dataset.git
-ln -s normal_distribution_dataset/NormalDistribution ./NormalDistribution
-cd ..
+$ cd datasets
+$ git clone https://github.com/koba-jon/normal_distribution_dataset.git
+$ ln -s normal_distribution_dataset/NormalDistribution ./NormalDistribution
+$ cd ..
 ```
 
 #### (4) Train
 
 ```bash
-sh scripts/train.sh
+$ sh scripts/train.sh
 ```
 
 #### (5) Test
 
 ```bash
-sh scripts/test.sh
+$ sh scripts/test.sh
 ```
 
 Did it run successfully?
