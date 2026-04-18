@@ -63,7 +63,11 @@
       return formatted;
     };
 
-    const isHtmlBlockLine = (line) => /^<\/?[A-Za-z][^>]*>$/.test(line.trim());
+    const isRawHtmlLine = (line) => {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith('<') || !trimmed.endsWith('>')) return false;
+      return /<\/?[A-Za-z][^>]*>/.test(trimmed);
+    };
 
     lines.forEach((line) => {
       if (line.trim().startsWith('```')) {
@@ -88,7 +92,7 @@
         return;
       }
 
-      if (isHtmlBlockLine(line)) {
+      if (isRawHtmlLine(line)) {
         closeAllLists();
         html.push(line.trim());
         return;
