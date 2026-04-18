@@ -36,6 +36,7 @@
     const html = [];
     const listStack = [];
     let inCode = false;
+    let inMath = false;
 
     const closeListsToDepth = (targetDepth = 0) => {
       while (listStack.length > targetDepth) {
@@ -53,14 +54,40 @@
       }
     };
 
+    const preserveFontTags = (text) => {
+      const placeholders = [];
+      let safeText = text.replace(/<font\b[^>]*>/gi, (match) => {
+        const key = `__FONT_OPEN_${placeholders.length}__`;
+        placeholders.push({ key, value: match });
+        return key;
+      });
+      safeText = safeText.replace(/<\/font>/gi, (match) => {
+        const key = `__FONT_CLOSE_${placeholders.length}__`;
+        placeholders.push({ key, value: match });
+        return key;
+      });
+      return { safeText, placeholders };
+    };
+
+    const restorePlaceholders = (text, placeholders) => {
+      let restored = text;
+      placeholders.forEach(({ key, value }) => {
+        restored = restored.replaceAll(key, value);
+      });
+      return restored;
+    };
+
     const formatInline = (text) => {
-      let formatted = escapeHtml(text);
+      const { safeText, placeholders } = preserveFontTags(text);
+      let formatted = escapeHtml(safeText);
       formatted = formatted.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
       formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
       formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
       formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>');
       formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-      return formatted;
+      formatted = formatted.replace(/(^|[^\\])\$\$([^$]+)\$\$/g, '$1\\[$2\\]');
+      formatted = formatted.replace(/(^|[^\\])\$([^$\n]+)\$/g, '$1\\($2\\)');
+      return restorePlaceholders(formatted, placeholders);
     };
 
     const isRawHtmlLine = (line) => {
@@ -70,8 +97,23 @@
     };
 
     lines.forEach((line) => {
-      if (line.trim().startsWith('```')) {
+      const fenceMatch = line.trim().match(/^```(\w+)?\s*$/);
+      if (fenceMatch) {
         closeAllLists();
+        const language = (fenceMatch[1] || '').toLowerCase();
+
+        if (inMath) {
+          inMath = false;
+          html.push('\\]</div>');
+          return;
+        }
+
+        if (!inCode && language === 'math') {
+          inMath = true;
+          html.push('<div class="math-block">\\[');
+          return;
+        }
+
         if (!inCode) {
           inCode = true;
           html.push('<pre><code>');
@@ -84,6 +126,11 @@
 
       if (inCode) {
         html.push(`${escapeHtml(line)}\n`);
+        return;
+      }
+
+      if (inMath) {
+        html.push(`${line}\n`);
         return;
       }
 
@@ -141,6 +188,7 @@
 
     closeAllLists();
     if (inCode) html.push('</code></pre>');
+    if (inMath) html.push('\\]</div>');
     return html.join('');
   };
 
@@ -206,6 +254,10 @@
       <div class="blog-post-content">${markdownToHtml(parsed.bodyMarkdown)}</div>
       <p class="blog-post-permalink-wrap"><a class="blog-post-permalink" href="blog.html">← Back to Blog</a></p>
     `;
+
+    if (window.MathJax?.typesetPromise) {
+      await window.MathJax.typesetPromise([container]);
+    }
 
     document.title = `${parsed.title} | Blog | Hiroki Kobayashi`;
   } catch (error) {
