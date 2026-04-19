@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>画像異常検知 サーベイマップ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================
+     DESIGN TOKENS
+     ===================================================== */
+  :root {
+    /* palette */
+    --bg: #0a0d13;
+    --bg-panel: #10141c;
+    --bg-card: #181d28;
+    --bg-card-hi: #212736;
+    --ink: #ece7d8;
+    --ink-2: #8a8378;
+    --ink-3: #4a4538;
+    --ink-4: #2a271e;
+    --line: #1f2430;
+    --line-2: #171b24;
+    --gold: #d4a574;
+
+    --c-ae: #8fa68a;
+    --c-ga: #e0b680;
+    --c-nn: #e8c07d;
+    --c-al: #d89380;
+    --c-ds: #c9b06b;
+    --c-fl: #a792b4;
+    --c-nd: #b08968;
+    --c-fd: #6b7a8f;
+    --c-data: #7a8594;
+
+    /* layout */
+    --map-w: 1560px;
+    --map-h: 1140px;
+    --lbl-w: 200px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans JP', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "palt";
+  }
+
+  .page {
+    padding: 64px 48px 80px;
+    max-width: 1680px;
+    margin: 0 auto;
+  }
+
+  /* =====================================================
+     HEADER
+     ===================================================== */
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 36px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--line);
+  }
+  .head-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--ink-2);
+    margin-bottom: 22px;
+  }
+  .head-tag b { color: var(--gold); font-weight: 400; }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 58px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .head-sub {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .head-r {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.15em;
+    line-height: 1.8;
+  }
+  .head-r .v {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    color: var(--ink);
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  /* =====================================================
+     LEGEND
+     ===================================================== */
+  .lg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    padding: 16px 22px;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    margin-bottom: 20px;
+  }
+  .lg-g { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .lg-g + .lg-g { padding-left: 28px; border-left: 1px solid var(--line); }
+  .lg-ttl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-3);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+  .lg-it {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    color: var(--ink-2);
+  }
+  .lg-dot { width: 10px; height: 10px; flex-shrink: 0; }
+  .lg-ln { width: 20px; height: 0; border-top: 1.5px solid currentColor; }
+  .lg-ln.dash { border-top-style: dashed; }
+  .lg-sota {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 1px 6px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .scroll-note {
+    display: none;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: 0.2em;
+  }
+
+  /* =====================================================
+     MAP FRAME
+     ===================================================== */
+  .frame {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .frame::-webkit-scrollbar { height: 10px; }
+  .frame::-webkit-scrollbar-track { background: var(--bg-panel); }
+  .frame::-webkit-scrollbar-thumb { background: var(--line); }
+
+  .map {
+    position: relative;
+    width: var(--map-w);
+    height: var(--map-h);
+  }
+
+  /* =====================================================
+     TIME AXIS
+     ===================================================== */
+  .axis {
+    position: absolute;
+    top: 30px;
+    left: var(--lbl-w);
+    right: 40px;
+    height: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .axis-tag {
+    position: absolute;
+    right: 100%;
+    top: 10px;
+    padding-right: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-3);
+    letter-spacing: 0.3em;
+    white-space: nowrap;
+  }
+  .tick {
+    position: absolute;
+    top: 10px;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: 0.08em;
+  }
+
+  /* =====================================================
+     BANDS
+     ===================================================== */
+  .band {
+    position: absolute;
+    left: 0; right: 0;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .band.alt { background: rgba(255,255,255,0.008); }
+
+  .blabel {
+    position: absolute;
+    left: 48px;
+    top: 18px;
+    width: 152px;
+  }
+  .blabel .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-3);
+    letter-spacing: 0.28em;
+    margin-bottom: 6px;
+  }
+  .blabel .bar { width: 20px; height: 2px; background: currentColor; margin-bottom: 10px; }
+  .blabel .jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+  .blabel .en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-2);
+    letter-spacing: 0.18em;
+  }
+
+  /* Group separator */
+  .gsep {
+    position: absolute;
+    left: 0; right: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .gsep-in {
+    margin-left: 48px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .gsep .t {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+  .gsep .s {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-3);
+    letter-spacing: 0.28em;
+    padding: 3px 8px;
+    border: 1px solid var(--line);
+  }
+
+  /* =====================================================
+     NODES
+     ===================================================== */
+  .node {
+    position: absolute;
+    width: 96px;
+    padding: 7px 9px 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-left: 2px solid;
+    z-index: 3;
+    transition: transform .2s, background .2s, box-shadow .2s;
+    transform: translateX(-50%);
+  }
+  .node:hover {
+    transform: translateX(-50%) translateY(-2px);
+    background: var(--bg-card-hi);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+    z-index: 20;
+  }
+  .node .nm {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+  }
+  .node .yr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .node .st {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    color: var(--gold);
+    font-size: 9px;
+    line-height: 1;
+  }
+  .node.sota { outline: 1px solid var(--gold); outline-offset: 3px; }
+  .node.key { background: linear-gradient(135deg, rgba(212,165,116,0.1), var(--bg-card)); }
+  .node.key .nm { color: var(--gold); }
+
+  .node.data { border-left-color: var(--c-data); background: #141821; }
+  .node.data .nm { color: var(--ink-2); font-size: 10px; }
+  .node.nd { border-left-color: var(--c-nd); }
+  .node.ae { border-left-color: var(--c-ae); }
+  .node.ga { border-left-color: var(--c-ga); }
+  .node.nn { border-left-color: var(--c-nn); }
+  .node.al { border-left-color: var(--c-al); }
+  .node.ds { border-left-color: var(--c-ds); }
+  .node.fl { border-left-color: var(--c-fl); }
+  .node.fd { border-left-color: var(--c-fd); background: #121620; }
+  .node.fd .nm { color: var(--ink-2); font-size: 10px; }
+
+  /* =====================================================
+     ARROWS (SVG overlay)
+     ===================================================== */
+  svg.arrows {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .alabel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.03em;
+  }
+  .alabel-bg {
+    fill: var(--bg-panel);
+    stroke: var(--bg-panel);
+    stroke-width: 3;
+    paint-order: stroke;
+  }
+
+  /* =====================================================
+     RESPONSIVE
+     ===================================================== */
+  @media (max-width: 1100px) {
+    .page { padding: 40px 20px; }
+    .head { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .head-r { text-align: left; }
+    .scroll-note { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ========= HEADER ========= -->
+  <header class="head">
+    <div>
+      <div class="head-tag">SURVEY MAP · <b>画像異常検知</b> · 2000 — 2023</div>
+      <h1>画像異常検知 <em>系譜</em></h1>
+      <p class="head-sub">古典統計から最先端 5 カテゴリ SOTA までの系譜を一枚に。</p>
+    </div>
+    <div class="head-r">
+      <span class="v">v3.0</span>
+      COMPILED 2026
+    </div>
+  </header>
+
+  <!-- ========= LEGEND ========= -->
+  <div class="lg">
+    <div class="lg-g">
+      <span class="lg-ttl">系統</span>
+      <span class="lg-it"><span class="lg-dot" style="background:var(--c-nd)"></span>非DL</span>
+      <span class="lg-it"><span class="lg-dot" style="background:var(--c-ae)"></span>AE・GAN</span>
+      <span class="lg-it"><span class="lg-dot" style="background:var(--c-ga)"></span>ガウシアン</span>
+      <span class="lg-it"><span class="lg-dot" style="background:var(--c-nn)"></span>最近傍</span>
+      <span class="lg-it"><span class="lg-dot" style="background:var(--c-al)"></span>整列</span>
+      <span class="lg-it"><span class="lg-dot" style="background:var(--c-ds)"></span>知識蒸留</span>
+      <span class="lg-it"><span class="lg-dot" style="background:var(--c-fl)"></span>Flow</span>
+      <span class="lg-it"><span class="lg-dot" style="background:var(--c-fd)"></span>基盤</span>
+    </div>
+    <div class="lg-g">
+      <span class="lg-ttl">矢印</span>
+      <span class="lg-it"><span class="lg-ln" style="color:var(--gold)"></span>主流系譜</span>
+      <span class="lg-it"><span class="lg-ln" style="color:var(--ink-2)"></span>派生</span>
+      <span class="lg-it"><span class="lg-ln dash" style="color:var(--ink-3)"></span>基盤影響</span>
+    </div>
+    <div class="lg-g">
+      <span class="lg-ttl">印</span>
+      <span class="lg-it"><span style="color:var(--gold);font-size:11px">★</span>重要手法</span>
+      <span class="lg-it"><span class="lg-sota">SOTA</span>MVTec AD 上位</span>
+    </div>
+  </div>
+
+  <p class="scroll-note">← 横スクロールで全体表示 →</p>
+
+  <!-- ========= MAP =========
+       Year → X (node center, absolute from map):
+       2001: 260   2004: 320   2008: 380
+       2012: 380   2014: 460   2015: 510
+       2016: 550   2017: 620   2018: 720
+       2019: 840   2020: 940   2021: 1080
+       2022: 1220  2023: 1380
+       Axis: left=200, right=1520, width=1320px
+       Band rows are listed below band by band.
+  -->
+  <div class="frame">
+    <div class="map">
+
+      <!-- ========== SVG ARROWS ========== -->
+      <svg class="arrows" viewBox="0 0 1560 1140" preserveAspectRatio="none">
+        <defs>
+          <marker id="a-gold" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto">
+            <polygon points="0 0, 6 3, 0 6" fill="#d4a574"/>
+          </marker>
+          <marker id="a-dim" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto">
+            <polygon points="0 0, 6 3, 0 6" fill="#6b6558"/>
+          </marker>
+          <marker id="a-faint" markerWidth="5" markerHeight="5" refX="4.5" refY="2.5" orient="auto">
+            <polygon points="0 0, 5 2.5, 0 5" fill="#3a3528"/>
+          </marker>
+          <marker id="a-al" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto">
+            <polygon points="0 0, 6 3, 0 6" fill="#a0685c"/>
+          </marker>
+          <marker id="a-ds" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto">
+            <polygon points="0 0, 6 3, 0 6" fill="#8f7946"/>
+          </marker>
+          <marker id="a-fl" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto">
+            <polygon points="0 0, 6 3, 0 6" fill="#7a6489"/>
+          </marker>
+        </defs>
+
+        <g fill="none" stroke-linejoin="round" stroke-linecap="butt">
+
+          <!-- =========================================
+               FOUNDATIONS (dashed)
+               All node-centers: foundation Y = 1060, 1100
+               ========================================= -->
+          <!-- GAN(320,1100) → DCGAN(440,1100) -->
+          <path d="M 368,1100 L 420,1100" stroke="#3a3528" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#a-faint)"/>
+          <!-- NF(380,1060) → Real NVP(550,1060) -->
+          <path d="M 428,1060 L 530,1060" stroke="#3a3528" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#a-faint)"/>
+          <!-- AlexNet(300,1060) → ResNet(540,1060) at Y? Actually we put AlexNet on row 1070 -->
+          <!-- DCGAN(440,1100) → AnoGAN(620,230): orthogonal up -->
+          <path d="M 440,1080 L 440,850 L 578,850 L 578,250" stroke="#3a3528" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#a-faint)"/>
+          <!-- VAE(260,1060) → AnoVAEGAN(720,400) -->
+          <path d="M 260,1040 L 260,860 L 680,860 L 680,415" stroke="#3a3528" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#a-faint)"/>
+          <!-- Real NVP(550,1060) → DifferNet(940,870) -->
+          <path d="M 550,1040 L 550,820 L 900,820 L 900,850" stroke="#3a3528" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#a-faint)"/>
+
+          <!-- =========================================
+               CLASSICAL → DEEP
+               Y classical = 950, 990
+               ========================================= -->
+          <!-- OC-SVM(260,990) → SVDD(380,990) -->
+          <path d="M 308,990 L 332,990" stroke="#6b6558" stroke-width="1.2" marker-end="url(#a-dim)"/>
+          <!-- SVDD(380,990) → DSVDD(620,540) ortho up -->
+          <path d="M 380,968 L 380,770 L 620,770 L 620,560" stroke="#6b6558" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#a-dim)"/>
+          <!-- GMM(260,950) → DAGMM(500,540) ortho -->
+          <path d="M 260,930 L 260,770 L 500,770 L 500,560" stroke="#6b6558" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#a-dim)"/>
+          <!-- DSVDD(620,540) → PatchSVDD(740,540) -->
+          <path d="M 668,540 L 692,540" stroke="#6b6558" stroke-width="1.2" marker-end="url(#a-dim)"/>
+
+          <!-- =========================================
+               AE / GAN family
+               Row A (y=250): AnoGAN, ADGAN, MemAE, DAAD
+               Row B (y=315): GANomaly, Skip-GANomaly, OCGAN
+               Row C (y=375): EGBAD, SSIM-AE, ADAE, DAGAN
+               Row D (y=435): DSEBM, AnoVAEGAN, VAE-grad, CutPaste, DRAEM
+               ========================================= -->
+          <!-- AnoGAN(620,250) → ADGAN(840,250) same row -->
+          <path d="M 668,250 L 792,250" stroke="#6b6558" stroke-width="1.1" marker-end="url(#a-dim)"/>
+          <!-- AnoGAN(620,250) → GANomaly(840,315) down -->
+          <path d="M 612,272 L 612,315 L 792,315" stroke="#6b6558" stroke-width="1.1" marker-end="url(#a-dim)"/>
+          <!-- AnoGAN(620,250) → EGBAD(840,375) -->
+          <path d="M 606,272 L 606,375 L 792,375" stroke="#6b6558" stroke-width="1.1" marker-end="url(#a-dim)"/>
+          <!-- AnoGAN(620,250) → AnoVAEGAN(720,435) -->
+          <path d="M 598,272 L 598,435 L 672,435" stroke="#6b6558" stroke-width="1.1" marker-end="url(#a-dim)"/>
+          <!-- GANomaly(840,315) → Skip-GANomaly(940,315) -->
+          <path d="M 888,315 L 892,315" stroke="#6b6558" stroke-width="1.1" marker-end="url(#a-dim)"/>
+          <!-- MemAE(940,250) → DAAD(1220,250) -->
+          <path d="M 988,250 L 1172,250" stroke="#6b6558" stroke-width="1.1" marker-end="url(#a-dim)"/>
+          <!-- DSEBM(550,435) → VAE-grad(1080,435) -->
+          <path d="M 598,435 L 1032,435" stroke="#6b6558" stroke-width="1.1" stroke-dasharray="3,3" marker-end="url(#a-dim)"/>
+
+          <!-- =========================================
+               GAUSSIAN (★ gold main path)
+               y=610, node centers: Student(940), Gaussian-AD(1080), PaDiM(1220)
+               ========================================= -->
+          <!-- Student → Gaussian-AD -->
+          <path d="M 988,610 L 1032,610" stroke="#d4a574" stroke-width="1.6" marker-end="url(#a-gold)"/>
+          <!-- Gaussian-AD → PaDiM -->
+          <path d="M 1128,610 L 1172,610" stroke="#d4a574" stroke-width="1.6" marker-end="url(#a-gold)"/>
+
+          <!-- =========================================
+               NN y=680, centers: DN2(840), SPADE(940), PatchCore(1310), ReConPatch(1440,650), PNI(1440,710)
+               ========================================= -->
+          <!-- DN2 → SPADE -->
+          <path d="M 888,680 L 892,680" stroke="#6b6558" stroke-width="1.3" marker-end="url(#a-dim)"/>
+          <!-- SPADE → PaDiM (up to gauss row) -->
+          <path d="M 940,658 L 940,630 L 1172,630 L 1172,622" stroke="#d4a574" stroke-width="1.6" marker-end="url(#a-gold)"/>
+          <text class="alabel" fill="#d4a574" x="1010" y="624">多変量ガウス</text>
+          <!-- PaDiM → PatchCore (down to nn row) -->
+          <path d="M 1220,634 L 1220,658 L 1262,680" stroke="#d4a574" stroke-width="1.6" marker-end="url(#a-gold)"/>
+          <text class="alabel" fill="#d4a574" x="1224" y="662">コア選択</text>
+          <!-- PatchCore → ReConPatch (up-right) -->
+          <path d="M 1358,670 L 1392,670 L 1392,650 L 1392,650" stroke="#d4a574" stroke-width="1.6" marker-end="url(#a-gold)"/>
+          <!-- PatchCore → PNI (down-right) -->
+          <path d="M 1358,692 L 1392,692 L 1392,710" stroke="#d4a574" stroke-width="1.6" marker-end="url(#a-gold)"/>
+
+          <!-- =========================================
+               ALIGNMENT y=750, RegAD(1310,750), CPR(1440,750)
+               ========================================= -->
+          <!-- Gaussian-AD(1080,610) → RegAD(1310,750) -->
+          <path d="M 1080,634 L 1080,750 L 1262,750" stroke="#a0685c" stroke-width="1.4" marker-end="url(#a-al)"/>
+          <text class="alabel" fill="#a0685c" x="1088" y="744">整列＋最近傍</text>
+          <!-- RegAD → CPR -->
+          <path d="M 1358,750 L 1392,750" stroke="#a0685c" stroke-width="1.4" marker-end="url(#a-al)"/>
+
+          <!-- =========================================
+               DISTILLATION y=820, STAD(940), EfficientAD(1440)
+               ========================================= -->
+          <!-- STAD → EfficientAD -->
+          <path d="M 988,820 L 1392,820" stroke="#8f7946" stroke-width="1.4" marker-end="url(#a-ds)"/>
+          <text class="alabel" fill="#8f7946" x="1110" y="813">ネットワーク超軽量化</text>
+
+          <!-- =========================================
+               FLOW y=890, DifferNet(940,890), CS-Flow(1220,855), FastFlow(1220,890), MS-Flow(1440,890)
+               ========================================= -->
+          <!-- DifferNet → FastFlow -->
+          <path d="M 988,890 L 1172,890" stroke="#7a6489" stroke-width="1.4" marker-end="url(#a-fl)"/>
+          <text class="alabel" fill="#7a6489" x="1040" y="884">NFの2D化</text>
+          <!-- DifferNet → CS-Flow (up) -->
+          <path d="M 940,868 L 940,855 L 1172,855" stroke="#7a6489" stroke-width="1.3" marker-end="url(#a-fl)"/>
+          <!-- FastFlow → MS-Flow -->
+          <path d="M 1268,890 L 1392,890" stroke="#7a6489" stroke-width="1.4" marker-end="url(#a-fl)"/>
+          <text class="alabel" fill="#7a6489" x="1282" y="884">マルチスケール</text>
+
+        </g>
+      </svg>
+
+      <!-- ========== TIME AXIS ==========
+           Axis is 1320px wide (from x=200 to x=1520 in map coords).
+           Tick at absolute map-x N: position within axis = N - 200 (px)
+           2001: 60  / 2008: 180  / 2014: 260  / 2017: 420  /
+           2018: 520 / 2019: 640  / 2020: 740  / 2021: 880  /
+           2022: 1020/ 2023: 1180
+      -->
+      <div class="axis">
+        <div class="axis-tag">TIME ▸</div>
+        <div class="tick" style="left:60px">2001</div>
+        <div class="tick" style="left:180px">2008</div>
+        <div class="tick" style="left:260px">2014</div>
+        <div class="tick" style="left:420px">2017</div>
+        <div class="tick" style="left:520px">2018</div>
+        <div class="tick" style="left:640px">2019</div>
+        <div class="tick" style="left:740px">2020</div>
+        <div class="tick" style="left:880px">2021</div>
+        <div class="tick" style="left:1020px">2022</div>
+        <div class="tick" style="left:1180px">2023</div>
+      </div>
+
+      <!-- ============================================
+           BAND 1 · DATASETS (y: 90–160, node y=120)
+           ============================================ -->
+      <div class="band" style="top:90px; height:70px;"></div>
+      <div class="blabel" style="top:98px; color:var(--c-data);">
+        <div class="n">01</div><div class="bar"></div>
+        <div class="jp">データセット</div>
+        <div class="en">DATASETS</div>
+      </div>
+
+      <div class="node data" style="top:108px; left:370px;">
+        <div class="nm">DAGM</div><div class="yr">'07</div>
+      </div>
+      <div class="node data" style="top:108px; left:720px;">
+        <div class="nm">NanoTWICE</div><div class="yr">'18</div>
+      </div>
+      <div class="node data" style="top:108px; left:830px;">
+        <div class="nm">MTD</div><div class="yr">'18</div>
+      </div>
+      <div class="node data key" style="top:108px; left:960px;">
+        <div class="nm">MVTec AD</div><div class="yr">CVPR'19</div>
+        <span class="st">★</span>
+      </div>
+      <div class="node data" style="top:108px; left:1080px;">
+        <div class="nm">BTAD</div><div class="yr">ISIE'21</div>
+      </div>
+      <div class="node data" style="top:108px; left:1220px;">
+        <div class="nm">MVTec LOCO</div><div class="yr">IJCV'22</div>
+      </div>
+
+      <!-- ============================================
+           GROUP SEP: Anomaly Detection Methods
+           ============================================ -->
+      <div class="gsep" style="top:170px;">
+        <div class="gsep-in">
+          <span class="t">Anomaly Detection Methods</span>
+          <span class="s">異常検知手法</span>
+        </div>
+      </div>
+
+      <!-- ============================================
+           BAND 2 · AE / GAN (y: 210–470)
+           Rows: A=250, B=315, C=375, D=435
+           ============================================ -->
+      <div class="band alt" style="top:210px; height:260px;"></div>
+      <div class="blabel" style="top:228px; color:var(--c-ae);">
+        <div class="n">02</div><div class="bar"></div>
+        <div class="jp">AE・GAN</div>
+        <div class="en">RECONSTRUCTION</div>
+      </div>
+
+      <!-- Row A: AnoGAN line -->
+      <div class="node ae key" style="top:238px; left:620px;">
+        <div class="nm">AnoGAN</div><div class="yr">IPMI'17</div><span class="st">★</span>
+      </div>
+      <div class="node ae" style="top:238px; left:840px;">
+        <div class="nm">ADGAN</div><div class="yr">'18</div>
+      </div>
+      <div class="node ae" style="top:238px; left:940px;">
+        <div class="nm">MemAE</div><div class="yr">ICCV'19</div>
+      </div>
+      <div class="node ae" style="top:238px; left:1220px;">
+        <div class="nm">DAAD</div><div class="yr">ICCV'21</div>
+      </div>
+
+      <!-- Row B -->
+      <div class="node ae" style="top:303px; left:840px;">
+        <div class="nm">GANomaly</div><div class="yr">ACCV'18</div>
+      </div>
+      <div class="node ae" style="top:303px; left:940px;">
+        <div class="nm">Skip-GAN</div><div class="yr">IJCNN'19</div>
+      </div>
+      <div class="node ae" style="top:303px; left:1040px;">
+        <div class="nm">OCGAN</div><div class="yr">CVPR'19</div>
+      </div>
+
+      <!-- Row C -->
+      <div class="node ae" style="top:363px; left:840px;">
+        <div class="nm">EGBAD</div><div class="yr">ICLR-W'18</div>
+      </div>
+      <div class="node ae" style="top:363px; left:940px;">
+        <div class="nm">SSIM-AE</div><div class="yr">VISAPP'19</div>
+      </div>
+      <div class="node ae" style="top:363px; left:1040px;">
+        <div class="nm">ADAE</div><div class="yr">'19</div>
+      </div>
+      <div class="node ae" style="top:363px; left:1140px;">
+        <div class="nm">DAGAN</div><div class="yr">'20</div>
+      </div>
+
+      <!-- Row D -->
+      <div class="node ae" style="top:423px; left:550px;">
+        <div class="nm">DSEBM</div><div class="yr">ICML'16</div>
+      </div>
+      <div class="node ae" style="top:423px; left:720px;">
+        <div class="nm">AnoVAEGAN</div><div class="yr">MICCAI'18</div>
+      </div>
+      <div class="node ae" style="top:423px; left:840px;">
+        <div class="nm">CNN Dict.</div><div class="yr">Sensors'18</div>
+      </div>
+      <div class="node ae" style="top:423px; left:1080px;">
+        <div class="nm">VAE-grad</div><div class="yr">ICLR'20</div>
+      </div>
+      <div class="node ae key" style="top:423px; left:1190px;">
+        <div class="nm">CutPaste</div><div class="yr">CVPR'21</div><span class="st">★</span>
+      </div>
+      <div class="node ae key" style="top:423px; left:1300px;">
+        <div class="nm">DRAEM</div><div class="yr">ICCV'21</div><span class="st">★</span>
+      </div>
+
+      <!-- ============================================
+           GROUP SEP: Feature-based 5 Families
+           ============================================ -->
+      <div class="gsep" style="top:480px;">
+        <div class="gsep-in">
+          <span class="t">Feature-based Five Families</span>
+          <span class="s">特徴抽出ベース · 5 カテゴリ</span>
+        </div>
+      </div>
+
+      <!-- ============================================
+           BRIDGE ROW: DAGMM / DSVDD / PatchSVDD (y=530)
+           ============================================ -->
+      <div class="node nd" style="top:528px; left:500px;">
+        <div class="nm">DAGMM</div><div class="yr">ICLR'18</div>
+      </div>
+      <div class="node nd" style="top:528px; left:620px;">
+        <div class="nm">DSVDD</div><div class="yr">ICML'18</div>
+      </div>
+      <div class="node nd" style="top:528px; left:740px;">
+        <div class="nm">PatchSVDD</div><div class="yr">ACCV'20</div>
+      </div>
+
+      <!-- ============================================
+           BAND 3 · ① Gaussian (y: 580–640, node y=598)
+           ============================================ -->
+      <div class="band" style="top:580px; height:60px;"></div>
+      <div class="blabel" style="top:588px; color:var(--c-ga);">
+        <div class="n">03 / ①</div><div class="bar"></div>
+        <div class="jp">ガウシアン</div>
+        <div class="en">GAUSSIAN</div>
+      </div>
+      <div class="node ga" style="top:598px; left:940px;">
+        <div class="nm">Student</div><div class="yr">CVPR'20</div>
+      </div>
+      <div class="node ga" style="top:598px; left:1080px;">
+        <div class="nm">Gaussian-AD</div><div class="yr">ICPR'20</div>
+      </div>
+      <div class="node ga key sota" style="top:598px; left:1220px;">
+        <div class="nm">PaDiM</div><div class="yr">ICPR'21</div><span class="st">★</span>
+      </div>
+
+      <!-- ============================================
+           BAND 4 · ② NN (y: 650–710, node y=668)
+           ============================================ -->
+      <div class="band alt" style="top:650px; height:60px;"></div>
+      <div class="blabel" style="top:658px; color:var(--c-nn);">
+        <div class="n">03 / ②</div><div class="bar"></div>
+        <div class="jp">最近傍探索</div>
+        <div class="en">NEAREST-NEIGHBOR</div>
+      </div>
+      <div class="node nn" style="top:668px; left:840px;">
+        <div class="nm">DN2</div><div class="yr">'20</div>
+      </div>
+      <div class="node nn" style="top:668px; left:940px;">
+        <div class="nm">SPADE</div><div class="yr">'20</div>
+      </div>
+      <div class="node nn key sota" style="top:668px; left:1310px;">
+        <div class="nm">PatchCore</div><div class="yr">CVPR'22</div><span class="st">★</span>
+      </div>
+      <div class="node nn sota" style="top:638px; left:1440px;">
+        <div class="nm">ReConPatch</div><div class="yr">'23</div>
+      </div>
+      <div class="node nn sota" style="top:698px; left:1440px;">
+        <div class="nm">PNI</div><div class="yr">'23</div>
+      </div>
+
+      <!-- ============================================
+           BAND 5 · ③ Alignment (y: 720–780, node y=738)
+           ============================================ -->
+      <div class="band" style="top:720px; height:60px;"></div>
+      <div class="blabel" style="top:728px; color:var(--c-al);">
+        <div class="n">03 / ③</div><div class="bar"></div>
+        <div class="jp">整列</div>
+        <div class="en">ALIGNMENT</div>
+      </div>
+      <div class="node al sota" style="top:738px; left:1310px;">
+        <div class="nm">RegAD</div><div class="yr">ECCV'22</div>
+      </div>
+      <div class="node al key sota" style="top:738px; left:1440px;">
+        <div class="nm">CPR</div><div class="yr">'23</div><span class="st">★</span>
+      </div>
+
+      <!-- ============================================
+           BAND 6 · ④ Distillation (y: 790–850, node y=808)
+           ============================================ -->
+      <div class="band alt" style="top:790px; height:60px;"></div>
+      <div class="blabel" style="top:798px; color:var(--c-ds);">
+        <div class="n">03 / ④</div><div class="bar"></div>
+        <div class="jp">知識蒸留</div>
+        <div class="en">DISTILLATION</div>
+      </div>
+      <div class="node ds" style="top:808px; left:940px;">
+        <div class="nm">STAD</div><div class="yr">CVPR'20</div>
+      </div>
+      <div class="node ds key sota" style="top:808px; left:1440px;">
+        <div class="nm">EfficientAD</div><div class="yr">'23</div><span class="st">★</span>
+      </div>
+
+      <!-- ============================================
+           BAND 7 · ⑤ Flow (y: 860–920, nodes at 845/878)
+           ============================================ -->
+      <div class="band" style="top:860px; height:60px;"></div>
+      <div class="blabel" style="top:868px; color:var(--c-fl);">
+        <div class="n">03 / ⑤</div><div class="bar"></div>
+        <div class="jp">Flow</div>
+        <div class="en">NORMALIZING FLOW</div>
+      </div>
+      <div class="node fl key" style="top:878px; left:940px;">
+        <div class="nm">DifferNet</div><div class="yr">WACV'21</div><span class="st">★</span>
+      </div>
+      <div class="node fl" style="top:843px; left:1220px;">
+        <div class="nm">CS-Flow</div><div class="yr">WACV'22</div>
+      </div>
+      <div class="node fl key sota" style="top:878px; left:1220px;">
+        <div class="nm">FastFlow</div><div class="yr">'21</div><span class="st">★</span>
+      </div>
+      <div class="node fl sota" style="top:878px; left:1440px;">
+        <div class="nm">MS-Flow</div><div class="yr">'23</div>
+      </div>
+
+      <!-- ============================================
+           GROUP SEP: Foundations
+           ============================================ -->
+      <div class="gsep" style="top:935px;">
+        <div class="gsep-in">
+          <span class="t">Foundations</span>
+          <span class="s">古典手法・他分野</span>
+        </div>
+      </div>
+
+      <!-- ============================================
+           BAND 8 · Non-DL (y: 975, node y=950 / 990)
+           ============================================ -->
+      <div class="band" style="top:975px; height:50px;"></div>
+      <div class="blabel" style="top:980px; color:var(--c-nd);">
+        <div class="n">04</div><div class="bar"></div>
+        <div class="jp">非DL</div>
+        <div class="en">CLASSICAL</div>
+      </div>
+      <div class="node nd" style="top:950px; left:260px;">
+        <div class="nm">KDE / GMM</div><div class="yr">classical</div>
+      </div>
+      <div class="node nd" style="top:990px; left:260px;">
+        <div class="nm">OC-SVM</div><div class="yr">'01</div>
+      </div>
+      <div class="node nd" style="top:990px; left:380px;">
+        <div class="nm">SVDD</div><div class="yr">'04</div>
+      </div>
+      <div class="node nd" style="top:950px; left:380px;">
+        <div class="nm">LOF / IF</div><div class="yr">'00 / '08</div>
+      </div>
+
+      <!-- ============================================
+           BAND 9 · Foundations (y: 1035)
+           ============================================ -->
+      <div class="band alt" style="top:1035px; height:105px;"></div>
+      <div class="blabel" style="top:1048px; color:var(--c-fd);">
+        <div class="n">05</div><div class="bar"></div>
+        <div class="jp">他分野</div>
+        <div class="en">FOUNDATIONS</div>
+      </div>
+
+      <!-- Gen row (y=1050) -->
+      <div class="node fd" style="top:1040px; left:260px;">
+        <div class="nm">VAE</div><div class="yr">ICLR'14</div>
+      </div>
+      <div class="node fd" style="top:1040px; left:380px;">
+        <div class="nm">Norm.Flow</div><div class="yr">ICML'15</div>
+      </div>
+      <div class="node fd" style="top:1040px; left:550px;">
+        <div class="nm">Real NVP</div><div class="yr">ICLR'17</div>
+      </div>
+      <div class="node fd" style="top:1080px; left:320px;">
+        <div class="nm">GAN</div><div class="yr">NeurIPS'14</div>
+      </div>
+      <div class="node fd" style="top:1080px; left:440px;">
+        <div class="nm">DCGAN</div><div class="yr">ICLR'16</div>
+      </div>
+
+      <!-- Disc row (y=1090) -->
+      <div class="node fd" style="top:1080px; left:660px;">
+        <div class="nm">ResNet</div><div class="yr">CVPR'16</div>
+      </div>
+      <div class="node fd" style="top:1080px; left:920px;">
+        <div class="nm">EfficientNet</div><div class="yr">ICML'19</div>
+      </div>
+      <div class="node fd" style="top:1040px; left:720px;">
+        <div class="nm">AlexNet</div><div class="yr">NeurIPS'12</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
