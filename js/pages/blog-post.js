@@ -343,7 +343,7 @@
 
   const renderMermaidDiagrams = async (root) => {
     if (!root || !window.mermaid) return;
-    const diagrams = root.querySelectorAll('.mermaid');
+    const diagrams = Array.from(root.querySelectorAll('.mermaid'));
     if (!diagrams.length) return;
 
     if (!window.__blogMermaidInitialized) {
@@ -354,7 +354,20 @@
     try {
       await window.mermaid.run({ nodes: diagrams });
     } catch (error) {
-      console.error('Failed to render Mermaid diagrams', error);
+      console.error('Failed to render Mermaid diagrams in batch, retrying one-by-one', error);
+
+      await Promise.all(diagrams.map(async (diagram, index) => {
+        if (!diagram?.textContent?.trim()) return;
+
+        const source = diagram.textContent;
+        try {
+          const { svg } = await window.mermaid.render(`blog-mermaid-${index}`, source);
+          diagram.innerHTML = svg;
+          diagram.removeAttribute('data-processed');
+        } catch (singleError) {
+          console.error('Failed to render Mermaid diagram', singleError);
+        }
+      }));
     }
   };
 
