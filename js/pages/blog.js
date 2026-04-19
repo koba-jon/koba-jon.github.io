@@ -158,7 +158,9 @@
     }
 
     postsContainer.innerHTML = posts.map((post) => {
-      const postUrl = `post.html?slug=${encodeURIComponent(post.slug)}`;
+      const params = new URLSearchParams({ slug: post.slug });
+      if (getCurrentLanguage() === 'ja') params.set('lang', 'ja');
+      const postUrl = `post.html?${params.toString()}`;
       return `
         <article class="blog-post">
           <a class="blog-post-header" href="${postUrl}">

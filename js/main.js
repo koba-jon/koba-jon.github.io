@@ -297,7 +297,10 @@ function getLanguageFromUrl(url = window.location.href) {
   try {
     const parsed = new URL(url, window.location.origin);
     const langParam = parsed.searchParams.get(JAPANESE_URL_PARAM_KEY);
-    return langParam === JAPANESE_URL_PARAM_VALUE ? 'ja' : 'en';
+    if (langParam === null) return null;
+    if (langParam === JAPANESE_URL_PARAM_VALUE) return 'ja';
+    if (langParam === 'en') return 'en';
+    return null;
   } catch (error) {
     return null;
   }
