@@ -242,6 +242,24 @@
   height: auto;
 }
 
+.blog-post-content .mermaid-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  margin: 10px 0 14px;
+}
+
+.blog-post-content .mermaid-scroll .mermaid {
+  width: max-content;
+  min-width: max-content;
+}
+
+.blog-post-content .mermaid-scroll .mermaid svg {
+  max-width: none !important;
+}
+
 .blog-post-content td[rowspan] {
   vertical-align: middle;
 }

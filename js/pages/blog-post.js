@@ -124,7 +124,7 @@
 
         if (inMermaid) {
           inMermaid = false;
-          html.push(`<div class="mermaid">${escapeHtml(mermaidBuffer.join('\n'))}</div>`);
+          html.push(`<div class="mermaid-scroll"><div class="mermaid">${escapeHtml(mermaidBuffer.join('\n'))}</div></div>`);
           mermaidBuffer = [];
           return;
         }
@@ -237,7 +237,7 @@
     flushParagraph();
     closeAllLists();
     if (inCode) html.push('</code></pre></div>');
-    if (inMermaid) html.push(`<div class="mermaid">${escapeHtml(mermaidBuffer.join('\n'))}</div>`);
+    if (inMermaid) html.push(`<div class="mermaid-scroll"><div class="mermaid">${escapeHtml(mermaidBuffer.join('\n'))}</div></div>`);
     if (inMath) html.push('\\]</div>');
     return html.join('');
   };
