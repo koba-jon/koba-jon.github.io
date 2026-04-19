@@ -36,10 +36,8 @@
     const html = [];
     const listStack = [];
     let inCode = false;
-    let inMermaid = false;
     let codeLineCount = 0;
     let inMath = false;
-    let mermaidBuffer = [];
 
     const closeListsToDepth = (targetDepth = 0) => {
       while (listStack.length > targetDepth) {
@@ -122,22 +120,9 @@
           return;
         }
 
-        if (inMermaid) {
-          inMermaid = false;
-          html.push(`<div class="mermaid-scroll"><div class="mermaid">${mermaidBuffer.join('\n')}</div></div>`);
-          mermaidBuffer = [];
-          return;
-        }
-
         if (!inCode && language === 'math') {
           inMath = true;
           html.push('<div class="math-block">\\[');
-          return;
-        }
-
-        if (!inCode && language === 'mermaid') {
-          inMermaid = true;
-          mermaidBuffer = [];
           return;
         }
 
@@ -163,12 +148,6 @@
         if (codeLineCount === 0 && !line.trim()) return;
         codeLineCount += 1;
         html.push(`${escapeHtml(line)}\n`);
-        return;
-      }
-
-      if (inMermaid) {
-        flushParagraph();
-        mermaidBuffer.push(line);
         return;
       }
 
@@ -237,7 +216,6 @@
     flushParagraph();
     closeAllLists();
     if (inCode) html.push('</code></pre></div>');
-    if (inMermaid) html.push(`<div class="mermaid-scroll"><div class="mermaid">${mermaidBuffer.join('\n')}</div></div>`);
     if (inMath) html.push('\\]</div>');
     return html.join('');
   };
@@ -341,36 +319,6 @@
     });
   };
 
-  const renderMermaidDiagrams = async (root) => {
-    if (!root || !window.mermaid) return;
-    const diagrams = Array.from(root.querySelectorAll('.mermaid'));
-    if (!diagrams.length) return;
-
-    if (!window.__blogMermaidInitialized) {
-      window.mermaid.initialize({ startOnLoad: false });
-      window.__blogMermaidInitialized = true;
-    }
-
-    try {
-      await window.mermaid.run({ nodes: diagrams });
-    } catch (error) {
-      console.error('Failed to render Mermaid diagrams in batch, retrying one-by-one', error);
-
-      await Promise.all(diagrams.map(async (diagram, index) => {
-        if (!diagram?.textContent?.trim()) return;
-
-        const source = diagram.textContent;
-        try {
-          const { svg } = await window.mermaid.render(`blog-mermaid-${index}`, source);
-          diagram.innerHTML = svg;
-          diagram.removeAttribute('data-processed');
-        } catch (singleError) {
-          console.error('Failed to render Mermaid diagram', singleError);
-        }
-      }));
-    }
-  };
-
   if (!slug || /\.\./.test(slug)) {
     renderMessage(getCurrentLanguage() === 'ja' ? '記事URLが不正です。' : 'Invalid blog post URL.');
     return;
@@ -410,7 +358,6 @@
     `;
     wrapTablesWithScroller(container);
     setupCodeBlockCopyButtons(container);
-    await renderMermaidDiagrams(container);
 
     if (window.MathJax?.typesetPromise) {
       await window.MathJax.typesetPromise([container]);
