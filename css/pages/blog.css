@@ -258,6 +258,8 @@
 
 .blog-post-content .mermaid-scroll .mermaid svg {
   max-width: none !important;
+  width: auto !important;
+  min-width: 100%;
 }
 
 .blog-post-content td[rowspan] {
@@ -372,6 +374,10 @@ body[data-page='blog'] {
 .blog-post-content iframe,
 .blog-post-content canvas {
   max-width: 100% !important;
+}
+
+.blog-post-content .mermaid-scroll .mermaid svg {
+  max-width: none !important;
 }
 
 .blog-post-content table {
