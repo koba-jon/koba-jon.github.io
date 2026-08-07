@@ -1,5 +1,13 @@
 [
   {
+    "name": "Image Processing Engineer Examination (Expert)",
+    "name_ja": "画像処理エンジニア検定 エキスパート",
+    "issuer": "Computer Graphic Arts Society",
+    "issuer_ja": "公益財団法人 画像情報教育振興協会（CG-ARTS）",
+    "date": "Aug. 2026",
+    "icon": "camera"
+  },
+  {
     "name": "Fundamental Information Technology Engineer Examination",
     "name_ja": "基本情報技術者試験",
     "issuer": "Information-technology Promotion Agency, Japan",
