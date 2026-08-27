@@ -1,5 +1,13 @@
 [
   {
+    "name": "AWS Certified Cloud Practitioner",
+    "name_ja": "AWS Certified Cloud Practitioner",
+    "issuer": "Amazon Web Services (AWS)",
+    "issuer_ja": "Amazon Web Services（AWS）",
+    "date": "Aug. 2026",
+    "icon": "aws"
+  },
+  {
     "name": "AWS Certified AI Practitioner",
     "name_ja": "AWS Certified AI Practitioner",
     "issuer": "Amazon Web Services (AWS)",
