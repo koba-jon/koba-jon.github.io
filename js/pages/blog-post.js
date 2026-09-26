@@ -38,6 +38,8 @@
     let inCode = false;
     let codeLineCount = 0;
     let inMath = false;
+    let inTable = false;
+    let tableExpectsSeparator = false;
 
     const closeListsToDepth = (targetDepth = 0) => {
       while (listStack.length > targetDepth) {
@@ -97,6 +99,32 @@
       return /<\/?[A-Za-z][^>]*>/.test(trimmed);
     };
 
+    const isTableRow = (line) => /^\s*\|.*\|\s*$/.test(line);
+
+    const parseTableCells = (line) => {
+      const pipePlaceholder = '__ESCAPED_TABLE_PIPE__';
+      return line
+        .trim()
+        .replace(/^\|/, '')
+        .replace(/\|$/, '')
+        .replace(/\\\|/g, pipePlaceholder)
+        .split('|')
+        .map((cell) => cell.trim().replaceAll(pipePlaceholder, '|'));
+    };
+
+    const isTableSeparator = (line) => {
+      if (!isTableRow(line)) return false;
+      const cells = parseTableCells(line);
+      return cells.length > 0 && cells.every((cell) => /^:?-{3,}:?$/.test(cell));
+    };
+
+    const closeTable = () => {
+      if (!inTable) return;
+      html.push('</tbody></table>');
+      inTable = false;
+      tableExpectsSeparator = false;
+    };
+
     let paragraphBuffer = [];
 
     const flushParagraph = () => {
@@ -106,7 +134,7 @@
       paragraphBuffer = [];
     };
 
-    lines.forEach((line) => {
+    lines.forEach((line, index) => {
       const fenceMatch = line.trim().match(/^```(?:([A-Za-z0-9_+-]+)?(?::(.+))?)?\s*$/);
       if (fenceMatch) {
         flushParagraph();
@@ -154,6 +182,33 @@
       if (inMath) {
         flushParagraph();
         html.push(`${line}\n`);
+        return;
+      }
+
+      if (inTable) {
+        if (tableExpectsSeparator && isTableSeparator(line)) {
+          tableExpectsSeparator = false;
+          return;
+        }
+        if (isTableRow(line)) {
+          const cells = parseTableCells(line);
+          html.push('<tr>');
+          cells.forEach((cell) => html.push(`<td>${formatInline(cell)}</td>`));
+          html.push('</tr>');
+          return;
+        }
+        closeTable();
+      }
+
+      if (isTableRow(line) && isTableSeparator(lines[index + 1] || '')) {
+        flushParagraph();
+        closeAllLists();
+        const cells = parseTableCells(line);
+        html.push('<table><thead><tr>');
+        cells.forEach((cell) => html.push(`<th>${formatInline(cell)}</th>`));
+        html.push('</tr></thead><tbody>');
+        inTable = true;
+        tableExpectsSeparator = true;
         return;
       }
 
@@ -215,6 +270,7 @@
 
     flushParagraph();
     closeAllLists();
+    closeTable();
     if (inCode) html.push('</code></pre></div>');
     if (inMath) html.push('\\]</div>');
     return html.join('');
