@@ -43,7 +43,7 @@ Quidra's primary goal is **Maximum Meaning Per Token**.
 
 Let's look at some actual examples.
 
-> **Note:** The code in this article has been verified with Quidra 0.3.0 (language specification 0.2). Version 0.3.0 is currently on the `develop` branch. Some code will not work with the latest released version or the Playground (0.2 series), so build from `develop` if you want to try it.
+**Note:** The code in this article has been verified with Quidra 0.3.0 (language specification 0.2). Version 0.3.0 is currently on the `develop` branch. Some code will not work with the latest released version or the Playground (0.2 series), so build from `develop` if you want to try it.
 
 ### Example Program
 
@@ -774,7 +774,7 @@ Quidra scored 74.70 and ranked 10th. It did well on I1–I4, with perfect scores
 
 Most failures were caused by the model falling back to C-family syntax: braces, semicolons, `for (int v : values)`, `void main()`, and similar patterns.
 
-> **Note:** For I5 and I6, workers created tasks separately for each language. For many languages such as Python, C++, and Go, the task was to implement the rules of a toy language using a familiar language, whereas Quidra's task required combining Quidra's own syntax. This made the Quidra condition somewhat harsher, so please keep that in mind when interpreting the result.
+**Note:** For I5 and I6, workers created tasks separately for each language. For many languages such as Python, C++, and Go, the task was to implement the rules of a toy language using a familiar language, whereas Quidra's task required combining Quidra's own syntax. This made the Quidra condition somewhat harsher, so please keep that in mind when interpreting the result.
 
 #### Proficiency
 
@@ -817,13 +817,13 @@ This is exactly the area where **I need everyone's help!**
 
 ### Benchmark Caveats
 
-> **Warning**
->
-> - The rankings simply order the measurements from this benchmark; they do not claim statistically significant superiority.
-> - Semantic-compression code fragments and annotations were produced by LLMs and were not compile-verified. Different workers annotated different languages, so counting conventions vary slightly. In particular, Zig, Quidra, and Swift are close enough that a single annotation can change the ordering.
-> - Runtime performance was measured on shared GitHub Actions runners. Treat it as a same-environment comparison, not an absolute speed measurement.
-> - The language-quality programs — 10 languages × 11 programs — were prepared by the author, including the Quidra versions. They use the same algorithms and inputs across languages, and outputs are machine-verified.
-> - LLM-suitability results strongly depend on the model used (Claude Sonnet 5) and what it already knows.
+**Warning**
+
+- The rankings simply order the measurements from this benchmark; they do not claim statistically significant superiority.
+- Semantic-compression code fragments and annotations were produced by LLMs and were not compile-verified. Different workers annotated different languages, so counting conventions vary slightly. In particular, Zig, Quidra, and Swift are close enough that a single annotation can change the ordering.
+- Runtime performance was measured on shared GitHub Actions runners. Treat it as a same-environment comparison, not an absolute speed measurement.
+- The language-quality programs — 10 languages × 11 programs — were prepared by the author, including the Quidra versions. They use the same algorithms and inputs across languages, and outputs are machine-verified.
+- LLM-suitability results strongly depend on the model used (Claude Sonnet 5) and what it already knows.
 
 ## What I Want to Do Next
 
@@ -850,3 +850,8 @@ Please give it a try!
 **Collaborators are very welcome!** Stars, Issues, and PRs are also appreciated.
 
 Thank you very much for reading to the end!
+
+---
+
+Original Japanese article:
+https://qiita.com/koba-jon/items/241b4aefe3fa5bd1e9a7
