@@ -26,6 +26,13 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Fetch Qiita article source (temporary)
+        run: |
+          echo '---QUIDRA_ARTICLE_START---'
+          curl --fail --location --silent --show-error 'https://qiita.com/koba-jon/items/241b4aefe3fa5bd1e9a7.md'
+          echo
+          echo '---QUIDRA_ARTICLE_END---'
+
       - name: Regenerate data/posts.json
         run: |
           python scripts/update_blog_manifest.py
