@@ -3,7 +3,7 @@
 Hello!
 This time, I'd like to introduce a new programming language I developed called "Quidra"!
 
-https://github.com/quidra-lang/quidra
+[github.com/quidra-lang/quidra](https://github.com/quidra-lang/quidra)
 
 What's your favorite programming language?
 For me, it's probably C++! I like that feeling that you're building something kind of dangerous, haha.
@@ -31,7 +31,7 @@ That said, you can run it immediately with a single command like `quidra main.qu
   - First, it uses natural-language words that humans already use. It is not simply "the same as existing programming languages": there is no `\n` or `&&`, for example (`and` is used instead of `&&`, and `print` automatically adds a newline).
   - As a side effect of semantic compression, I also want to reduce LLM input/output token consumption: the code is short, while a single line should still be enough to understand what it does. Common English words are often represented as a single token, so I think "natural-language-like while still easy for LLMs to handle" is compatible.
 - **Easy for newcomers to learn**
-  - For example, Python can express addition simply as `y = x + 1`, so it is easy for beginners. But once you want to do more complex things, you eventually need to learn 1) types (and the value ranges of each type), 2) address/reference semantics (what is passed by value and what can be modified), and 3) bitwise operations. When you try to learn Python deeply, its exceptional syntax and black-box behavior can become difficult to understand, so I think it can actually become harder for intermediate and long-term learners.
+  - For example, Python can express addition simply as `y = x + 1`, so it is easy for beginners. But once you want to do more complex things, you eventually need to learn 1) types (and the value ranges of each type), 2) address/reference semantics (what is passed by value and what can be modified), and 3) bitwise operations. When you try to learn Python deeply, its special-case syntax and black-box behavior can become difficult to understand, so I think it can actually become harder for intermediate and long-term learners.
   - On the other hand, C++ (or really C) is a language where you need to understand types, address/reference concepts, and bitwise operations from the start. In that sense, it may be easier to understand for intermediate and long-term learners. However, unless you learn relatively difficult topics such as pointer manipulation, you cannot even assign values to an array inside a function. In that sense, it is difficult for beginners.
   - So with Quidra, I want a language that works well from the beginner stage through the intermediate and long-term stages. Concretely, it should have relatively little ceremony and be easy to write like Python, while still keeping types (so it is easier to understand what is happening internally), replacing complex pointer operations with mechanisms such as C++-style reference passing (while still letting users learn the concept of addresses), and of course supporting bitwise operations.
   - Assignments of arrays and classes such as `a = b` are value copies by default (the entire value is copied). If you only want to reference an array or class, you write it explicitly, such as `int[] &a = &b`. Even with value semantics, the compiler is designed so that it can internally omit copying when copying or not copying would produce the same result. For example, when an array is passed to a function that does not modify the argument, Quidra already references it internally without copying. In other words, the user experience is value passing, while the implementation is optimized internally. I designed details like this by thinking back to when I had just started learning programming and choosing the behavior that felt more intuitive.
@@ -42,8 +42,9 @@ That said, you can run it immediately with a single command like `quidra main.qu
 Quidra's number-one goal is "Maximum Meaning Per Token."
 Let's look at some actual examples!
 
-**Note:** The code in this article has been tested with Quidra 0.3.0 (language specification 0.2).
-Version 0.3.0 is currently on the `develop` branch. Some code does not work on the latest released version or the Playground (0.2 series), so if you want to try it, please build from the `develop` branch.
+**Note:** The code in this article has been tested with Quidra 0.3.0.
+Version 0.3.0 is out now as the latest release ([v0.3.0](https://github.com/quidra-lang/quidra/releases/tag/v0.3.0)), so you can try it with the binaries on the release page or by building from the `main` branch.
+You can also try type checking and formatting right in your browser with the [Playground](https://quidra-lang.github.io/playground/)—no installation required.
 
 ### Program Example
 
@@ -289,7 +290,7 @@ a[0] = 7, c[0] = 7
 ```
 
 `b = a` is a copy, so modifying `b` does not change `a`.
-Only when you want a reference do you write it explicitly on both the type and right-hand side, as in `int[] &c = &a`.
+Only when you want a reference do you make it explicit by putting `&` on both the type and the right-hand side, as in `int[] &c = &a`.
 In Python, `b = a` shares the same list, so `b[0] = 9` also changes `a[0]`.
 
 #### No Implicit Type Conversions
@@ -441,7 +442,7 @@ Quidra will not arbitrarily decide whether `3` is an `int` or an `int8`; that is
 ## Benchmark
 
 I also ran benchmarks using existing programming languages.
-The ten languages compared were Python, C++, Rust, Go, Java, TypeScript, Kotlin, Swift, Zig, and Quidra.
+The ten languages compared were Python (3.12.3), C++ (Clang 18.1.3), Rust (1.95.0), Go (1.26.3), Java (26.0.1), TypeScript (7.0.2), Kotlin (2.3.21), Swift (6.2.3), Zig (0.16.0), and Quidra (0.3.0).
 I evaluated them from the following five perspectives.
 
 | Evaluation | Roughly speaking |
@@ -453,7 +454,7 @@ I evaluated them from the following five perspectives.
 | Ecosystem | Libraries, tools, and community maturity |
 
 Parts that can be evaluated deterministically—execution speed, file size, safety tests, compiling and testing LLM-generated code, and so on—are handled mechanically (shell execution and Python scripts). Parts that are non-deterministic, such as annotating the meaning of code and evaluating language design, parts that require search such as ecosystem research, and items specifically intended to measure whether an LLM can use the language are handled by LLMs.
-Score aggregation, normalization, and ranking are done by scripts (although the scores for each LLM learnability condition and some metrics in LLM practical usability are values assigned directly by an LLM according to a rubric).
+Score aggregation, normalization, and ranking are done by scripts (the exceptions are the scores for each LLM learnability condition and 2 of the 18 metrics in LLM practical usability—whether the model avoids nonexistent syntax and whether it follows the specification—which are values assigned directly by an LLM according to a rubric).
 Also, because these five evaluations are fundamentally different in nature, I intentionally did not create an overall ranking that simply sums them all together.
 
 I mainly used Claude Sonnet 5 as the LLM.
@@ -463,27 +464,27 @@ More specifically, one LLM worker (one LLM session responsible for evaluation wo
 
 I also designed the benchmark around rules like these so it would not favor Quidra:
 
-- The metrics, weights, and tasks are **fixed before measurement**
+- The metrics, weights, and tasks are **fixed before measurement** (some parts, such as how scores are converted to the 0–100 scale, were corrected after bugs turned up during earlier trial runs; the revised methodology, configuration, and scoring scripts are all published in `benchmark/template/`)
 - Tasks are not created from Quidra's syntax or features. **Features Quidra cannot implement are not removed from the task set**
 - There are no Quidra-specific metrics; the same rules are applied to all ten languages
 
-The benchmark methodology and detailed results—including score breakdowns for each metric and the reasoning behind LLM judgments—are published in the repository.
+The benchmark methodology and detailed results—including score breakdowns for each metric and the reasoning behind LLM judgments—are published in the repository's [`benchmark/` directory](https://github.com/quidra-lang/quidra/tree/main/benchmark) (this run's results are in `benchmark/2026-09-27-38b7137-gh31/`).
 
 ### Summary of Results
 
 To summarize the results first:
 
-![00_overview.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/374669/fbc928d5-f3b0-41d6-9c37-3423f26bed36.png)
+![Where Quidra stands in the five evaluations](../images/quidra_overview.png)
 
 | Evaluation | Quidra score | Rank | 1st place |
 |---|---:|:---:|---|
 | Semantic compression performance | 77.52 | **2nd** | Zig (78.48) |
 | Language quality | 66.13 | **4th** | Rust (72.24) |
-| LLM learnability | 74.70 | 10th | Swift (100.00) |
-| LLM practical usability | 5.32 | 9th | Python (90.13) |
+| LLM learnability | 71.97 | 10th | Swift (100.00) |
+| LLM practical usability | 4.91 | 10th | Python (88.68) |
 | Ecosystem | 32.50 | 10th | Java (99.25) |
 
-Roughly speaking, the result is that <font color="#e0245e">**the language itself (semantic compression and language quality) ranks near the top**</font>, while **compatibility with LLMs and the ecosystem still have a long way to go**.
+Roughly speaking, the result is that <font color="#e0245e">**the language itself (semantic compression and language quality) ranks near the top**</font>, while **compatibility with LLMs and the ecosystem still have a long way to go (10th in all three of those evaluations)**.
 Now let's look at the performance in detail.
 
 ### Semantic Compression Performance
@@ -562,7 +563,7 @@ The benchmark also evaluated overflow in `x += 1`. In Quidra it always stops wit
 
 Quidra did not rank 1st in the remaining three metrics (locality and feature efficiency were especially weak).
 
-- **Locality (5th, 34.45)**: how many times you need to look somewhere else—function declarations, type definitions, imported modules, standard-library specifications, and so on—to determine meaning. Of the 17 lookups counted for Quidra, 11 came from looking up declarations for variables that the task statement said were declared elsewhere. The remainder were standard-library guarantees such as "files are closed automatically" and "`task.all` preserves result order." However, whether those "predeclared variables" are counted varies by worker (Go did not count them, Swift counted them per variable), so I think this difference should be discounted somewhat. Zig ranked 1st.
+- **Locality (5th, 34.45)**: how many times you need to look somewhere else—function declarations, type definitions, imported modules, standard-library specifications, and so on—to determine meaning. Of the 17 lookups counted for Quidra, 11 came from looking up declarations for variables that the task statement said were declared elsewhere. The rest were mostly things like standard-library guarantees, such as "files are closed automatically" and "`task.all` preserves result order." However, whether those "predeclared variables" are counted varies by worker (Go did not count them, Swift counted them per variable), so I think this difference should be discounted somewhat. Zig ranked 1st.
 - **Hidden semantic cost (2nd, 81.48)**: the number of things that happen even though they are not written, such as implicit type conversions or invisible mutation. Almost everything counted for Quidra was that runtime errors for overflow and out-of-bounds accesses are not visible from the syntax itself. Zig ranked 1st.
 - **Feature efficiency (7th, 36.46)**: the number of rules needed per feature—syntactic forms, implicit rules, exceptional rules, and so on. Quidra was charged for language-wide implicit rules such as overflow checking and value copying, and special rules such as "`private` can only be attached to class members," resulting in about 1.8 rules per point (two points per task). Swift, which ranked 1st, used about 0.95.
 
@@ -623,7 +624,7 @@ For example, C++ has coverage of 98.86 (tied for 1st), but quality Q is 11.36, s
 
 The conclusion: Quidra placed 2nd. (Zig was 1st.)
 
-![01_semantic_compression_overall.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/374669/0c02803c-52fe-40dc-acbf-7217bda105b5.png)
+![Semantic compression performance (overall score)](../images/quidra_semantic_compression_overall.png)
 
 | Rank | Language | Quality Q | Coverage C | Overall |
 |---:|---|---:|---:|---:|
@@ -642,7 +643,7 @@ The important thing to notice is quality Q: <font color="#e0245e">**Quidra ranks
 Coverage drags it down, leaving it 2nd overall.
 Plotting quality Q against coverage C gives this:
 
-![02_semantic_compression_q_vs_c.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/374669/d340f91d-de49-4edd-ad32-44c0b33a642c.png)
+![Quality Q vs. coverage C](../images/quidra_semantic_compression_q_vs_c.png)
 
 The gap between 2nd-place Quidra and 3rd-place Swift is only 0.18 points, and the gap to 1st-place Zig is only about one point, so I think it is reasonable to view **the top three languages as effectively neck-and-neck**.
 
@@ -736,7 +737,7 @@ Here is the total source-code size of the same eleven programs, including commen
 | Zig | 37,365 |
 | TypeScript | 38,356 |
 
-By score (the average size ratio per program), Quidra placed **2nd** behind Python (92.32), although Go has a slightly smaller total byte count.
+By score (the average size ratio per program), Quidra placed **2nd** with 92.32, behind only Python (although Go has a slightly smaller total byte count).
 Despite being statically typed, it can be written in almost the same amount of source code as Python!
 
 Executable/artifact sizes were as follows.
@@ -760,7 +761,7 @@ That is because the scoring formula uses Python's zero-byte artifact as the base
 
 #### Safety
 
-I ran 37 "nasty programs" across all languages—integer overflow, narrowing conversions, out-of-bounds array access, division by zero, NaN, infinite recursion, malformed input, and more—and mechanically classified where each problem was caught: "compile time," "runtime with a detected error," "crash," "undefined behavior," or "silently produces the wrong result (silent bug)."
+I ran 37 "nasty programs" across all languages—integer overflow, narrowing conversions, out-of-bounds array access, division by zero, NaN, infinite recursion, malformed input, and more—and mechanically classified where each problem was caught: "detected at compile time," "detected at runtime and stopped," "crash," "undefined behavior," or "silently produces the wrong result (silent bug)."
 
 | Metric | Quidra | Rank |
 |---|---:|:---:|
@@ -819,15 +820,16 @@ To prevent languages the model already knows from having an unfair advantage, ke
 | Condition | Description | Weight | Quidra |
 |---|---|---:|---:|
 | I1 | Replace keywords with fictional words | 20% | 96 |
-| I2 | Also rename standard-library names | 20% | 71 |
+| I2 | Also rename standard-library names | 20% | 57.33 |
 | I3 | Change visible syntax such as delimiters | 15% | **100** |
 | I4 | Learn and use a fictional new rule from the specification | 20% | **100** |
 | I5 | Combine rules that were taught separately | 15% | 34 |
 | I6 | Give familiar words unfamiliar meanings (e.g. swap `for` and `while`) | 10% | 12 |
 
-The result was 74.70, placing 10th.
-Quidra did well on I1-I4 (especially I3 and I4, both perfect), but dropped sharply on I5 and I6.
-Looking at the failures, most were caused by the model falling back to C-family syntax—curly braces, semicolons, `for (int v : values)`, `void main()`, and so on.
+The result was 71.97, placing 10th.
+Quidra did well on I1, I3, and I4 (especially I3 and I4, both perfect), but it ranked last of the ten languages on I2, I5, and I6.
+On I2 in particular, the first attempt failed to compile in all three runs, and the model only reached a correct answer after one or two repairs, which held the score to 57.33.
+Looking at the failures, most were caused by **the model being pulled toward other languages' conventions**: C-family syntax (curly braces, semicolons, `for (int v : values)`, `void main()`), Python-style trailing colons, and writing method calls like `values.append(x)` as free-function calls.
 
 **Note:** The I5 and I6 tasks were generated by language-specific LLM workers. For many other languages (Python, C++, Go, etc.), the task ended up being "implement the rules of a toy language using a language the model already knows," whereas for Quidra it became "combine Quidra's own syntax and write the solution in Quidra." This made the condition somewhat harsher for Quidra, so I hope you keep that in mind when reading the result.
 
@@ -839,7 +841,7 @@ If there was a compile error or test failure, the error was returned to the mode
 Hidden tests that the LLM never saw were used to determine correctness.
 The only Quidra information provided to the model was the language name and the build command.
 
-The result was 5.32, placing 9th.
+The result was 4.91, placing 10th.
 All 18 trials failed to compile on the first attempt, and even across 72 generations including repairs, **not a single program passed the tests**.
 Most failures came from importing syntax from other languages. For example:
 
@@ -852,10 +854,13 @@ Most failures came from importing syntax from other languages. For example:
 
 Of course, Quidra had only recently been released, and Claude Sonnet 5 had not been trained on it, so it is reasonable that asking the model to write Quidra with no reference material produced zero working programs.
 
-What's interesting is that **Zig also scored 4.00 (10th), with zero successful programs**.
+What's interesting is that **Zig didn't produce a single working program either, scoring 5.24 (9th)**.
 Zig failed because the standard-library API in the latest version (0.16) differed from what the model remembered.
 In other words, this evaluation strongly reflects "how well the model knows the language (and its latest version)" rather than merely "how easy the language is to write."
-The difference between Quidra and Zig was due to discretion in LLM scoring, so in practical terms they are essentially tied.
+Both Quidra and Zig scored 0 on every correctness-related metric. The only difference came from the two "token efficiency" metrics (3% weight each), which a script computes from the token counts recorded by the API.
+Both used up all 72 generations and still failed, so this effectively compares **how many tokens each spent before failing**.
+Quidra's answers tended to be longer (5 of its 72 generations hit the 16,384-token output limit), and over the 18 trials it used about 1.5 times as many tokens as Zig in total, which put Zig ahead by 0.33 points.
+So in terms of actual ability to write code, I think it's fair to see them as essentially tied.
 
 In fact, most Quidra failures violated rules that were already documented in the LLM guide (`docs/spec/llm-guide.md`) or the language specification: top-level statements form the entry point, standard namespaces are not imported, blocks use four-space indentation, and return types come before function names.
 In the future, I'd also like to evaluate a condition where the guide is provided.
@@ -874,10 +879,8 @@ This is exactly where **I need everyone's help**!
 
 ### Benchmark Caveats
 
-**Benchmark notes:**
-
 - The rankings simply order the measured results from this benchmark; they do not claim statistical superiority.
-- The code snippets and annotations used in the semantic-compression evaluation were produced by LLMs and were not all verified by compilation. Also, separate workers annotated each language and their counting methods differ slightly, so especially among the top three languages (Zig, Quidra, Swift), a single annotation can be enough to change the ranking.
+- The code snippets and annotations used in the semantic-compression evaluation were produced by LLMs and were not verified by compilation. Also, separate workers annotated each language and their counting methods differ slightly, so especially among the top three languages (Zig, Quidra, Swift), a single annotation can be enough to change the ranking.
 - Execution speed was measured on shared GitHub Actions runners, so treat the results as comparisons within the same environment, not as absolute performance.
 - The programs used for the language-quality evaluation (10 languages x 11 programs) were prepared by the author, including the Quidra versions. The same algorithms and inputs were used across languages, and output correctness was verified mechanically.
 - LLM aptitude results depend strongly on the model used (Claude Sonnet 5) and its existing knowledge.
@@ -896,13 +899,13 @@ In particular, by the current calculation, adding support for just one more task
 ## Summary
 
 I developed a language called Quidra with the goal of "Maximum Meaning Per Token."
-When I benchmarked it against ten languages, <font color="#e0245e">**it placed 2nd in semantic compression performance (1st in quality Q alone, excluding coverage)**</font>, and 4th in language quality.
+When I ran a benchmark across ten languages, <font color="#e0245e">**it placed 2nd in semantic compression performance (1st in quality Q alone, excluding coverage)**</font>, and 4th in language quality.
 On the other hand, LLM prior knowledge and the ecosystem still have a long way to go, and those are areas I want to grow together with everyone from here.
 
 Please give it a try!
 
-- GitHub: https://github.com/quidra-lang/quidra
-- Playground (no installation required; you can try type checking and formatting in the browser. Execution is done locally): https://quidra-lang.github.io/playground/
+- GitHub: [github.com/quidra-lang/quidra](https://github.com/quidra-lang/quidra)
+- Playground (no installation required; you can try type checking and formatting in the browser. to run programs, use your local environment): [quidra-lang.github.io/playground](https://quidra-lang.github.io/playground/)
 
 **I'm actively looking for collaborators too!** Stars, Issues, and PRs are all very welcome!
 Thank you for reading all the way to the end!
